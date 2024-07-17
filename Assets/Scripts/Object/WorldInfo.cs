@@ -22,6 +22,8 @@ public class WorldInfo : MonoBehaviour
     public TextMeshProUGUI managerState; // 매니저 상태
     public TextMeshProUGUI management;    // 관리율
 
+    public int worldCode = 0;
+
     void Start()
     {
         anim = GetComponent<Animator>();   
@@ -33,6 +35,11 @@ public class WorldInfo : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void VisitButton()
+    {
+        gm.lm.StartFadeIn(worldCode);
     }
 
     public void WorldInfoOff()

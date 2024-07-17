@@ -9,7 +9,9 @@ public class Point : MonoBehaviour
     GameManager gm;
     SoundManager sm;
 
-    public Canvas canvas;
+    public GameObject parent;
+
+    public int worldCode = 0;
 
     public string worldName;
     public Sprite worldImage;
@@ -20,6 +22,9 @@ public class Point : MonoBehaviour
     public string worldDetails;
     public string managerState;
     public float management;
+
+    // 정보창 띄울 위치
+    public Vector3 pos;
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +42,8 @@ public class Point : MonoBehaviour
     {
         GameObject go = Instantiate(Resources.Load("Prefabs/" + "WorldInfo") as GameObject);
         WorldInfo worldInfo = go.GetComponent<WorldInfo>();
-        worldInfo.transform.SetParent(canvas.transform, true);
-        worldInfo.transform.position = transform.position;
+        worldInfo.transform.SetParent(parent.transform, true);
+        worldInfo.transform.position = transform.position + pos;
 
         // 정보 넣기
         worldInfo.worldName.text = worldName;
@@ -49,6 +54,8 @@ public class Point : MonoBehaviour
         worldInfo.worldDetails.text = worldDetails;
         worldInfo.managerState.text = managerState;
         worldInfo.management.text = management.ToString() + "%";
+
+        worldInfo.worldCode = worldCode;
 
         worldInfo.gameObject.SetActive(true);
 

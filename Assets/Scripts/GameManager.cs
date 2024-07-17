@@ -17,10 +17,14 @@ public class GameManager : MonoBehaviour
     public List<GameObject> goList;
     SoundManager sm;
 
-    public int day = 0;
-    public int hour = 0;
-    public int minute = 0;
-    float seconds = 0;
+    static public int day = 0;
+    static public int hour = 0;
+    static public int minute = 0;
+    static float seconds = 0;
+
+    public LoadingSceneManager lm;
+
+    static bool timerOn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -87,21 +91,26 @@ public class GameManager : MonoBehaviour
 
     void SetDate()
     {
-        seconds += Time.deltaTime;
-        if(seconds >= 1)
+        if (timerOn)
         {
-            minute++;
-            seconds = 0;
-            if(minute >= 60)
+
+            seconds += Time.deltaTime;
+            if (seconds >= 1)
             {
-                hour++;
-                minute = 0;
-                if(hour >= 24)
+                minute++;
+                seconds = 0;
+                if (minute >= 60)
                 {
-                    day++;
-                    hour = 0;
+                    hour++;
+                    minute = 0;
+                    if (hour >= 24)
+                    {
+                        day++;
+                        hour = 0;
+                    }
                 }
             }
+
         }
     }
 }

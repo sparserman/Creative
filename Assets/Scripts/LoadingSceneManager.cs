@@ -8,7 +8,9 @@ using UnityEngine.UI;
 
 public class LoadingSceneManager : MonoBehaviour
 {
-    public enum STAGE { MAIN = 0, LOBBY, BATTLE, EVENT }
+    public enum STAGE { MAIN = 0, LOBBY, WORLD_A, WORLD_B }
+
+    GameManager gm;
 
     public static string nextScene;
 
@@ -43,6 +45,9 @@ public class LoadingSceneManager : MonoBehaviour
 
     private void Start()
     {
+        gm = GameManager.GetInstance();
+        gm.lm = this;
+
         if (isLoading)
         {
             StartCoroutine(LoadScene());
@@ -90,13 +95,13 @@ public class LoadingSceneManager : MonoBehaviour
                 currentStage = num;
                 LoadScene("Lobby");
                 break;
-            case (int)STAGE.BATTLE:
+            case (int)STAGE.WORLD_A:
                 currentStage = num;
-                LoadScene("Battle");
+                LoadScene("World_A");
                 break;
-            case (int)STAGE.EVENT:
+            case (int)STAGE.WORLD_B:
                 currentStage = num;
-                LoadScene("Event");
+                LoadScene("World_B");
                 break;
         }
     }
@@ -208,7 +213,12 @@ public class LoadingSceneManager : MonoBehaviour
         if (fadeFlag)
         {
             curFadeTime += Time.deltaTime;
-            fadeBG.GetComponent<Image>().color = Color.Lerp(new Color(0, 0, 0, 0), new Color(0, 0, 0, 1), curFadeTime);
+
+            float r = fadeBG.GetComponent<Image>().color.r;
+            float g = fadeBG.GetComponent<Image>().color.g;
+            float b = fadeBG.GetComponent<Image>().color.b;
+
+            fadeBG.GetComponent<Image>().color = Color.Lerp(new Color(r, g, b, 0), new Color(r, g, b, 1), curFadeTime);
             if (curFadeTime >= 1)
             {
                 curFadeTime = 0;

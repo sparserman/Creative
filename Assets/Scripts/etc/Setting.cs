@@ -27,8 +27,12 @@ public class Setting : MonoBehaviour
 
     public void OpenSetting()
     {
-        gm.goList.Add(setting);
+        
         setting.SetActive(true);
+        if (gm != null)
+        {
+            gm.goList.Add(setting);
+        }
         if (sm != null)
         {
             sm.PlayEffectSound(sm.click);

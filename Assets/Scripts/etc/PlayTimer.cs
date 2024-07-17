@@ -23,27 +23,27 @@ public class PlayTimer : MonoBehaviour
 
     void UpdateDateText()
     {
-        dayText.text = "D-" + gm.day.ToString();
+        dayText.text = "D-" + GameManager.day.ToString();
 
 
         string hText;
         string mText;
-        if(gm.hour < 10)
+        if(GameManager.hour < 10)
         {
-            hText = "0" + gm.hour.ToString();
+            hText = "0" + GameManager.hour.ToString();
         }
         else
         {
-            hText = gm.hour.ToString();
+            hText = GameManager.hour.ToString();
         }
 
-        if (gm.minute < 10)
+        if (GameManager.minute < 10)
         {
-            mText = "0" + gm.minute.ToString();
+            mText = "0" + GameManager.minute.ToString();
         }
         else
         {
-            mText = gm.minute.ToString();
+            mText = GameManager.minute.ToString();
         }
 
         timeText.text = hText + ":" + mText;
