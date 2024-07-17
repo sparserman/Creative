@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Point : MonoBehaviour
 {
     GameManager gm;
+    SoundManager sm;
 
     public Canvas canvas;
 
@@ -24,6 +25,7 @@ public class Point : MonoBehaviour
     void Start()
     {
         gm = GameManager.GetInstance();
+        sm = gm.GetComponent<SoundManager>();
     }
 
     // Update is called once per frame
@@ -35,8 +37,8 @@ public class Point : MonoBehaviour
     {
         GameObject go = Instantiate(Resources.Load("Prefabs/" + "WorldInfo") as GameObject);
         WorldInfo worldInfo = go.GetComponent<WorldInfo>();
-        worldInfo.transform.parent = canvas.transform;
-        worldInfo.transform.position = canvas.transform.position;
+        worldInfo.transform.SetParent(canvas.transform, true);
+        worldInfo.transform.position = transform.position;
 
         // 정보 넣기
         worldInfo.worldName.text = worldName;
@@ -47,5 +49,15 @@ public class Point : MonoBehaviour
         worldInfo.worldDetails.text = worldDetails;
         worldInfo.managerState.text = managerState;
         worldInfo.management.text = management.ToString() + "%";
+
+        worldInfo.gameObject.SetActive(true);
+
+        // 사운드
+        if (sm != null)
+        {
+            sm.PlayEffectSound(sm.click);
+        }
+
+        gm.goList.Add(worldInfo.gameObject);
     }
 }

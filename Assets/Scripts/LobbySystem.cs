@@ -13,7 +13,10 @@ public class LobbySystem : MonoBehaviour
         gm = GameManager.GetInstance();
         sm = gm.GetComponent<SoundManager>();
 
-        sm.PlayBGMSound(sm.lobbyBGM);
+        if (sm != null)
+        {
+            sm.PlayBGMSound(sm.lobbyBGM);
+        }
     }
 
     void Update()
@@ -24,20 +27,6 @@ public class LobbySystem : MonoBehaviour
 
     public void InputSystem()
     {
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            WorldMapOn();
-        }
-    }
-
-    void WorldMapOn()
-    {
-        // ∏ ¿Ã ≤®¡Æ¿÷¿ª ∂ß∏∏
-        if (!worldMap.gameObject.activeSelf)
-        {
-            // ∏  ≈∞±‚
-            worldMap.SetActive(true);
-            sm.PlayEffectSound(sm.click);
-        }
+       
     }
 }

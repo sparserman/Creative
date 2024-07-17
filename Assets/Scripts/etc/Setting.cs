@@ -29,12 +29,21 @@ public class Setting : MonoBehaviour
     {
         gm.goList.Add(setting);
         setting.SetActive(true);
+        if (sm != null)
+        {
+            sm.PlayEffectSound(sm.click);
+        }
     }
 
     public void ExitSetting()
     {
+        gm.goList.Remove(setting);
         anim.SetTrigger("Off");
-        
+
+        if (sm != null)
+        {
+            sm.PlayEffectSound(sm.click);
+        }
     }
 
     public void Init()
@@ -42,17 +51,20 @@ public class Setting : MonoBehaviour
         gm = GameManager.GetInstance();
         sm = gm.GetComponent<SoundManager>();
 
-        mainVolSlider.value = SoundManager.volume;
-        effectVolSlider.value = SoundManager.effectVolume;
-        BGMVolSlider.value = SoundManager.BGMVolume;
+        if (sm != null)
+        {
+            mainVolSlider.value = SoundManager.volume;
+            effectVolSlider.value = SoundManager.effectVolume;
+            BGMVolSlider.value = SoundManager.BGMVolume;
 
-        sm.mainVolSlider = mainVolSlider;
-        sm.effectVolSlider = effectVolSlider;
-        sm.BGMVolSlider = BGMVolSlider;
+            sm.mainVolSlider = mainVolSlider;
+            sm.effectVolSlider = effectVolSlider;
+            sm.BGMVolSlider = BGMVolSlider;
+        }
     }
 
     public void CloseSetting()
     {
-        setting.SetActive(false);
+        gameObject.SetActive(false);
     }
 }

@@ -29,7 +29,7 @@ public class LoadingSceneManager : MonoBehaviour
     public float curTime = 0;
     public float speed = 5f;
 
-    public float curFadeTime = 0;
+    float curFadeTime = 0;
     public GameObject fadeBG;
 
     bool isClick = false;

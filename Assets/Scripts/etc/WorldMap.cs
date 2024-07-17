@@ -8,11 +8,12 @@ public class WorldMap : MonoBehaviour
     GameManager gm;
     SoundManager sm;
 
+    public GameObject mapIcon;
+
     void Start()
     {
         gm = GameManager.GetInstance();
         sm = gm.GetComponent<SoundManager>();
-        gm.goList.Add(gameObject);
 
         anim = GetComponent<Animator>();
 
@@ -28,5 +29,6 @@ public class WorldMap : MonoBehaviour
     public void WorldMapOff()
     {
         gameObject.SetActive(false);
+        mapIcon.SetActive(true);
     }
 }

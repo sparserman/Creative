@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class WorldInfo : MonoBehaviour
 {
     GameManager gm;
+    SoundManager sm;
     Animator anim;
 
     public TextMeshProUGUI worldName;    // 월드 이름
@@ -25,12 +27,22 @@ public class WorldInfo : MonoBehaviour
         anim = GetComponent<Animator>();   
 
         gm = GameManager.GetInstance();
-        gm.goList.Add(gameObject);
+        sm = gm.GetComponent<SoundManager>();
     }
 
     void Update()
     {
         
+    }
+
+    public void WorldInfoOff()
+    {
+        anim.SetTrigger("Off");
+        gm.goList.Remove(gameObject);
+        if (sm != null)
+        {
+            sm.PlayEffectSound(sm.click);
+        }
     }
 
     public void DestroyWorldInfo()

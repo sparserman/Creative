@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     public List<GameObject> goList;
     SoundManager sm;
 
+    public int day = 0;
+    public int hour = 0;
+    public int minute = 0;
+    float seconds = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +33,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         InputSystem();
+
+        // ½Ã°£
+        SetDate();
     }
 
     void InputSystem()
@@ -66,9 +74,35 @@ public class GameManager : MonoBehaviour
 
     public void MenuOff()
     {
-        goList.LastOrDefault().GetComponent<Animator>().SetTrigger("Off");
-        goList.RemoveAt(goList.Count - 1);
-        sm.PlayEffectSound(sm.click);
+        if (goList.Count > 0)
+        {
+            goList.LastOrDefault().GetComponent<Animator>().SetTrigger("Off");
+            goList.Remove(goList.LastOrDefault());
+            if (sm != null)
+            {
+                sm.PlayEffectSound(sm.click);
+            }
+        }
+    }
+
+    void SetDate()
+    {
+        seconds += Time.deltaTime;
+        if(seconds >= 1)
+        {
+            minute++;
+            seconds = 0;
+            if(minute >= 60)
+            {
+                hour++;
+                minute = 0;
+                if(hour >= 24)
+                {
+                    day++;
+                    hour = 0;
+                }
+            }
+        }
     }
 }
 
