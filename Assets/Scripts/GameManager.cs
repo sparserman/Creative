@@ -26,6 +26,20 @@ public class GameManager : MonoBehaviour
 
     static bool timerOn = false;
 
+    // 플레이어 관련 스탯
+    public static float maxhp;
+    public static float hp;
+    public static float maxmp;
+    public static float mp;
+
+    public static float ad;
+    public static float attackSpeed;
+
+    public static float moveSpeed;
+    public static float runSpeed;
+
+    public static float jumpPower;
+
     // Start is called before the first frame update
     void Start()
     {
