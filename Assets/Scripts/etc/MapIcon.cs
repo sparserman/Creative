@@ -33,18 +33,18 @@ public class MapIcon : MonoBehaviour
         // null이 아니면서 본인 collider라면
         if (hit.collider != null)
         {
-            Debug.Log(Input.mousePosition);
             if (hit.collider == col)
             {
                 anim.SetBool("EnterMouse", true);
-                Debug.Log(hit.collider.name);
-                Debug.Log(Input.mousePosition);
             }
             else if (hit.collider != col)
             {
                 anim.SetBool("EnterMouse", false);
-                Debug.Log(hit.collider.name);
             }
+        }
+        else
+        {
+            anim.SetBool("EnterMouse", false);
         }
     }
 

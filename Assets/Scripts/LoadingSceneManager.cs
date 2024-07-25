@@ -6,10 +6,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+public enum STAGE
+{
+    MAIN = 0,
+    LOBBY,
+    WORLD_A = 11,
+    WORLD_B
+}
+
 public class LoadingSceneManager : MonoBehaviour
 {
-    public enum STAGE { MAIN = 0, LOBBY, WORLD_A, WORLD_B }
-
     GameManager gm;
 
     public static string nextScene;
@@ -80,11 +86,12 @@ public class LoadingSceneManager : MonoBehaviour
     {
         fadeFlag = true;
         nextStageNum = num;
+        gm.goList.Clear();
+        GameManager.GetInstance().timerOn = false;
     }
 
     public static void NowStage(int num)
     {
-
         switch (num)
         {
             case (int)STAGE.MAIN:

@@ -17,6 +17,8 @@ public class LobbySystem : MonoBehaviour
         {
             sm.PlayBGMSound(sm.lobbyBGM);
         }
+
+        gm.timerOn = true;
     }
 
     void Update()

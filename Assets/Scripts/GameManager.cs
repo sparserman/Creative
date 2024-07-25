@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> goList;
     SoundManager sm;
+    public List<GameObject> mobList;
 
     static public int day = 0;
     static public int hour = 0;
@@ -24,8 +25,9 @@ public class GameManager : MonoBehaviour
 
     public LoadingSceneManager lm;
 
-    static bool timerOn = false;
+    public bool timerOn = false;
 
+    public Player player;
     // 플레이어 관련 스탯
     public static float maxhp;
     public static float hp;
