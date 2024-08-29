@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
+using Unity.VisualScripting;
 using UnityEngine;
+using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public enum Team
 {
@@ -13,7 +15,8 @@ public enum E_State
     Attack,
     Defense,
     Retreat,
-    Fixed
+    Fixed,
+    Building
 }
 
 public class Enemy : MonoBehaviour
@@ -23,7 +26,9 @@ public class Enemy : MonoBehaviour
     public List<GameObject> shotPos;
 
     // 공격자세중 늘어나는 사거리
-    float plusRange = 1;
+    public float plusRange = 1;    // 현재 늘어난 사거리
+    public float moveRange = 1.2f;
+    public float coverRange = 1.3f;
 
     Animator anim;
     SpriteRenderer spriteRenderer;
@@ -31,12 +36,28 @@ public class Enemy : MonoBehaviour
     Collider2D col;
     Stat stat;
 
+    // 타겟 관련
     public GameObject target;
     Vector2 destination;
 
+    // 바닥 레이어마스크
     public LayerMask ground;
 
+    // 죽었는 지
     bool die;
+
+    // 커맨드
+    GameObject command;
+
+    // 방향 (true : 오른쪽)
+    bool dir;
+
+    // 현재 엄폐물
+    public Enemy cover;
+    // 엄폐중인 유닛
+    public List<Enemy> coverList;
+    // 엄폐가능인원
+    public int coverNum;
 
 
     void Start()
@@ -49,25 +70,69 @@ public class Enemy : MonoBehaviour
         col = GetComponent<Collider2D>();
         stat = GetComponent<Stat>();
 
-        gm.mobList.Add(gameObject);
+
+        command = GameObject.Find("Command");
 
         //attackRange += Random.RandomRange()
+
+        gm.mobList.Add(gameObject);
     }
+
 
     void FixedUpdate()
     {
+        // 방향 지정
+        DirectionCheck();
+
         if (!die)
         {
-            if (stat.state != E_State.Fixed)
+            if (stat.state != E_State.Fixed && stat.state != E_State.Building)
             {
                 Sense();
-                MoveTo();
+                StateAction();
                 DieMotion();
             }
             else
             {
-                Die();
+                DieMotion();
             }
+        }
+    }
+
+    void StateAction()
+    {
+        switch (stat.state)
+        {
+            case E_State.Move:
+                MoveTo();
+                break;
+            case E_State.Attack:
+                break;
+            case E_State.Defense:
+                CoverSystem();
+                break;
+            case E_State.Retreat:
+                CoverSystem();
+                break;
+            case E_State.Building:
+                break;
+        }
+
+    }
+
+    // 달리기 제어
+    void RunControl()
+    {
+        // 달리기 제어
+        if (stat.state == E_State.Move)
+        {
+            stat.runValue = 0;
+            anim.SetBool("isRun", false);
+        }
+        else if (stat.state == E_State.Attack || stat.state == E_State.Retreat)
+        {
+            stat.runValue = stat.runSpeed;
+            anim.SetBool("isRun", true);
         }
     }
 
@@ -77,68 +142,25 @@ public class Enemy : MonoBehaviour
 
         if(target == null)
         {
+            stat.state = E_State.Defense;
             return;
         }
 
         destination = target.transform.position;
 
-        // 달리기 제어
-        if (stat.state == E_State.Move)
+        if (cover != null)
         {
-            stat.runValue = 0;
-            anim.SetBool("isRun", false);
-        }
-        else if (stat.state == E_State.Attack)
-        {
-            stat.runValue = stat.runSpeed;
-            anim.SetBool("isRun", true);
+            cover.coverList.Remove(this);
+            cover = null;
         }
 
-        // 방향 전환
-        if(destination.x > transform.position.x)
-        {
-            spriteRenderer.flipX = false;
-        }
-        else
-        {
-            spriteRenderer.flipX = true;
-        }
+        RunControl();
 
-        // 타겟쪽으로 이동
-        Vector2 temppos;
-        if(Vector2.Distance(transform.position, destination) > stat.attackRange * plusRange && destination.x > transform.position.x)
-        {
-            plusRange = 1;
+        // 목표 이동
+        DestinationMove(stat.attackRange * plusRange, moveRange);
 
-            // 모션
-            anim.SetBool("isMove", true);
-
-            // 오른쪽 이동
-            temppos = transform.position;
-            temppos.x += 1 * (stat.moveSpeed * (1 + stat.runValue));
-            transform.position = temppos;
-        }
-        else if(Vector2.Distance(transform.position, destination) > stat.attackRange * plusRange && destination.x < transform.position.x)
-        {
-            plusRange = 1;
-
-            // 모션
-            anim.SetBool("isMove", true);
-
-            // 왼쪽 이동
-            temppos = transform.position;
-            temppos.x -= 1 * (stat.moveSpeed * (1 + stat.runValue));
-            transform.position = temppos;
-        }
-        // 타겟이 사거리내에 들어온 상태 (attack)
-        else
-        {
-            anim.SetBool("isShot", true);
-            plusRange = 1.2f;
-        }
-        
         // 타겟이 위에 있는 지 체크
-        if (target.transform.position.y > transform.position.y + 1.5f && !anim.GetBool("isJump"))
+        if (destination.y > transform.position.y + 1.5f && !anim.GetBool("isJump"))
         {
             // 타겟이 점프 상태인지
             if (target.GetComponent<Animator>() != null)
@@ -158,7 +180,7 @@ public class Enemy : MonoBehaviour
             }
         }
         // 아래에 있는 지 체크
-        else if(target.transform.position.y < transform.position.y - 1.5f && !anim.GetBool("isJump"))
+        else if(destination.y < transform.position.y - 1.5f && !anim.GetBool("isJump"))
         {
             // 타겟이 점프 상태인지
             if (target.GetComponent<Animator>() != null)
@@ -173,7 +195,7 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
-        else if(target.transform.position.y > transform.position.y - 0.6f)
+        else if(destination.y > transform.position.y - 0.6f)
         {
             stat.downJump = false;
         }
@@ -200,6 +222,91 @@ public class Enemy : MonoBehaviour
         
     }
 
+    // 목표 이동
+    void DestinationMove(float p_dis, float p_range)
+    {
+        // 방향 전환
+        if (destination.x > transform.position.x)
+        {
+            spriteRenderer.flipX = false;
+        }
+        else
+        {
+            spriteRenderer.flipX = true;
+        }
+
+        // 타겟쪽으로 이동
+        Vector2 temppos;
+        if //(Vector2.Distance(transform.position, destination) > p_dis && destination.x > transform.position.x)
+            (transform.position.x + p_dis <= destination.x)
+        {
+            plusRange = 1;
+
+            // 모션
+            anim.SetBool("isMove", true);
+            anim.SetBool("isShot", false);
+
+            // 오른쪽 이동
+            temppos = transform.position;
+            temppos.x += 1 * (stat.moveSpeed * (1 + stat.runValue));
+            transform.position = temppos;
+        }
+        else if //(Vector2.Distance(transform.position, destination) > p_dis && destination.x < transform.position.x)
+            (transform.position.x - p_dis >= destination.x)
+        {
+            plusRange = 1;
+
+            // 모션
+            anim.SetBool("isMove", true);
+            anim.SetBool("isShot", false);
+
+            // 왼쪽 이동
+            temppos = transform.position;
+            temppos.x -= 1 * (stat.moveSpeed * (1 + stat.runValue));
+            transform.position = temppos;
+        }
+        // 타겟이 사거리내에 들어온 상태 (attack)
+        else
+        {
+            if(dir)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else
+            {
+                spriteRenderer.flipX = true;
+            }
+            anim.SetBool("isMove", false);
+            anim.SetBool("isRun", false);
+            // 타겟이 null이 아닐때만
+            if (target != null)
+            {
+                Vector2 targetPos = target.transform.position;
+                // 디펜스면 사거리 미리 증가
+                if (stat.state == E_State.Defense)
+                {
+                    plusRange = p_range;
+                }
+
+                if //(Vector2.Distance(transform.position, targetPos) > stat.attackRange * plusRange && targetPos.x > transform.position.x)
+                    (transform.position.x + stat.attackRange * plusRange <= targetPos.x)
+                {
+                    anim.SetBool("isShot", false);
+                }
+                else if //(Vector2.Distance(transform.position, targetPos) > stat.attackRange * plusRange && targetPos.x < transform.position.x)
+                    (transform.position.x - stat.attackRange * plusRange >= targetPos.x)
+                {
+                    anim.SetBool("isShot", false);
+                }
+                else
+                {
+                    anim.SetBool("isShot", true);
+                    plusRange = p_range;
+                }
+            }
+        }
+    }
+
     public void Shot()
     {
         if (target != null)
@@ -221,7 +328,6 @@ public class Enemy : MonoBehaviour
                     go.transform.position = shotPos[1].transform.position;
                 }
             }
-
         }
     }
 
@@ -242,7 +348,23 @@ public class Enemy : MonoBehaviour
                 }
                 if(!flag)
                 {
-                    target = GameObject.Find("Player"); ;
+                    target = null;
+
+                    anim.SetBool("isShot", false);
+                    if (stat.team == Team.Red)
+                    {
+                        target = command;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < gm.mobList.Count; i++)
+                        {
+                            if (gm.mobList[i].GetComponent<Stat>().team != stat.team)
+                            {
+                                target = gm.mobList[i];
+                            }
+                        }
+                    }
                     return;
                 }
 
@@ -260,12 +382,175 @@ public class Enemy : MonoBehaviour
             }
             else
             {
+                anim.SetBool("isShot", false);
                 if (stat.team == Team.Red)
                 {
-                    target = GameObject.Find("Player");
+                    target = command;
+                }
+                else
+                {
+                    for (int i = 0; i < gm.mobList.Count; i++)
+                    {
+                        if (gm.mobList[i].GetComponent<Stat>().team != stat.team)
+                        {
+                            target = gm.mobList[i];
+                        }
+                    }
                 }
             }
         }
+    }
+
+    void DirectionCheck()
+    {
+        // 커맨드 위치
+        float cx = command.transform.position.x;
+
+        // 커맨드 기준 방향 설정 (blue)
+        if (stat.team == Team.Blue)
+        {
+            if (cx <= transform.position.x)
+            {
+                dir = true;
+            }
+            else
+            {
+                dir = false;
+            }
+        }
+        else if(stat.team == Team.Red)
+        {
+            if (cx <= transform.position.x)
+            {
+                dir = false;
+            }
+            else
+            {
+                dir = true;
+            }
+        }
+    }
+
+    // 엄폐 순서
+    int count = 1;
+    void CoverSystem()
+    {
+        RunControl();
+
+        if (gm.mobList != null)
+        {
+            // 지정된 본인의 엄폐 건물이 없으면
+            if (cover == null)
+            {
+                Enemy temp = null;
+                for (int i = 0; i < gm.mobList.Count; i++)
+                {
+                    if (gm.mobList[i].GetComponent<Enemy>())
+                    {
+                        Enemy e = gm.mobList[i].GetComponent<Enemy>();
+
+                        // 건물일 때
+                        if (e.GetComponent<Stat>().state == E_State.Fixed)
+                        {
+                            // 본인 팀이랑 같을 때
+                            if(e.GetComponent<Stat>().team == stat.team)
+                            {
+                                // 최대 엄폐 가능 인원이 비었다면 본인의 엄폐로 추가
+                                if (e.coverList.Count < e.coverNum)
+                                {
+                                    // 처음엔 무조건 입력
+                                    if (temp == null)
+                                    {
+                                        temp = e;
+                                    }
+                                    // 가장 먼 엄폐물로 입력
+                                    else
+                                    {
+                                        if (dir)
+                                        {
+                                            if (command.transform.position.x < e.transform.position.x)
+                                            {
+                                                temp = e;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (command.transform.position.x > e.transform.position.x)
+                                            {
+                                                temp = e;
+                                            }
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 지정된 엄폐물이 있으면
+                if (temp != null)
+                {
+                    // 추가
+                    temp.coverList.Add(this);
+                    cover = temp;
+                    destination = cover.transform.position;
+                    count = cover.coverList.Count;
+                }
+            }
+            else
+            {
+                // 현재 엄폐물이 리스트에 있는 지 체크
+                bool flag = false;
+                for (int i = 0; i < gm.mobList.Count; i++)
+                {
+                    if (gm.mobList[i].GetComponent<Stat>().team == stat.team)
+                    {
+                        if (gm.mobList[i] == cover.gameObject)
+                        {
+                            flag = true;
+                        }
+                    }
+                }
+                if (!flag)
+                {
+                    cover = null;
+                    return;
+                }
+
+                destination = cover.transform.position;
+                
+                if (dir)
+                {
+                    destination.x = cover.transform.position.x - 0.35f * count;
+                    DestinationMove(0.1f, coverRange + count * 0.1f);
+                }
+                else
+                {
+                    destination.x = cover.transform.position.x + 0.35f * count;
+                    DestinationMove(0.1f, coverRange + count * 0.1f);
+                }
+            }
+        }
+    }
+
+    public void EnemySpawn(EnemyType p_type)
+    {
+        float hp = 0;
+        float mp = 0;
+        float ad = 0;
+        switch(p_type)
+        {
+            case EnemyType.Soldier1:
+                hp = gm.gi.soldier1Hp;
+                mp = gm.gi.soldier1Mp;
+                ad = gm.gi.soldier1Ad;
+                break;
+        }
+
+        stat.hp += stat.hp * hp;
+        stat.mp += stat.mp * mp;
+        stat.ad += stat.ad * ad;
     }
 
 
@@ -285,14 +570,38 @@ public class Enemy : MonoBehaviour
     {
         if (stat.hp <= 0 && !die)
         {
+            // 건물용
+            anim.enabled = true;
+
             die = true;
             col.enabled = false;
-            rigid.gravityScale = 0;
+
+            // 엄폐물은 rigid가 없음
+            if (rigid != null)
+            {
+                rigid.gravityScale = 0;
+            }
+
             anim.SetTrigger("isDie");
             if (gm.mobList != null)
             {
                 gm.mobList.Remove(gameObject);
+                if(cover != null)
+                {
+                    cover.coverList.Remove(this);
+                }
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // 바리케이드라면
+        if (stat.state == E_State.Fixed)
+        {
+            // 빌드 포인트 생성
+            GameObject go = Instantiate(Resources.Load("Prefabs/" + "BuildPoint") as GameObject);
+            go.transform.position = transform.position;
         }
     }
 }

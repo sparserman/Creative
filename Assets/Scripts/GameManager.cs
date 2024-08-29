@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour
     static GameManager instance;
     public static GameManager GetInstance() { Init(); return instance; }
 
-    public List<GameObject> goList;
+    public List<GameObject> goList = new List<GameObject>();
     SoundManager sm;
-    public List<GameObject> mobList;
+    public List<GameObject> mobList = new List<GameObject>();
 
     static public int day = 0;
     static public int hour = 0;
@@ -42,12 +42,23 @@ public class GameManager : MonoBehaviour
 
     public static float jumpPower;
 
-    // Start is called before the first frame update
+    // 게임 정보
+    public GameInfo gi;
+
     void Start()
     {
         Init();
 
         sm = GetComponent<SoundManager>();
+
+        if (GetComponent<GameInfo>())
+        {
+            gi = GetComponent<GameInfo>();
+        }
+        else
+        {
+            gi = GameObject.Find("GI").GetComponent<GameInfo>();
+        }
     }
 
     void Update()

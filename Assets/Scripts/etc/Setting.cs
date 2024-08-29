@@ -67,7 +67,7 @@ public class Setting : MonoBehaviour
         }
     }
 
-    public void CloseSetting()
+    public void ActiveOff()
     {
         gameObject.SetActive(false);
     }

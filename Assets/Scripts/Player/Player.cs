@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
 {
     Stat stat;
 
-    public float cameraSpeed;
     public Vector2 center;
     public Vector2 size;
     float height;
@@ -26,6 +25,16 @@ public class Player : MonoBehaviour
     // 행동 정지
     public bool freeze;
 
+    // 카메라 모드
+    bool cMode;
+    GameObject rec;
+    public float maxCameraSize;
+    public float minCameraSize;
+    public float controlSpeed;    // 조절 속도
+    public float cameraSpeed;   // 카메라 이동 속도
+    public float cameraBackSpeed;   // 카메라 복귀 속도
+
+
     void Start()
     {
         gm = GameManager.GetInstance();
@@ -41,14 +50,17 @@ public class Player : MonoBehaviour
         playerLayer = LayerMask.NameToLayer("Player");
         groundLayer = LayerMask.NameToLayer("Ground");
 
-        height = Camera.main.orthographicSize;
-        width = height * Screen.width / Screen.height;
+        rec = GameObject.Find("REC");
 
         gm.mobList.Add(gameObject);
     }
 
     void Update()
     {
+        // 카메라 사이즈
+        height = Camera.main.orthographicSize;
+        width = height * Screen.width / Screen.height;
+
         if (!freeze)
         {
             InputSystem();
@@ -57,17 +69,18 @@ public class Player : MonoBehaviour
         }
         GroundCheck();
         AnimStop();
+
+        CameraMove();
     }
 
     private void FixedUpdate()
     {
+
         if (!freeze)
         {
             PlayerMove();
-
-            
         }
-        CameraMove();
+        
     }
 
     void AnimStop()
@@ -111,34 +124,55 @@ public class Player : MonoBehaviour
             }
 
             // 이동 모션
-            if (Input.GetAxisRaw("Horizontal") != 0)
+            if (!cMode)
             {
-                anim.SetBool("isMove", true);
-            }
-            else
-            {
-                anim.SetBool("isMove", false);
+                if (Input.GetAxisRaw("Horizontal") != 0)
+                {
+                    anim.SetBool("isMove", true);
+                }
+                else
+                {
+                    anim.SetBool("isMove", false);
+                }
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            cMode = cMode ? false : true;
+            anim.SetBool("isMove", false);
+        }
+
     }
 
     void PlayerMove()
     {
-        Vector3 temppos = new Vector3(0,0,0);
-
-        // 이동
-        temppos.x = Input.GetAxisRaw("Horizontal") * (stat.moveSpeed * (1 + stat.runValue));
-        transform.position = transform.position + temppos;
-        // 방향전환
-        if(Input.GetAxisRaw("Horizontal") == 1)
+        if (!cMode)
         {
-            spriteRenderer.flipX = false;
-        }
-        else if(Input.GetAxisRaw("Horizontal") == -1)
-        {
-            spriteRenderer.flipX = true;
-        }
+            if (rec.activeSelf)
+            {
+                rec.SetActive(false);
+            }
 
+
+            // 카메라 크기 조절
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, minCameraSize, Time.deltaTime * controlSpeed);
+
+            Vector3 temppos = new Vector3(0, 0, 0);
+
+            // 플레이어 이동
+            temppos.x = Input.GetAxisRaw("Horizontal") * (stat.moveSpeed * (1 + stat.runValue));
+            transform.position = transform.position + temppos;
+            // 방향전환
+            if (Input.GetAxisRaw("Horizontal") == 1)
+            {
+                spriteRenderer.flipX = false;
+            }
+            else if (Input.GetAxisRaw("Horizontal") == -1)
+            {
+                spriteRenderer.flipX = true;
+            }
+        }
     }
 
     // 플레이어 정보 저장 (게임매니저에)
@@ -194,7 +228,6 @@ public class Player : MonoBehaviour
     {
         if (stat.downJump)
         {
-            Debug.Log("다운점프");
             if (Physics2D.BoxCast(transform.position, new Vector2(0.21f, 0.1f), 0, -transform.up, 0.6f, ground))
             {
                 Physics2D.IgnoreLayerCollision(playerLayer, groundLayer, true);
@@ -210,19 +243,50 @@ public class Player : MonoBehaviour
 
     void CameraMove()
     {
-        Vector3 temppos = Camera.main.transform.position;
+        if (cMode)
+        {
+            // 녹화 화면 표시
+            if (!rec.activeSelf)
+            {
+                rec.SetActive(true);
+            }
 
-        temppos = Vector3.Lerp(temppos, transform.position, Time.deltaTime * cameraSpeed);
-        temppos.z = -10;
-        Camera.main.transform.position = temppos;
+            // 카메라 크기 조절
+            Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, maxCameraSize, Time.deltaTime * controlSpeed);
 
-        float Ix = size.x * 0.5f - width;
-        float clampX = Mathf.Clamp(Camera.main.transform.position.x, -Ix + center.x, Ix + center.x);
 
-        float Iy = size.y * 0.5f - height;
-        float clampY = Mathf.Clamp(Camera.main.transform.position.y, -Iy + center.y, Iy + center.y);
+            // 카메라 이동
+            Vector3 temppos = new Vector3(0, 0, 0);
 
-        Camera.main.transform.position = new Vector3(clampX, clampY, -10f);
+            temppos.x = Input.GetAxisRaw("Horizontal") * cameraSpeed;
+            temppos.y = Input.GetAxisRaw("Vertical") * cameraSpeed;
+            Camera.main.transform.position = Camera.main.transform.position + temppos;
+
+            float Ix = size.x * 0.5f - width;
+            float clampX = Mathf.Clamp(Camera.main.transform.position.x, -Ix + center.x, Ix + center.x);
+
+            float Iy = size.y * 0.5f - height;
+            float clampY = Mathf.Clamp(Camera.main.transform.position.y, -Iy + center.y, Iy + center.y);
+
+            Camera.main.transform.position = new Vector3(clampX, clampY, -10f);
+        }
+        else
+        {
+            // 카메라 이동
+            Vector3 temppos = Camera.main.transform.position;
+
+            temppos = Vector3.Lerp(temppos, transform.position, Time.deltaTime * cameraBackSpeed);
+            temppos.z = -10;
+            Camera.main.transform.position = temppos;
+
+            float Ix = size.x * 0.5f - width;
+            float clampX = Mathf.Clamp(Camera.main.transform.position.x, -Ix + center.x, Ix + center.x);
+
+            float Iy = size.y * 0.5f - height;
+            float clampY = Mathf.Clamp(Camera.main.transform.position.y, -Iy + center.y, Iy + center.y);
+
+            Camera.main.transform.position = new Vector3(clampX, clampY, -10f);
+        }
     }
 
     private void OnDrawGizmos()

@@ -508,6 +508,7 @@ GameObject:
   - component: {fileID: 424467469}
   - component: {fileID: 424467468}
   - component: {fileID: 424467467}
+  - component: {fileID: 424467470}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -532,6 +533,7 @@ MonoBehaviour:
   lm: {fileID: 0}
   timerOn: 0
   player: {fileID: 0}
+  gi: {fileID: 0}
 --- !u!4 &424467466
 Transform:
   m_ObjectHideFlags: 0
@@ -760,6 +762,22 @@ MonoBehaviour:
   lobbyBGM: {fileID: 8300000, guid: dd276493005c1334d9b518c9ed500922, type: 3}
   battleBGM: {fileID: 0}
   click: {fileID: 8300000, guid: ef5b4c7a9d698ba4b93b8633dee356f1, type: 3}
+--- !u!114 &424467470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9310d2d8cf94c44b8cb1cafc9cb61f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eternium: 0
+  MP: 0
+  CP: 0
+  defaultCoverNum: 3
 --- !u!1 &481793395
 GameObject:
   m_ObjectHideFlags: 0
