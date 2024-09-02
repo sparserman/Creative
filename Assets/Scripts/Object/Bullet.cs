@@ -29,6 +29,20 @@ public class Bullet : MonoBehaviour
         {
             if (team != target.GetComponent<Stat>().team)
             {
+                if(target.GetComponent<Stat>().shield > 0)
+                {
+                    if (target.GetComponent<Stat>().shield >= damage)
+                    {
+                        target.GetComponent<Stat>().shield -= damage;
+                        damage = 0;
+                    }
+                    else
+                    {
+                        damage -= target.GetComponent<Stat>().shield;
+                        target.GetComponent<Stat>().shield = 0;
+                    }
+                }
+
                 target.GetComponent<Stat>().hp -= damage;
                 Destroy(gameObject);
             }

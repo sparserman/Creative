@@ -509,6 +509,14 @@ GameObject:
   - component: {fileID: 424467468}
   - component: {fileID: 424467467}
   - component: {fileID: 424467470}
+  - component: {fileID: 424467471}
+  - component: {fileID: 424467474}
+  - component: {fileID: 424467473}
+  - component: {fileID: 424467472}
+  - component: {fileID: 424467475}
+  - component: {fileID: 424467478}
+  - component: {fileID: 424467477}
+  - component: {fileID: 424467476}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -529,6 +537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   goList: []
+  sm: {fileID: 0}
   mobList: []
   lm: {fileID: 0}
   timerOn: 0
@@ -774,10 +783,182 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa9310d2d8cf94c44b8cb1cafc9cb61f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstLobby: 1
   eternium: 0
   MP: 0
   CP: 0
-  defaultCoverNum: 3
+  coverNum: 2
+  spawnTime: 10
+  soldier1Hp: 0
+  soldier1Mp: 0
+  soldier1Ad: 0
+  managerList: []
+  pointList:
+  - {fileID: 424467471}
+  - {fileID: 424467474}
+  - {fileID: 424467473}
+  - {fileID: 424467472}
+--- !u!114 &424467471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldCode: 11
+  worldName: "\uC0E4\uB808\uC774\uB4DC"
+  worldImage: {fileID: 21300000, guid: b474d223ab6bc144f92746d06689ce08, type: 3}
+  worldDescription: "\uBE44\uAD50\uC801 \uC548\uC804\uD558\uC9C0\uB9CC \uD56D\uC0C1
+    \uC5B4\uB450\uC6B4 \uB3C4\uC2DC."
+  worldDetails: "\uBCC0\uD568\uC5C6\uC774 \uC5B4\uB461\uB2E4."
+  management: 0
+  manager: {fileID: 0}
+  pos: {x: 0, y: 0, z: 0}
+--- !u!114 &424467472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldCode: 14
+  worldName: "\uCC54\uBC84"
+  worldImage: {fileID: 21300000, guid: c430b27eeed04104489948bfdb18da01, type: 3}
+  worldDescription: 
+  worldDetails: 
+  management: 0
+  manager: {fileID: 0}
+  pos: {x: -1, y: 0, z: 0}
+--- !u!114 &424467473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldCode: 13
+  worldName: "\uCC54\uBC84"
+  worldImage: {fileID: 21300000, guid: c430b27eeed04104489948bfdb18da01, type: 3}
+  worldDescription: 
+  worldDetails: 
+  management: 0
+  manager: {fileID: 0}
+  pos: {x: -1, y: 0, z: 0}
+--- !u!114 &424467474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldCode: 12
+  worldName: ADC-G1
+  worldImage: {fileID: 21300000, guid: d0ffccfa2ec444d408674b21159421f3, type: 3}
+  worldDescription: 
+  worldDetails: 
+  management: 0
+  manager: {fileID: 0}
+  pos: {x: 0, y: 0, z: 0}
+--- !u!114 &424467475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mCode: 0
+  image: {fileID: 21300000, guid: a08e3dee57f350c44afebb8cf72b6270, type: 3}
+  managerName: "\uC2DC\uADF8\uB9C8"
+  level: 1
+  state: "\uBCF4\uD1B5"
+  eterniumPower: 80
+  defensivePower: 20
+  having: 1
+--- !u!114 &424467476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mCode: 3
+  image: {fileID: 21300000, guid: 03180e20147a289438d893a594452f9f, type: 3}
+  managerName: "\uC8FC\uB974\uB974"
+  level: 1
+  state: "\uBCF4\uD1B5"
+  eterniumPower: 30
+  defensivePower: 70
+  having: 0
+--- !u!114 &424467477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mCode: 2
+  image: {fileID: 21300000, guid: b7f6eebca7bc9834aa0c8591ec189cd2, type: 3}
+  managerName: "\uC9D5\uBC84\uAC70"
+  level: 1
+  state: "\uBCF4\uD1B5"
+  eterniumPower: 40
+  defensivePower: 60
+  having: 0
+--- !u!114 &424467478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424467464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mCode: 1
+  image: {fileID: 21300000, guid: c66140605b80b394b8d0df4a87b61969, type: 3}
+  managerName: "\uC544\uC774\uB124"
+  level: 1
+  state: "\uBCF4\uD1B5"
+  eterniumPower: 50
+  defensivePower: 50
+  having: 1
 --- !u!1 &481793395
 GameObject:
   m_ObjectHideFlags: 0
@@ -2188,7 +2369,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 11
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 1
           m_BoolArgument: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public enum Team
@@ -13,6 +14,7 @@ public enum E_State
 {
     Move = 0,
     Attack,
+    TempMove,
     Defense,
     Retreat,
     Fixed,
@@ -28,7 +30,10 @@ public class Enemy : MonoBehaviour
     // 공격자세중 늘어나는 사거리
     public float plusRange = 1;    // 현재 늘어난 사거리
     public float moveRange = 1.2f;
-    public float coverRange = 1.3f;
+    public float coverRange = 1.2f;
+
+    public Image hpBar;
+    public Image hpBack;
 
     Animator anim;
     SpriteRenderer spriteRenderer;
@@ -59,6 +64,7 @@ public class Enemy : MonoBehaviour
     // 엄폐가능인원
     public int coverNum;
 
+    EnemyType type;
 
     void Start()
     {
@@ -76,26 +82,37 @@ public class Enemy : MonoBehaviour
         //attackRange += Random.RandomRange()
 
         gm.mobList.Add(gameObject);
+
+        Init();
+
+        if (hpBar != null)
+        {
+            HpSetting();
+        }
     }
 
 
     void FixedUpdate()
     {
-        // 방향 지정
-        DirectionCheck();
-
         if (!die)
         {
+            // 방향 지정
+            DirectionCheck();
+
+            DieMotion();
+
             if (stat.state != E_State.Fixed && stat.state != E_State.Building)
             {
                 Sense();
                 StateAction();
-                DieMotion();
             }
-            else
+
+            if(hpBar != null)
             {
-                DieMotion();
+                HpUpdate();
             }
+
+            
         }
     }
 
@@ -108,6 +125,10 @@ public class Enemy : MonoBehaviour
                 break;
             case E_State.Attack:
                 break;
+            case E_State.TempMove:
+                ReturnDefense();
+                MoveTo();
+                break;
             case E_State.Defense:
                 CoverSystem();
                 break;
@@ -118,6 +139,82 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
+    }
+
+    void ReturnDefense()
+    {
+        for(int i = 0;i < gm.mobList.Count; i++)
+        {
+            if(gm.mobList[i].GetComponent<Enemy>() != null)
+            {
+                if(gm.mobList[i].GetComponent<Enemy>().stat.state == E_State.Fixed)
+                {
+                    stat.state = E_State.Defense;
+                    break;
+                }
+            }
+
+        }
+    }
+
+    void HpSetting()
+    {
+        if(stat.team == Team.Blue)
+        {
+            hpBar.color = new Color32(100, 255, 240, 255);
+        }
+        else
+        {
+            hpBar.color = new Color32(255, 100, 100, 255);
+        }
+    }
+    
+    void HpUpdate()
+    {
+        // 체력바 표현
+        if ((stat.hp + stat.shield) / stat.maxHp > 1)
+        {
+            hpBar.fillAmount = (stat.hp + (stat.maxHp - (stat.hp + stat.shield))) / stat.maxHp;
+        }
+        else
+        {
+            hpBar.fillAmount = stat.hp / stat.maxHp;
+        }
+
+
+        // hpBarBack의 색깔수정
+        if (stat.shield > 0)
+        {
+            hpBack.GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            if (stat.team == Team.Red)
+            {
+                hpBack.color = Color.yellow;
+            }
+            else if (stat.team == Team.Blue)
+            {
+                hpBack.color = Color.red;
+            }
+        }
+
+        // 감소량 표현
+        if (stat.shield > 0)
+        {
+            hpBack.fillAmount = (stat.hp + stat.shield) / stat.maxHp;
+        }
+        else
+        {
+            if (hpBar.fillAmount < hpBack.fillAmount)
+            {
+                hpBack.fillAmount -= 0.005f;
+            }
+            else
+            {
+                hpBack.fillAmount = hpBack.fillAmount;
+            }
+        }
     }
 
     // 달리기 제어
@@ -142,7 +239,7 @@ public class Enemy : MonoBehaviour
 
         if(target == null)
         {
-            stat.state = E_State.Defense;
+            anim.SetBool("isMove", false);
             return;
         }
 
@@ -159,66 +256,7 @@ public class Enemy : MonoBehaviour
         // 목표 이동
         DestinationMove(stat.attackRange * plusRange, moveRange);
 
-        // 타겟이 위에 있는 지 체크
-        if (destination.y > transform.position.y + 1.5f && !anim.GetBool("isJump"))
-        {
-            // 타겟이 점프 상태인지
-            if (target.GetComponent<Animator>() != null)
-            {
-                if (!target.GetComponent<Animator>().GetBool("isJump"))
-                {
-
-                    // 점프
-                    Debug.DrawRay(transform.position, transform.up * 1.5f);
-                    if (Physics2D.Raycast(transform.position, transform.up, 1.5f, ground))
-                    {
-                        rigid.AddForce(transform.up * stat.jumpPower);
-                        anim.SetBool("isJump", true);
-                    }
-
-                }
-            }
-        }
-        // 아래에 있는 지 체크
-        else if(destination.y < transform.position.y - 1.5f && !anim.GetBool("isJump"))
-        {
-            // 타겟이 점프 상태인지
-            if (target.GetComponent<Animator>() != null)
-            {
-                if (!target.GetComponent<Animator>().GetBool("isJump"))
-                {
-
-                    stat.downJump = true;
-                    col.enabled = false;
-                    anim.SetBool("isJump", true);
-
-                }
-            }
-        }
-        else if(destination.y > transform.position.y - 0.6f)
-        {
-            stat.downJump = false;
-        }
-
-        // 땅 관통
-        if (rigid.velocity.y > 0)
-        {
-            col.enabled = false;
-        }
-        else
-        {
-            if (!stat.downJump)
-            {
-                col.enabled = true;
-                
-                // 착지
-                if (Physics2D.BoxCast(transform.position, new Vector2(0.21f, 0.1f), 0, -transform.up, 0.6f, ground))
-                {
-                    anim.SetBool("isJump", false);
-                }
-            }
-        }
-
+        JumpSystem();
         
     }
 
@@ -307,6 +345,89 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void JumpSystem()
+    {
+        // 땅 관통
+        if (rigid.velocity.y > 0f)
+        {
+            col.enabled = false;
+        }
+        else
+        {
+            if (!stat.downJump)
+            {
+                col.enabled = true;
+
+                // 착지
+                if (Physics2D.BoxCast(transform.position, new Vector2(0.21f, 0.1f), 0, -transform.up, 0.6f, ground))
+                {
+                    anim.SetBool("isJump", false);
+                }
+            }
+        }
+
+        // 목적지가 위에 있는 지 체크
+        if (destination.y > transform.position.y + 1.5f && !anim.GetBool("isJump"))
+        {
+            if (target != null)
+            {
+                // 타겟이 점프 상태인지
+                if (target.GetComponent<Animator>() != null)
+                {
+                    if (!target.GetComponent<Animator>().GetBool("isJump"))
+                    {
+                        // 점프
+                        Debug.DrawRay(transform.position, transform.up * 1.5f);
+                        if (Physics2D.Raycast(transform.position, transform.up, 1.5f, ground))
+                        {
+                            rigid.AddForce(transform.up * stat.jumpPower);
+                            anim.SetBool("isJump", true);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // 점프
+                Debug.DrawRay(transform.position, transform.up * 1.5f);
+                if (Physics2D.Raycast(transform.position, transform.up, 1.5f, ground))
+                {
+                    rigid.AddForce(transform.up * stat.jumpPower);
+                    anim.SetBool("isJump", true);
+                }
+            }
+        }
+        // 아래에 있는 지 체크
+        else if (destination.y < transform.position.y - 1.5f && !anim.GetBool("isJump"))
+        {
+            if (target != null)
+            {
+                // 타겟이 점프 상태인지
+                if (target.GetComponent<Animator>() != null)
+                {
+                    if (!target.GetComponent<Animator>().GetBool("isJump"))
+                    {
+
+                        stat.downJump = true;
+                        col.enabled = false;
+                        anim.SetBool("isJump", true);
+
+                    }
+                }
+            }
+            else
+            {
+                stat.downJump = true;
+                col.enabled = false;
+                anim.SetBool("isJump", true);
+            }
+        }
+        else if (destination.y > transform.position.y - 0.6f)
+        {
+            stat.downJump = false;
+        }
+    }
+
     public void Shot()
     {
         if (target != null)
@@ -314,7 +435,7 @@ public class Enemy : MonoBehaviour
 
             GameObject go = Instantiate(Resources.Load("Prefabs/" + "Bullet") as GameObject);
 
-            Vector2 dir = (target.transform.position + new Vector3(0, Random.Range(-0.3f, 0.3f), 0)) - transform.position;
+            Vector2 dir = (target.transform.position + new Vector3(0, Random.Range(-0.15f, 0.15f), 0)) - transform.position;
             go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
 
             if (shotPos[0] != null && shotPos[1] != null)
@@ -497,6 +618,10 @@ public class Enemy : MonoBehaviour
                     destination = cover.transform.position;
                     count = cover.coverList.Count;
                 }
+                else
+                {
+                    stat.state = E_State.TempMove;
+                }
             }
             else
             {
@@ -522,24 +647,27 @@ public class Enemy : MonoBehaviour
                 
                 if (dir)
                 {
-                    destination.x = cover.transform.position.x - 0.35f * count;
+                    destination.x = cover.transform.position.x - 0.3f * count;
                     DestinationMove(0.1f, coverRange + count * 0.1f);
+                    JumpSystem();
                 }
                 else
                 {
-                    destination.x = cover.transform.position.x + 0.35f * count;
+                    destination.x = cover.transform.position.x + 0.3f * count;
                     DestinationMove(0.1f, coverRange + count * 0.1f);
+                    JumpSystem();
                 }
             }
         }
+
     }
 
-    public void EnemySpawn(EnemyType p_type)
+    void Init()
     {
         float hp = 0;
         float mp = 0;
         float ad = 0;
-        switch(p_type)
+        switch (type)
         {
             case EnemyType.Soldier1:
                 hp = gm.gi.soldier1Hp;
@@ -548,9 +676,16 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
+        stat.maxHp += stat.hp * hp;
         stat.hp += stat.hp * hp;
+        stat.maxMp += stat.mp * mp;
         stat.mp += stat.mp * mp;
         stat.ad += stat.ad * ad;
+    }
+
+    public void EnemySpawn(EnemyType p_type)
+    {
+        type = p_type;
     }
 
 
@@ -562,7 +697,42 @@ public class Enemy : MonoBehaviour
             {
                 gm.mobList.Remove(gameObject);
             }
-            Destroy(gameObject, 10);
+
+            // 바리케이드라면
+            if (stat.state == E_State.Fixed)
+            {
+                if (m_BulidPointRespawnCrt != null)
+                {
+                    StopCoroutine(m_BulidPointRespawnCrt);
+                    m_BulidPointRespawnCrt = null;
+                }
+                m_BulidPointRespawnCrt = StartCoroutine(BuildPointRespawn());
+            }
+            else
+            {
+                Destroy(gameObject, 10);
+            }
+
+            
+        }
+    }
+
+    Coroutine m_BulidPointRespawnCrt = null;
+    IEnumerator BuildPointRespawn()
+    {
+        float t = 0;
+        while (true)
+        {
+            t += Time.deltaTime;
+            if (t >= 10f)
+            {
+                // 빌드 포인트 생성
+                GameObject go = Instantiate(Resources.Load("Prefabs/" + "BuildPoint") as GameObject);
+                go.transform.position = transform.position;
+                Destroy(gameObject);
+                break;
+            }
+            yield return null;
         }
     }
 
@@ -575,33 +745,35 @@ public class Enemy : MonoBehaviour
 
             die = true;
             col.enabled = false;
-
-            // 엄폐물은 rigid가 없음
-            if (rigid != null)
-            {
-                rigid.gravityScale = 0;
-            }
+            rigid.gravityScale = 0;
 
             anim.SetTrigger("isDie");
+
+            // hp가 없는게 아니라면
+            if (hpBar != null)
+            {
+                hpBar.GetComponentInParent<Animator>().SetTrigger("Off");
+            }
+
             if (gm.mobList != null)
             {
                 gm.mobList.Remove(gameObject);
                 if(cover != null)
                 {
-                    cover.coverList.Remove(this);
+                    // 바리케이드 순서 정렬
+                    if (cover.coverList.Count > 1)
+                    {
+                        cover.coverList.Remove(this);
+                        for(int i = 0; i < cover.coverList.Count; i++)
+                        {
+                            if(cover.coverList[i].count > count)
+                            {
+                                cover.coverList[i].count--;
+                            }
+                        }
+                    }
                 }
             }
-        }
-    }
-
-    private void OnDestroy()
-    {
-        // 바리케이드라면
-        if (stat.state == E_State.Fixed)
-        {
-            // 빌드 포인트 생성
-            GameObject go = Instantiate(Resources.Load("Prefabs/" + "BuildPoint") as GameObject);
-            go.transform.position = transform.position;
         }
     }
 }

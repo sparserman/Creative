@@ -31,7 +31,7 @@ public class ChangeForm : MonoBehaviour
         for (int i = 1; i <= sprites.Count; i++)
         {
             val -= (1.0f / sprites.Count);
-            if (stat.hp >= stat.maxhp * val)
+            if (stat.hp >= stat.maxHp * val)
             {
                 spriteRenderer.sprite = sprites[i - 1];
                 break;

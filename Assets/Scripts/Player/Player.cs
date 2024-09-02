@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
 
     // 카메라 모드
     bool cMode;
-    GameObject rec;
+    public GameObject rec;
     public float maxCameraSize;
     public float minCameraSize;
     public float controlSpeed;    // 조절 속도
@@ -49,8 +49,6 @@ public class Player : MonoBehaviour
 
         playerLayer = LayerMask.NameToLayer("Player");
         groundLayer = LayerMask.NameToLayer("Ground");
-
-        rec = GameObject.Find("REC");
 
         gm.mobList.Add(gameObject);
     }
@@ -178,9 +176,9 @@ public class Player : MonoBehaviour
     // 플레이어 정보 저장 (게임매니저에)
     public void SavePlayerState()
     {
-        GameManager.maxhp = stat.maxhp;
+        GameManager.maxhp = stat.maxHp;
         GameManager.hp = stat.hp;
-        GameManager.maxmp = stat.maxmp;
+        GameManager.maxmp = stat.maxMp;
         GameManager.mp = stat.mp;
         GameManager.ad = stat.ad;
         GameManager.attackSpeed = stat.attackSpeed;

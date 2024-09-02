@@ -96,7 +96,7 @@ public class Command : MonoBehaviour
                 // »ý¼º
                 GameObject go = Instantiate(Resources.Load("Prefabs/" + "Soldier1") as GameObject);
                 go.transform.position = transform.position;
-                //go.GetComponent<Enemy>().EnemySpawn(EnemyType.Soldier1);
+                go.GetComponent<Enemy>().EnemySpawn(EnemyType.Soldier1);
 
                 timer = 0;
             }
@@ -121,6 +121,7 @@ public class Command : MonoBehaviour
             }
             else if (potalUI.activeSelf)
             {
+                gm.mobList.Clear();
                 GameManager.GetInstance().lm.StartFadeIn((int)STAGE.LOBBY);
             }
         }

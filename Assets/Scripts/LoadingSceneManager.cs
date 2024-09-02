@@ -40,7 +40,8 @@ public class LoadingSceneManager : MonoBehaviour
     float curFadeTime = 0;
     public GameObject fadeBG;
 
-    bool isClick = false;
+    // 바로 넘어가려면 true, 클릭 후 넘어가려면 false  (로딩창에 LoadingEnd_Txt도 수정해야함)
+    bool isClick = true;
 
     AsyncOperation op;
 

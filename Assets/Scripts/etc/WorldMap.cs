@@ -19,11 +19,6 @@ public class WorldMap : MonoBehaviour
 
     }
 
-    void Update()
-    {
-
-    }
-
 
     // ¸Ê ²ô±â (Anim)
     public void WorldMapOff()

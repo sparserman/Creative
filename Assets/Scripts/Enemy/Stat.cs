@@ -7,10 +7,12 @@ public class Stat : MonoBehaviour
     public Team team;
     public E_State state;
 
-    public float maxhp = 10;
+    public float maxHp = 10;
     public float hp = 10;
-    public float maxmp = 0;
+    public float maxMp = 0;
     public float mp = 0;
+
+    public float shield = 0;
 
     public float ad = 1;    // attack damage
     public float attackSpeed;
@@ -28,11 +30,7 @@ public class Stat : MonoBehaviour
 
     void Start()
     {
-        attackRange += Random.Range(0.15f, -0.15f);
+        attackRange += Random.Range(0.12f, -0.12f);
     }
 
-    void Update()
-    {
-        
-    }
 }

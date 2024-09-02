@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public static GameManager GetInstance() { Init(); return instance; }
 
     public List<GameObject> goList = new List<GameObject>();
-    SoundManager sm;
+    public SoundManager sm;
     public List<GameObject> mobList = new List<GameObject>();
 
     static public int day = 0;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     // 게임 정보
     public GameInfo gi;
 
-    void Start()
+    void Awake()
     {
         Init();
 
@@ -120,7 +120,6 @@ public class GameManager : MonoBehaviour
     {
         if (timerOn)
         {
-
             seconds += Time.deltaTime;
             if (seconds >= 1)
             {
@@ -138,6 +137,17 @@ public class GameManager : MonoBehaviour
                 }
             }
 
+        }
+    }
+
+    public void WorldInfoUpdate()
+    {
+        for (int i = 0; i < goList.Count; i++)
+        {
+            if(goList[i].GetComponent<WorldInfo>() != null)
+            {
+                goList[i].GetComponent<WorldInfo>().ManagerUpdate();
+            }
         }
     }
 }
