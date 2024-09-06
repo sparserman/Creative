@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Setting : MonoBehaviour
 {
     public GameObject setting;
-    GameManager gm;
+    public GameManager gm;
     SoundManager sm;
     Animator anim;
 
@@ -27,12 +27,9 @@ public class Setting : MonoBehaviour
 
     public void OpenSetting()
     {
-        
         setting.SetActive(true);
-        if (gm != null)
-        {
-            gm.goList.Add(setting);
-        }
+        gm.goList.Add(setting);
+        gm.timerOn = false;
         if (sm != null)
         {
             sm.PlayEffectSound(sm.click);
@@ -70,5 +67,6 @@ public class Setting : MonoBehaviour
     public void ActiveOff()
     {
         gameObject.SetActive(false);
+        GameManager.GetInstance().timerOn = true;
     }
 }

@@ -26,13 +26,14 @@ public class Player : MonoBehaviour
     public bool freeze;
 
     // 카메라 모드
-    bool cMode;
+    public bool cMode;
     public GameObject rec;
     public float maxCameraSize;
     public float minCameraSize;
     public float controlSpeed;    // 조절 속도
     public float cameraSpeed;   // 카메라 이동 속도
     public float cameraBackSpeed;   // 카메라 복귀 속도
+    public GameObject cameraTarget; // 카메라의 타겟
 
 
     void Start()
@@ -51,6 +52,9 @@ public class Player : MonoBehaviour
         groundLayer = LayerMask.NameToLayer("Ground");
 
         gm.mobList.Add(gameObject);
+
+        // 플레이어
+        cameraTarget = gameObject;
     }
 
     void Update()
@@ -117,6 +121,7 @@ public class Player : MonoBehaviour
             // 점프
             else if (Input.GetKeyDown(KeyCode.X))
             {
+                rigid.velocity = Vector2.zero;
                 rigid.AddForce(transform.up * (stat.jumpPower + (stat.runValue * 100)));
                 anim.SetBool("isJump", true);
             }
@@ -176,15 +181,15 @@ public class Player : MonoBehaviour
     // 플레이어 정보 저장 (게임매니저에)
     public void SavePlayerState()
     {
-        GameManager.maxhp = stat.maxHp;
-        GameManager.hp = stat.hp;
-        GameManager.maxmp = stat.maxMp;
-        GameManager.mp = stat.mp;
-        GameManager.ad = stat.ad;
-        GameManager.attackSpeed = stat.attackSpeed;
-        GameManager.moveSpeed = stat.moveSpeed;
-        GameManager.runSpeed = stat.runSpeed;
-        GameManager.jumpPower = stat.jumpPower;
+        gm.maxhp = stat.maxHp;
+        gm.hp = stat.hp;
+        gm.maxmp = stat.maxMp;
+        gm.mp = stat.mp;
+        gm.ad = stat.ad;
+        gm.attackSpeed = stat.attackSpeed;
+        gm.moveSpeed = stat.moveSpeed;
+        gm.runSpeed = stat.runSpeed;
+        gm.jumpPower = stat.jumpPower;
     }
 
     void GroundCheck()
@@ -273,7 +278,7 @@ public class Player : MonoBehaviour
             // 카메라 이동
             Vector3 temppos = Camera.main.transform.position;
 
-            temppos = Vector3.Lerp(temppos, transform.position, Time.deltaTime * cameraBackSpeed);
+            temppos = Vector3.Lerp(temppos, cameraTarget.transform.position, Time.deltaTime * cameraBackSpeed);
             temppos.z = -10;
             Camera.main.transform.position = temppos;
 

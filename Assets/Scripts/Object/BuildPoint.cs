@@ -49,14 +49,23 @@ public class BuildPoint : MonoBehaviour
             }
             else if (UI != null)
             {
-                // 바리케이드 생성
-                GameObject go = Instantiate(Resources.Load("Prefabs/" + "Barricade") as GameObject);
-                go.transform.position = transform.position;
-                go.GetComponent<Enemy>().coverNum = gm.gi.coverNum;
+                if (gm.gi.eternium >= 10)
+                {
+                    // 바리케이드 생성
+                    GameObject go = Instantiate(Resources.Load("Prefabs/" + "Barricade") as GameObject);
+                    go.transform.position = transform.position;
+                    go.GetComponent<Enemy>().coverNum = gm.gi.coverNum;
+                    go.GetComponent<Enemy>().buildPoint = gameObject;
 
-                // 빌드 포인트 삭제
-                Destroy(gameObject);
-                anim.SetTrigger("Off");
+                    // 빌드 포인트 숨기기
+                    gameObject.SetActive(false);
+                    anim.SetTrigger("Off");
+                    gm.gi.eternium -= 10;
+                }
+                else
+                {
+                    anim.SetTrigger("Error");
+                }
             }
         }
 

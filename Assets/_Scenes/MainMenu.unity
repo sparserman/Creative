@@ -508,7 +508,6 @@ GameObject:
   - component: {fileID: 424467469}
   - component: {fileID: 424467468}
   - component: {fileID: 424467467}
-  - component: {fileID: 424467470}
   - component: {fileID: 424467471}
   - component: {fileID: 424467474}
   - component: {fileID: 424467473}
@@ -539,9 +538,21 @@ MonoBehaviour:
   goList: []
   sm: {fileID: 0}
   mobList: []
+  day: 0
+  hour: 0
+  minute: 0
   lm: {fileID: 0}
   timerOn: 0
   player: {fileID: 0}
+  maxhp: 0
+  hp: 0
+  maxmp: 0
+  mp: 0
+  ad: 0
+  attackSpeed: 0
+  moveSpeed: 0
+  runSpeed: 0
+  jumpPower: 0
   gi: {fileID: 0}
 --- !u!4 &424467466
 Transform:
@@ -771,33 +782,6 @@ MonoBehaviour:
   lobbyBGM: {fileID: 8300000, guid: dd276493005c1334d9b518c9ed500922, type: 3}
   battleBGM: {fileID: 0}
   click: {fileID: 8300000, guid: ef5b4c7a9d698ba4b93b8633dee356f1, type: 3}
---- !u!114 &424467470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 424467464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa9310d2d8cf94c44b8cb1cafc9cb61f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firstLobby: 1
-  eternium: 0
-  MP: 0
-  CP: 0
-  coverNum: 2
-  spawnTime: 10
-  soldier1Hp: 0
-  soldier1Mp: 0
-  soldier1Ad: 0
-  managerList: []
-  pointList:
-  - {fileID: 424467471}
-  - {fileID: 424467474}
-  - {fileID: 424467473}
-  - {fileID: 424467472}
 --- !u!114 &424467471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -810,6 +794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoInputCheck: 1
   worldCode: 11
   worldName: "\uC0E4\uB808\uC774\uB4DC"
   worldImage: {fileID: 21300000, guid: b474d223ab6bc144f92746d06689ce08, type: 3}
@@ -831,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoInputCheck: 1
   worldCode: 14
   worldName: "\uCC54\uBC84"
   worldImage: {fileID: 21300000, guid: c430b27eeed04104489948bfdb18da01, type: 3}
@@ -851,6 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoInputCheck: 1
   worldCode: 13
   worldName: "\uCC54\uBC84"
   worldImage: {fileID: 21300000, guid: c430b27eeed04104489948bfdb18da01, type: 3}
@@ -871,6 +858,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  infoInputCheck: 1
   worldCode: 12
   worldName: ADC-G1
   worldImage: {fileID: 21300000, guid: d0ffccfa2ec444d408674b21159421f3, type: 3}
@@ -3093,8 +3081,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 692787747}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.3, y: 0}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3166,6 +3154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setting: {fileID: 1466710106}
+  gm: {fileID: 0}
   mainVolSlider: {fileID: 647840450}
   effectVolSlider: {fileID: 267206451}
   BGMVolSlider: {fileID: 1360359853}
@@ -3217,7 +3206,7 @@ RectTransform:
   m_Father: {fileID: 1020302259}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0.3, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3544,6 +3533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setting: {fileID: 0}
+  gm: {fileID: 0}
   mainVolSlider: {fileID: 0}
   effectVolSlider: {fileID: 0}
   BGMVolSlider: {fileID: 0}

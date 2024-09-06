@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
@@ -16,16 +17,37 @@ public enum EnemyType
 
 public class Command : MonoBehaviour
 {
+    public string world;
+
+    // 플레이어와 충돌 체크
     bool check;
 
     GameManager gm;
     public GameObject potalUI;
     Animator anim;
 
+    GameObject canvas;
+
+    // 파괴 타이머
+    bool destroyTimerOn = false;
+    float destroyTimer;
+
+    // 바리케이드 오브젝트
+    public List<GameObject> bList;
+    int count = 0;  // 설치된 바리케이드의 인구수만큼 빠르게 소환하기용
+    float tempSpawnTime;  // 스폰 시간 보관용
+
+
     void Start()
     {
         anim = potalUI.GetComponent<Animator>();
         gm = GameManager.GetInstance();
+
+        // 현재 월드 정보에 본인 넣기
+        gm.gi.command = this;
+        canvas = GameObject.Find("Canvas");
+
+        BarricadeInfoInput();
     }
 
     void Update()
@@ -38,6 +60,65 @@ public class Command : MonoBehaviour
         {
             // 카메라 크기 조절
             Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, 3, Time.deltaTime * gm.player.controlSpeed);
+        }
+
+        if(destroyTimerOn)
+        {
+            DefeatWorld();
+        }
+    }
+
+    // 바리케이드 첫 정보 입력 및 불러오기
+    void BarricadeInfoInput()
+    {
+        if (gm.gi.barricadeAList.Count == 0)
+        {
+            for (int i = 0; i < bList.Count; i++)
+            {
+                gm.gi.barricadeAList.Add(new BarricadeInfo(!bList[i].transform.GetChild(0).gameObject.activeSelf, bList[i].transform.position));
+            }
+        }
+        else
+        {
+            
+            for (int i = 0; i < gm.gi.barricadeAList.Count; i++)
+            {
+                for(int j = 0; j < bList.Count; j++)
+                {
+                    if (gm.gi.barricadeAList[i].position == bList[j].transform.position)
+                    {
+                        bList[j].SetActive(!gm.gi.barricadeAList[i].build);
+
+                        if (gm.gi.barricadeAList[i].build)
+                        {
+                            // 바리케이드 생성
+                            GameObject go = Instantiate(Resources.Load("Prefabs/" + "Barricade") as GameObject);
+                            go.transform.position = bList[j].transform.position;
+                            go.GetComponent<Enemy>().coverNum = gm.gi.coverNum;
+                            go.GetComponent<Enemy>().buildPoint = bList[j].transform.GetChild(0).gameObject;
+                            count += gm.gi.population;
+                        }
+                    }
+                }
+            }
+
+            tempSpawnTime = gm.gi.spawnTime;
+            gm.gi.spawnTime = 0.3f;
+        }
+    }
+
+    // 바리케이드 정보 저장
+    void BarricadeInfoSave()
+    {
+        for (int i = 0; i < gm.gi.barricadeAList.Count; i++)
+        {
+            for (int j = 0; j < bList.Count; j++)
+            {
+                if (gm.gi.barricadeAList[i].position == bList[j].transform.position)
+                {
+                    gm.gi.barricadeAList[i].build = !bList[j].transform.GetChild(0).gameObject.activeSelf;
+                }
+            }
         }
     }
 
@@ -56,10 +137,12 @@ public class Command : MonoBehaviour
                 // 바리케이드일 때
                 if (e.GetComponent<Stat>().state == E_State.Fixed)
                 {
-                    spawnNum += gm.gi.coverNum;
+                    spawnNum += gm.gi.population;
                 }
             }
         }
+        // 최대 인구 저장
+        gm.gi.maxPopulationA = spawnNum;
 
         // 현재 살아있는 인원 수 빼기 (플레이어 제외)
         for (int i = 0; i < gm.mobList.Count; i++)
@@ -79,6 +162,9 @@ public class Command : MonoBehaviour
             }
         }
 
+        // 현재 인구 수
+        gm.gi.curPopulationA = gm.gi.maxPopulationA - spawnNum;
+
         SpawnSoldier(spawnNum);
     }
 
@@ -93,14 +179,54 @@ public class Command : MonoBehaviour
             // 스폰 대기 시간
             if(timer >= gm.gi.spawnTime)
             {
-                // 생성
-                GameObject go = Instantiate(Resources.Load("Prefabs/" + "Soldier1") as GameObject);
-                go.transform.position = transform.position;
-                go.GetComponent<Enemy>().EnemySpawn(EnemyType.Soldier1);
+                Spawn();
 
+                count--;
                 timer = 0;
+
+                // 빠르게 소환 후 다시 정상 속도로
+                if(count == 0)
+                {
+                    gm.gi.spawnTime = tempSpawnTime;
+                }
             }
         }
+    }
+
+    void Spawn()
+    {
+        if (gm.mobList.Count > 0)
+        {
+            gm.mobList[0].GetComponent<Enemy>().GameInfoMobUpdate();
+        }
+
+        float px = 0;
+        if (gm.gi.rightMobNum > gm.gi.leftMobNum)
+        {
+            if (gm.gi.leftBarricadeNum >= 1)
+            {
+                px = -0.2f;
+            }
+            else
+            {
+                px = 0.2f;
+            }
+        }
+        else
+        {
+            if (gm.gi.rightBarricadeNum >= 1)
+            {
+                px = 0.2f;
+            }
+            else
+            {
+                px = -0.2f;
+            }
+        }
+        // 생성
+        GameObject go = Instantiate(Resources.Load("Prefabs/" + "Soldier1") as GameObject);
+        go.transform.position = transform.position + new Vector3(px, -0.6f, 0);
+        go.GetComponent<Enemy>().EnemySpawn(EnemyType.Soldier1);
     }
 
 
@@ -115,13 +241,20 @@ public class Command : MonoBehaviour
         // 상호작용 키
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if(check && !potalUI.activeSelf)
+            if (check && !potalUI.activeSelf)
             {
                 OpenPotalUI();
             }
             else if (potalUI.activeSelf)
             {
+                // 커맨드 지우기
                 gm.mobList.Clear();
+                gm.gi.spawnerList.Clear();
+                gm.gi.command = null;
+                // 정보 저장
+                BarricadeInfoSave();
+
+                // 로비로 이동
                 GameManager.GetInstance().lm.StartFadeIn((int)STAGE.LOBBY);
             }
         }
@@ -139,6 +272,42 @@ public class Command : MonoBehaviour
     {
         gameObject.SetActive(false);
         GameManager.GetInstance().player.freeze = false;
+    }
+
+    public void DestroyCommand()
+    {
+        gm.player.freeze = false;
+        gm.player.cameraTarget = gameObject;
+        gm.player.cMode = false;
+        
+    }
+
+    public void CreateDestroyParticle()
+    {
+        GameObject go = Instantiate(Resources.Load("Prefabs/" + "DestroyParticle") as GameObject);
+        go.transform.position = transform.position + new Vector3(0, -0.8f, 0);
+    }
+
+    public void CreateWarningMessage()
+    {
+        GameObject go = Instantiate(Resources.Load("Prefabs/" + "WarningMessage") as GameObject);
+        go.transform.SetParent(canvas.transform, false);
+
+        destroyTimerOn = true;
+    }
+
+    void DefeatWorld()
+    {
+        if (destroyTimer >= 0)
+        {
+            destroyTimer += Time.deltaTime;
+        }
+
+        if(destroyTimer >= 3f)
+        {
+            gm.lm.StartFadeIn((int)STAGE.LOBBY);
+            destroyTimer = -1;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

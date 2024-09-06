@@ -2,18 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+
+[System.Serializable]
+public class Form
+{
+    public Sprite sprite;
+    public Color32 color = new Color32(255, 255, 255, 255);
+}
 
 public class ChangeForm : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
-    Stat stat;
+    Image image;
+    public Stat stat;
 
-    public List<Sprite> sprites;    // 바뀔 스프라이트
+    [SerializeField]
+    public List<Form> sprites;    // 바뀔 스프라이트
 
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        stat = GetComponent<Stat>();
+        if (GetComponent<SpriteRenderer>() != null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        if(GetComponent<Image>() != null)
+        {
+            image = GetComponent<Image>();
+        }
+
+        if (GetComponent<Stat>() != null)
+        {
+            stat = GetComponent<Stat>();
+        }
     }
 
     void Update()
@@ -33,7 +55,20 @@ public class ChangeForm : MonoBehaviour
             val -= (1.0f / sprites.Count);
             if (stat.hp >= stat.maxHp * val)
             {
-                spriteRenderer.sprite = sprites[i - 1];
+                if (sprites[i - 1].sprite != null)
+                {
+                    spriteRenderer.sprite = sprites[i - 1].sprite;
+                }
+
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.color = sprites[i - 1].color;
+                }
+                else if (image != null)
+                {
+                    image.color = sprites[i - 1].color;
+                }
+
                 break;
             }
         }

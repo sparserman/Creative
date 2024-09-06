@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 0.1932, y: 0.1557}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5816043425985520118
 Canvas:
@@ -353,8 +353,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.013, y: 0.115}
-  m_SizeDelta: {x: 49, y: 4.89}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 50, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4016478806363775641
 CanvasRenderer:
@@ -550,7 +550,7 @@ MonoBehaviour:
   moveSpeed: 0.01
   runSpeed: 1.5
   runValue: 0
-  jumpPower: 500
+  jumpPower: 550
   downJump: 0
 --- !u!114 &4023418438399226473
 MonoBehaviour:
@@ -572,13 +572,16 @@ MonoBehaviour:
   coverRange: 1.2
   hpBar: {fileID: 363151691750857840}
   hpBack: {fileID: 2068677071742063668}
+  stat: {fileID: 0}
   target: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 128
+  dir: 0
   cover: {fileID: 0}
   coverList: []
   coverNum: 0
+  count: 1
 --- !u!95 &2458779494628782868
 Animator:
   serializedVersion: 5

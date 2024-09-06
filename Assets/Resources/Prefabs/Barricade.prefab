@@ -137,13 +137,16 @@ MonoBehaviour:
   coverRange: 1.5
   hpBar: {fileID: 2837449856274018954}
   hpBack: {fileID: 642102713208718906}
+  stat: {fileID: 0}
   target: {fileID: 0}
   ground:
     serializedVersion: 2
     m_Bits: 0
+  dir: 0
   cover: {fileID: 0}
   coverList: []
   coverNum: 3
+  count: 1
 --- !u!61 &7945431155246299542
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -201,10 +204,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d9eb9791427634cb4da8fb920a27d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stat: {fileID: 0}
   sprites:
-  - {fileID: 21300000, guid: 5ad34fe46b18f46418d48dcdfe442404, type: 3}
-  - {fileID: 21300000, guid: eb641e780ba046a4983c29cda4d30412, type: 3}
-  - {fileID: 21300000, guid: ccc8a2ea37219384594dd01055a07e54, type: 3}
+  - sprite: {fileID: 21300000, guid: 5ad34fe46b18f46418d48dcdfe442404, type: 3}
+    color:
+      serializedVersion: 2
+      rgba: 4294967295
+  - sprite: {fileID: 21300000, guid: eb641e780ba046a4983c29cda4d30412, type: 3}
+    color:
+      serializedVersion: 2
+      rgba: 4294967295
+  - sprite: {fileID: 21300000, guid: ccc8a2ea37219384594dd01055a07e54, type: 3}
+    color:
+      serializedVersion: 2
+      rgba: 4294967295
 --- !u!95 &7959093728188182402
 Animator:
   serializedVersion: 5

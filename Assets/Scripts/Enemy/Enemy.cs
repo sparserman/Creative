@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -39,7 +40,7 @@ public class Enemy : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Rigidbody2D rigid;
     Collider2D col;
-    Stat stat;
+    public Stat stat;
 
     // 타겟 관련
     public GameObject target;
@@ -55,7 +56,7 @@ public class Enemy : MonoBehaviour
     GameObject command;
 
     // 방향 (true : 오른쪽)
-    bool dir;
+    public bool dir;
 
     // 현재 엄폐물
     public Enemy cover;
@@ -63,6 +64,8 @@ public class Enemy : MonoBehaviour
     public List<Enemy> coverList;
     // 엄폐가능인원
     public int coverNum;
+    // 빌드 포인트
+    public GameObject buildPoint;
 
     EnemyType type;
 
@@ -89,6 +92,13 @@ public class Enemy : MonoBehaviour
         {
             HpSetting();
         }
+
+        
+
+        if (stat.state == E_State.Fixed)
+        {
+            EnemyPositionChange();
+        }
     }
 
 
@@ -96,18 +106,16 @@ public class Enemy : MonoBehaviour
     {
         if (!die)
         {
-            // 방향 지정
-            DirectionCheck();
-
             DieMotion();
 
             if (stat.state != E_State.Fixed && stat.state != E_State.Building)
             {
                 Sense();
-                StateAction();
             }
 
-            if(hpBar != null)
+            StateAction();
+
+            if (hpBar != null)
             {
                 HpUpdate();
             }
@@ -124,6 +132,7 @@ public class Enemy : MonoBehaviour
                 MoveTo();
                 break;
             case E_State.Attack:
+                MoveTo();
                 break;
             case E_State.TempMove:
                 ReturnDefense();
@@ -135,10 +144,26 @@ public class Enemy : MonoBehaviour
             case E_State.Retreat:
                 CoverSystem();
                 break;
+            case E_State.Fixed:
+                
+                break;
             case E_State.Building:
                 break;
         }
 
+    }
+
+    void EnemyPositionChange()
+    {
+        for(int i = 0; i < gm.mobList.Count; i++)
+        {
+            if (gm.mobList[i].GetComponent<Enemy>() != null)
+            {
+                Enemy temp = gm.mobList[i].GetComponent<Enemy>();
+                temp.cover = null;
+                temp.coverList.Clear();
+            }
+        }
     }
 
     void ReturnDefense()
@@ -149,6 +174,8 @@ public class Enemy : MonoBehaviour
             {
                 if(gm.mobList[i].GetComponent<Enemy>().stat.state == E_State.Fixed)
                 {
+                    // 방향 지정
+                    DirectionCheck();
                     stat.state = E_State.Defense;
                     break;
                 }
@@ -254,14 +281,14 @@ public class Enemy : MonoBehaviour
         RunControl();
 
         // 목표 이동
-        DestinationMove(stat.attackRange * plusRange, moveRange);
+        TargetAttack(stat.attackRange * plusRange, stat.attackRange * plusRange, moveRange);
 
         JumpSystem();
         
     }
 
     // 목표 이동
-    void DestinationMove(float p_dis, float p_range)
+    void TargetAttack(float p_right, float p_left, float p_range)
     {
         // 방향 전환
         if (destination.x > transform.position.x)
@@ -273,10 +300,52 @@ public class Enemy : MonoBehaviour
             spriteRenderer.flipX = true;
         }
 
-        // 타겟쪽으로 이동
+        // 타겟이 null이 아닐때만
+        if (target != null)
+        {
+            Vector2 targetPos = target.transform.position;
+            // 타겟이 사거리내에 들어왔고 목적지가 타겟방향일때
+            if //(Vector2.Distance(transform.position, targetPos) > stat.attackRange * plusRange && targetPos.x > transform.position.x)
+            (transform.position.x + stat.attackRange * plusRange >= targetPos.x && transform.position.x - stat.attackRange * plusRange <= targetPos.x)
+            {
+                // 모션
+                if (transform.position.x <= destination.x && dir)
+                {
+                    anim.SetBool("isShot", true);
+                }
+                else if (transform.position.x >= destination.x && !dir)
+                {
+                    anim.SetBool("isShot", true);
+                }
+                else
+                {
+                    anim.SetBool("isShot", false);
+                    DestinationMove(p_right, p_left, p_range);
+                }
+                
+                
+            }
+            // 목적지로 이동
+            else
+            {
+                anim.SetBool("isShot", false);
+                DestinationMove(p_right, p_left, p_range);
+            }
+        }
+        // 목적지로 이동
+        else
+        {
+            anim.SetBool("isShot", false);
+            DestinationMove(p_right, p_left, p_range);
+        }
+    }
+
+    void DestinationMove(float p_right, float p_left, float p_range)
+    {
         Vector2 temppos;
+        // 목적지로 이동
         if //(Vector2.Distance(transform.position, destination) > p_dis && destination.x > transform.position.x)
-            (transform.position.x + p_dis <= destination.x)
+            (transform.position.x + p_right <= destination.x)
         {
             plusRange = 1;
 
@@ -290,7 +359,7 @@ public class Enemy : MonoBehaviour
             transform.position = temppos;
         }
         else if //(Vector2.Distance(transform.position, destination) > p_dis && destination.x < transform.position.x)
-            (transform.position.x - p_dis >= destination.x)
+            (transform.position.x - p_left >= destination.x)
         {
             plusRange = 1;
 
@@ -303,10 +372,10 @@ public class Enemy : MonoBehaviour
             temppos.x -= 1 * (stat.moveSpeed * (1 + stat.runValue));
             transform.position = temppos;
         }
-        // 타겟이 사거리내에 들어온 상태 (attack)
+        // 목적지에 도착한 상태 (대기)
         else
         {
-            if(dir)
+            if (dir)
             {
                 spriteRenderer.flipX = false;
             }
@@ -316,31 +385,11 @@ public class Enemy : MonoBehaviour
             }
             anim.SetBool("isMove", false);
             anim.SetBool("isRun", false);
-            // 타겟이 null이 아닐때만
-            if (target != null)
-            {
-                Vector2 targetPos = target.transform.position;
-                // 디펜스면 사거리 미리 증가
-                if (stat.state == E_State.Defense)
-                {
-                    plusRange = p_range;
-                }
 
-                if //(Vector2.Distance(transform.position, targetPos) > stat.attackRange * plusRange && targetPos.x > transform.position.x)
-                    (transform.position.x + stat.attackRange * plusRange <= targetPos.x)
-                {
-                    anim.SetBool("isShot", false);
-                }
-                else if //(Vector2.Distance(transform.position, targetPos) > stat.attackRange * plusRange && targetPos.x < transform.position.x)
-                    (transform.position.x - stat.attackRange * plusRange >= targetPos.x)
-                {
-                    anim.SetBool("isShot", false);
-                }
-                else
-                {
-                    anim.SetBool("isShot", true);
-                    plusRange = p_range;
-                }
+            // 디펜스면 사거리 미리 증가
+            if (stat.state == E_State.Defense)
+            {
+                plusRange = p_range;
             }
         }
     }
@@ -553,7 +602,7 @@ public class Enemy : MonoBehaviour
     }
 
     // 엄폐 순서
-    int count = 1;
+    public int count = 1;
     void CoverSystem()
     {
         RunControl();
@@ -566,6 +615,7 @@ public class Enemy : MonoBehaviour
                 Enemy temp = null;
                 for (int i = 0; i < gm.mobList.Count; i++)
                 {
+                    int balance = gm.gi.rightMobNum - gm.gi.leftMobNum;
                     if (gm.mobList[i].GetComponent<Enemy>())
                     {
                         Enemy e = gm.mobList[i].GetComponent<Enemy>();
@@ -589,14 +639,75 @@ public class Enemy : MonoBehaviour
                                     {
                                         if (dir)
                                         {
-                                            if (command.transform.position.x < e.transform.position.x)
+                                            // 양쪽 아군의 균형이 맞지않으면 방향 전환 (반대에 빈자리가 있는 바리케이드가 있어야함)
+                                            if (balance >= 2 && gm.gi.leftBarricadeNum >= 1)
+                                            {
+                                                bool flag = true;
+                                                Enemy enemy = null;
+                                                // 가까운 아군이 가도록 코드를 추가해야함
+                                                for(int j = 0; j < gm.mobList.Count; j++)
+                                                {
+                                                    if (gm.mobList[j].GetComponent<Enemy>() != null)
+                                                    {
+                                                        enemy = gm.mobList[j].GetComponent<Enemy>();
+                                                        if(enemy.stat.team == stat.team && enemy.dir && enemy.stat.state == E_State.Defense)
+                                                        {
+                                                            if(enemy.transform.position.x < transform.position.x)
+                                                            {
+                                                                flag = false;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                // 본인이 가장 커맨드에 가까우면 변경
+                                                if (flag)
+                                                {
+                                                    dir = false;
+                                                    gm.gi.rightMobNum--;
+                                                    gm.gi.leftMobNum++;
+                                                }
+                                            }
+                                            else if (temp.transform.position.x < e.transform.position.x)
                                             {
                                                 temp = e;
                                             }
                                         }
                                         else
                                         {
-                                            if (command.transform.position.x > e.transform.position.x)
+
+                                            // 방향 전환
+                                            if (balance <= -2 && gm.gi.rightBarricadeNum >= 1)
+                                            {
+                                                bool flag = true;
+                                                Enemy enemy = null;
+                                                // 가까운 아군이 가도록 코드를 추가해야함
+                                                for (int j = 0; j < gm.mobList.Count; j++)
+                                                {
+                                                    if (gm.mobList[j].GetComponent<Enemy>() != null)
+                                                    {
+                                                        enemy = gm.mobList[j].GetComponent<Enemy>();
+                                                        if (enemy.stat.team == stat.team && !enemy.dir && enemy.stat.state == E_State.Defense)
+                                                        {
+                                                            if (enemy.transform.position.x > transform.position.x)
+                                                            {
+                                                                flag = false;
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                                if (flag)
+                                                {
+                                                    dir = true;
+                                                    gm.gi.rightMobNum++;
+                                                    gm.gi.leftMobNum--;
+                                                }
+                                            }
+
+                                            if (temp.transform.position.x > e.transform.position.x)
                                             {
                                                 temp = e;
                                             }
@@ -648,13 +759,13 @@ public class Enemy : MonoBehaviour
                 if (dir)
                 {
                     destination.x = cover.transform.position.x - 0.3f * count;
-                    DestinationMove(0.1f, coverRange + count * 0.1f);
+                    TargetAttack(0.1f, 0, coverRange + count * 0.1f);
                     JumpSystem();
                 }
                 else
                 {
                     destination.x = cover.transform.position.x + 0.3f * count;
-                    DestinationMove(0.1f, coverRange + count * 0.1f);
+                    TargetAttack(0, 0.1f, coverRange + count * 0.1f);
                     JumpSystem();
                 }
             }
@@ -664,6 +775,9 @@ public class Enemy : MonoBehaviour
 
     void Init()
     {
+        // 방향 지정
+        DirectionCheck();
+
         float hp = 0;
         float mp = 0;
         float ad = 0;
@@ -681,6 +795,58 @@ public class Enemy : MonoBehaviour
         stat.maxMp += stat.mp * mp;
         stat.mp += stat.mp * mp;
         stat.ad += stat.ad * ad;
+
+        if (stat.team == Team.Blue)
+        {
+            GameInfoMobUpdate();
+        }
+        
+    }
+
+    public void GameInfoMobUpdate()
+    {
+        // 오른쪽 인원 수, 왼쪽 인원 수, 빈 오 왼 바리케이드 수
+        int r = 0, l = 0, rb = 0, lb = 0;
+        for (int i = 0; i < gm.mobList.Count; i++)
+        {
+            if (gm.mobList[i].GetComponent<Enemy>() != null)
+            {
+                Enemy temp = gm.mobList[i].GetComponent<Enemy>();
+                if (temp.stat.team == Team.Blue && temp.dir)
+                {
+                    if (temp.stat.state == E_State.Defense)
+                    {
+                        r++;
+                    }
+                    else if (temp.stat.state == E_State.Fixed)
+                    {
+                        if (temp.coverList.Count < gm.gi.coverNum)
+                        {
+                            rb++;
+                        }
+                    }
+                }
+                else if (temp.stat.team == Team.Blue && !temp.dir)
+                {
+                    if (temp.stat.state == E_State.Defense)
+                    {
+                        l++;
+                    }
+                    else if (temp.stat.state == E_State.Fixed)
+                    {
+                        if (temp.coverList.Count < gm.gi.coverNum)
+                        {
+                            lb++;
+                        }
+                    }
+                }
+            }
+        }
+        // 게임 정보에 넣기
+        gm.gi.rightMobNum = r;
+        gm.gi.leftMobNum = l;
+        gm.gi.rightBarricadeNum = rb;
+        gm.gi.leftBarricadeNum = lb;
     }
 
     public void EnemySpawn(EnemyType p_type)
@@ -727,8 +893,7 @@ public class Enemy : MonoBehaviour
             if (t >= 10f)
             {
                 // 빌드 포인트 생성
-                GameObject go = Instantiate(Resources.Load("Prefabs/" + "BuildPoint") as GameObject);
-                go.transform.position = transform.position;
+                buildPoint.SetActive(true);
                 Destroy(gameObject);
                 break;
             }
@@ -740,14 +905,27 @@ public class Enemy : MonoBehaviour
     {
         if (stat.hp <= 0 && !die)
         {
+            if (stat.team == Team.Blue)
+            {
+                GameInfoMobUpdate();
+            }
+
             // 건물용
             anim.enabled = true;
 
             die = true;
             col.enabled = false;
-            rigid.gravityScale = 0;
 
-            anim.SetTrigger("isDie");
+            if(rigid != null)
+            {
+                rigid.gravityScale = 0;
+            }
+
+            if(stat.state != E_State.Fixed)
+            {
+                anim.SetTrigger("isDie");
+            }
+           
 
             // hp가 없는게 아니라면
             if (hpBar != null)

@@ -18,10 +18,10 @@ public class GameManager : MonoBehaviour
     public SoundManager sm;
     public List<GameObject> mobList = new List<GameObject>();
 
-    static public int day = 0;
-    static public int hour = 0;
-    static public int minute = 0;
-    static float seconds = 0;
+    public int day = 0;
+    public int hour = 0;
+    public int minute = 0;
+    float seconds = 0;
 
     public LoadingSceneManager lm;
 
@@ -29,18 +29,18 @@ public class GameManager : MonoBehaviour
 
     public Player player;
     // 플레이어 관련 스탯
-    public static float maxhp;
-    public static float hp;
-    public static float maxmp;
-    public static float mp;
+    public float maxhp;
+    public float hp;
+    public float maxmp;
+    public float mp;
 
-    public static float ad;
-    public static float attackSpeed;
+    public float ad;
+    public float attackSpeed;
 
-    public static float moveSpeed;
-    public static float runSpeed;
+    public float moveSpeed;
+    public float runSpeed;
 
-    public static float jumpPower;
+    public float jumpPower;
 
     // 게임 정보
     public GameInfo gi;
@@ -50,15 +50,7 @@ public class GameManager : MonoBehaviour
         Init();
 
         sm = GetComponent<SoundManager>();
-
-        if (GetComponent<GameInfo>())
-        {
-            gi = GetComponent<GameInfo>();
-        }
-        else
-        {
-            gi = GameObject.Find("GI").GetComponent<GameInfo>();
-        }
+        gi = gameObject.AddComponent<GameInfo>();
     }
 
     void Update()
@@ -81,7 +73,7 @@ public class GameManager : MonoBehaviour
     {
         if (instance == null)
         {
-            //@Managers 가 존재하는지 확인
+            //GameManager가 존재하는지 확인
             GameObject go = GameObject.Find("GameManager");
             //없으면 생성
             if (go == null)

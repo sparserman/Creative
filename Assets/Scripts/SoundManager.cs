@@ -9,7 +9,7 @@ public class SoundManager : MonoBehaviour
     public Slider effectVolSlider;
     public Slider BGMVolSlider;
 
-    public static float volume = 1f;
+    public static float volume = 0.3f;
     public static float effectVolume = 1f;
     public static float BGMVolume = 1f;
 

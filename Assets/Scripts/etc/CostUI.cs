@@ -22,7 +22,14 @@ public class CostUI : MonoBehaviour
 
     void TextUpdate()
     {
-        eterniumText.text = gm.gi.eternium.ToString();
-        cpText.text = gm.gi.CP.ToString();
+        if (eterniumText != null)
+        {
+            eterniumText.text = gm.gi.eternium.ToString();
+        }
+
+        if (cpText != null)
+        {
+            cpText.text = gm.gi.CP.ToString();
+        }
     }
 }

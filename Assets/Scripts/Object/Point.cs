@@ -60,6 +60,8 @@ public class PointInfo
 
 public class Point : MonoBehaviour
 {
+    public bool infoInputCheck = false;
+
     GameManager gm;
 
     GameObject parent;
@@ -89,6 +91,19 @@ public class Point : MonoBehaviour
         gm = GameManager.GetInstance();
         parent = GameObject.Find("Layer1");
         info = new PointInfo(worldCode, worldName, worldImage, worldDescription, worldDetails, management);
+
+        if (gm.gi.worldADestroy)
+        {
+            gameObject.SetActive(false);
+        }
+
+        if (gm.gi.firstLobby)
+        {
+            if (infoInputCheck)
+            {
+                gm.gi.pointList.Add(this);
+            }
+        }
     }
 
     // Update is called once per frame
