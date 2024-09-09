@@ -107,7 +107,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster_Shot_Anim
+  m_Name: Attack_Anim
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -123,7 +123,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: e0f8738e374f7f8428aa89ca950b7329, type: 2}
+  m_Motion: {fileID: 7400000, guid: c121d8d02d803774fa67046a6d059109, type: 2}
   m_Tag: 
   m_SpeedParameter: AttackSpeed
   m_MirrorParameter: 
@@ -192,7 +192,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster1_Hit_Anim
+  m_Name: Hit_Anim
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -206,7 +206,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 725d19ecd3917f742b8442bb1a275a7d, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2ac988b8dc1ae1748a290cbbe6f9269c, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -322,7 +322,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster1_Jump_Anim
+  m_Name: Jump_Anim
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -336,7 +336,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: bd5f1e00b9abf1143a8953e424ff5a6b, type: 2}
+  m_Motion: {fileID: 7400000, guid: be7b70b290889564598028303cc51ee8, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -349,7 +349,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster1_Walk_Anim
+  m_Name: Walk_Anim
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -366,7 +366,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2e7701a51611f5d4e9418d9985ba2eaa, type: 2}
+  m_Motion: {fileID: 7400000, guid: 8c38c45b1382fae409b7be0819e756cc, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -379,7 +379,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster1_Die_Anim
+  m_Name: Die_Anim
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -392,7 +392,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: b7511a29b7c268147aa410196dfc8e01, type: 2}
+  m_Motion: {fileID: 7400000, guid: a4228627b3c1ae94296cbb89d05f3e76, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -457,7 +457,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster1_Animator
+  m_Name: FireWizard_Animator
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: isMove
@@ -560,7 +560,7 @@ AnimatorStateMachine:
     m_Position: {x: 600, y: 410, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8482240466197462041}
-    m_Position: {x: 600, y: 250, z: 0}
+    m_Position: {x: 600, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -2981650608174619832}
     m_Position: {x: 60, y: 260, z: 0}
@@ -569,7 +569,7 @@ AnimatorStateMachine:
     m_Position: {x: -210, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4906990212011732867}
-    m_Position: {x: 270, y: -90, z: 0}
+    m_Position: {x: 270, y: 10, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -979619360626685303}
@@ -589,7 +589,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster1_Idle_Anim
+  m_Name: Idle_Anim
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -605,7 +605,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 69f52ed74d05ce84bb330839ccdb4cc9, type: 2}
+  m_Motion: {fileID: 7400000, guid: 27dc6fdef3a50d449a3a5be067567d1e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -755,7 +755,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Gangster1_Run_Anim
+  m_Name: Run_Anim
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -772,9 +772,9 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 94b208764c50d3141bb81d8aa03a3bae, type: 2}
+  m_Motion: {fileID: 7400000, guid: 260578c7521650c41a7e28ca6e157b33, type: 2}
   m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
+  m_SpeedParameter: AttackSpeed
+  m_MirrorParameter: isMove
   m_CycleOffsetParameter: 
   m_TimeParameter: 

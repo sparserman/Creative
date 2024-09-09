@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum BulletType
+{ 
+    Default,
+    FireBall
+}
+
 public class Bullet : MonoBehaviour
 {
+    GameManager gm;
+    Animator anim;
+
     Team team;
 
     Vector2 dir;
@@ -12,9 +21,18 @@ public class Bullet : MonoBehaviour
 
     GameObject target;
 
+    public BulletType type;
+
+    // 상태이상 부여체크
+    bool debuff = false;
+
 
     void Start()
     {
+        gm = GameManager.GetInstance();
+        anim = gameObject.GetComponent<Animator>();
+
+        // 나중에 시간 수정할수도
         Destroy(gameObject, 3f);
     }
 
@@ -44,24 +62,54 @@ public class Bullet : MonoBehaviour
                 }
 
                 target.GetComponent<Stat>().hp -= damage;
-                Destroy(gameObject);
+
+                SpecialAbility();
             }
         }
-        //else if (collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
-        //{
-        //    if (team != collision.gameObject.GetComponent<Stat>().team)
-        //    {
-        //        collision.gameObject.GetComponent<Stat>().hp -= damage;
-        //        Destroy(gameObject);
-        //    }
-        //}
 
+    }
+
+
+    void SpecialAbility()
+    {
+        switch(type)
+        {
+            case BulletType.Default:
+                Destroy(gameObject);
+                break;
+            case BulletType.FireBall:
+                for(int i = 0; i < gm.mobList.Count; i++)
+                {
+                    if (gm.mobList[i].GetComponent<Stat>().team != team && Vector2.Distance(transform.position, gm.mobList[i].transform.position) <= 0.75f)
+                    {
+                        gm.mobList[i].GetComponent<Enemy>().fire = gm.gi.fireTime;
+                        gm.mobList[i].GetComponent<Enemy>().fireDamage = damage * 0.01f;
+                        GameObject go = Instantiate(Resources.Load("Prefabs/" + "IgnitionParticle") as GameObject);
+                        go.transform.position = transform.position;
+                        go.transform.SetParent(gm.mobList[i].transform, false);
+                        go.transform.localPosition = new Vector3(0, 0, 0);
+                       
+                        Destroy(go, gm.gi.fireTime);
+                    }
+                }
+                anim.SetTrigger("isDestroy");
+                debuff = true;
+                break;
+        }
+    }
+
+    void FireDestroy()
+    {
+        Destroy(gameObject);
     }
 
     void Move()
     {
-        Vector2 temppos = transform.position;
-        transform.position = temppos + dir * speed;
+        if (!debuff)
+        {
+            Vector2 temppos = transform.position;
+            transform.position = temppos + dir * speed;
+        }
     }
 
     public void Init(Team p_team, Vector2 p_dir, float p_speed, float p_damage, GameObject p_target)
@@ -71,5 +119,14 @@ public class Bullet : MonoBehaviour
         speed = p_speed;
         damage = p_damage;
         target = p_target;
+
+        if(dir.x > 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
     }
 }

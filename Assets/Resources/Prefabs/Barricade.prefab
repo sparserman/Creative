@@ -105,12 +105,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   state: 5
-  maxHp: 30
-  hp: 30
+  maxHp: 100
+  hp: 100
   maxMp: 0
   mp: 0
   shield: 0
-  ad: 1
+  ad: 0
   attackSpeed: 0
   attackRange: 3
   shotSpeed: 1
@@ -146,6 +146,8 @@ MonoBehaviour:
   cover: {fileID: 0}
   coverList: []
   coverNum: 3
+  buildPoint: {fileID: 0}
+  fire: 0
   count: 1
 --- !u!61 &7945431155246299542
 BoxCollider2D:

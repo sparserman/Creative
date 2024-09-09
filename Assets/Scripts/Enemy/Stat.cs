@@ -15,7 +15,7 @@ public class Stat : MonoBehaviour
     public float shield = 0;
 
     public float ad = 1;    // attack damage
-    public float attackSpeed;
+    public float attackSpeed = 1;
     public float attackRange = 5;
     public float shotSpeed = 0.1f;
 

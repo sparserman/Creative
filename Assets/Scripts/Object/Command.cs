@@ -12,7 +12,8 @@ public enum EnemyType
     Soldier3,
     Gangster1,
     Gangster2,
-    Gangster3
+    Gangster3,
+    FireWizard
 }
 
 public class Command : MonoBehaviour

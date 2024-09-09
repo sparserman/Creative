@@ -70,7 +70,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.013, y: 0.115}
+  m_AnchoredPosition: {x: -0.013, y: 0.15}
   m_SizeDelta: {x: 50, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1147362438102245261
@@ -180,7 +180,7 @@ Transform:
   m_GameObject: {fileID: 3863771831245640670}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3296385, y: -2.3746006, z: 0}
+  m_LocalPosition: {x: -3.065514, y: -2.3581417, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -255,13 +255,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   state: 3
-  maxHp: 10
-  hp: 10
+  maxHp: 20
+  hp: 20
   maxMp: 0
   mp: 0
   shield: 0
-  ad: 1
-  attackSpeed: 0
+  ad: 3
+  attackSpeed: 1
   attackRange: 3
   shotSpeed: 0.1
   moveSpeed: 0.01
@@ -298,6 +298,8 @@ MonoBehaviour:
   cover: {fileID: 0}
   coverList: []
   coverNum: 0
+  buildPoint: {fileID: 0}
+  fire: 0
   count: 1
 --- !u!95 &4447146705233118510
 Animator:

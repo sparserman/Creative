@@ -35,9 +35,17 @@ public class GameInfo : MonoBehaviour
     public int coverNum = 2; // 바리케이드 수용 인원 수
     public int population = 1;  // 바리케이드당 인구
     public float spawnTime = 2;    // 소환 대기 시간
-    public float soldier1Hp = 0.0f;   // 솔져1 hp % up
-    public float soldier1Mp = 0.0f;   // 솔져1 mp % up
-    public float soldier1Ad = 0.0f;   // 솔져1 ad % up
+
+    public float soldier1Hp = 0.0f;                 // Soldier1 hp % up
+    public float soldier1Mp = 0.0f;                 // Soldier1 mp % up
+    public float soldier1Ad = 0.0f;                 // Soldier1 ad % up
+    public float soldier1AttackSpeed = 0.0f;        // Soldier1 attackSpeed % up
+
+    public float fireWizardHp = 0.0f;               // FireWizard hp % up
+    public float fireWizardMp = 0.0f;               // FireWizard mp % up
+    public float fireWizardAd = 0.0f;               // FireWizard ad % up
+    public float fireWizardAttackSpeed = 0.0f;      // FireWizard attackSpeed % up
+    public float fireTime = 3.0f;                   // 점화 지속 시간 (특성 강화시 생김)
 
 
     // 로비 관련

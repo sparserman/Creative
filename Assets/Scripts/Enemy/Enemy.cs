@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour
     public float moveRange = 1.2f;
     public float coverRange = 1.2f;
 
+    // 공격 자세
+
     public Image hpBar;
     public Image hpBack;
 
@@ -67,7 +69,11 @@ public class Enemy : MonoBehaviour
     // 빌드 포인트
     public GameObject buildPoint;
 
-    EnemyType type;
+    public EnemyType type;
+
+    // 상태이상
+    public float fire;          // 걸린 점화 지속시간
+    public float fireDamage;    // 점화 데미지
 
     void Start()
     {
@@ -93,7 +99,6 @@ public class Enemy : MonoBehaviour
             HpSetting();
         }
 
-        
 
         if (stat.state == E_State.Fixed)
         {
@@ -113,14 +118,15 @@ public class Enemy : MonoBehaviour
                 Sense();
             }
 
+            AttackSpeedUpdate();
             StateAction();
+
+            Debuff();
 
             if (hpBar != null)
             {
                 HpUpdate();
             }
-
-            
         }
     }
 
@@ -304,7 +310,7 @@ public class Enemy : MonoBehaviour
         if (target != null)
         {
             Vector2 targetPos = target.transform.position;
-            // 타겟이 사거리내에 들어왔고 목적지가 타겟방향일때
+            // 타겟이 사거리내에 들어왔고 목적지가 타겟방향일때, 공속 체크도 함
             if //(Vector2.Distance(transform.position, targetPos) > stat.attackRange * plusRange && targetPos.x > transform.position.x)
             (transform.position.x + stat.attackRange * plusRange >= targetPos.x && transform.position.x - stat.attackRange * plusRange <= targetPos.x)
             {
@@ -322,8 +328,6 @@ public class Enemy : MonoBehaviour
                     anim.SetBool("isShot", false);
                     DestinationMove(p_right, p_left, p_range);
                 }
-                
-                
             }
             // 목적지로 이동
             else
@@ -481,11 +485,25 @@ public class Enemy : MonoBehaviour
     {
         if (target != null)
         {
-
-            GameObject go = Instantiate(Resources.Load("Prefabs/" + "Bullet") as GameObject);
-
-            Vector2 dir = (target.transform.position + new Vector3(0, Random.Range(-0.15f, 0.15f), 0)) - transform.position;
-            go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
+            GameObject go = null;
+            switch (type)
+            {
+                case EnemyType.Soldier1:
+                case EnemyType.Gangster1:
+                    {
+                        go = Instantiate(Resources.Load("Prefabs/" + "Bullet") as GameObject);
+                        Vector2 dir = (target.transform.position + new Vector3(0, Random.Range(-0.15f, 0.15f), 0)) - transform.position;
+                        go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
+                    }
+                    break;
+                case EnemyType.FireWizard:
+                    {
+                        go = Instantiate(Resources.Load("Prefabs/" + "FireBall") as GameObject);
+                        Vector2 dir = target.transform.position - transform.position;
+                        go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
+                    }
+                    break;
+            }
 
             if (shotPos[0] != null && shotPos[1] != null)
             {
@@ -498,6 +516,14 @@ public class Enemy : MonoBehaviour
                     go.transform.position = shotPos[1].transform.position;
                 }
             }
+        }
+    }
+
+    void AttackSpeedUpdate()
+    {
+        if (stat.state != E_State.Fixed && stat.state != E_State.Building)
+        {
+            anim.SetFloat("AttackSpeed", stat.attackSpeed);
         }
     }
 
@@ -872,7 +898,7 @@ public class Enemy : MonoBehaviour
                     StopCoroutine(m_BulidPointRespawnCrt);
                     m_BulidPointRespawnCrt = null;
                 }
-                m_BulidPointRespawnCrt = StartCoroutine(BuildPointRespawn());
+                m_BulidPointRespawnCrt = StartCoroutine(BuildPointRespawnCrt());
             }
             else
             {
@@ -884,7 +910,7 @@ public class Enemy : MonoBehaviour
     }
 
     Coroutine m_BulidPointRespawnCrt = null;
-    IEnumerator BuildPointRespawn()
+    IEnumerator BuildPointRespawnCrt()
     {
         float t = 0;
         while (true)
@@ -898,6 +924,32 @@ public class Enemy : MonoBehaviour
                 break;
             }
             yield return null;
+        }
+    }
+
+    void Debuff()
+    {
+        // 점화
+        if(fire > 0)
+        {
+            float damage = fireDamage;
+            if (stat.shield > 0)
+            {
+                if (stat.shield >= damage)
+                {
+                    stat.shield -= damage;
+                    damage = 0;
+                }
+                else
+                {
+                    damage -= stat.shield;
+                    stat.shield = 0;
+                }
+            }
+
+            stat.hp -= damage;
+
+            fire -= Time.deltaTime;
         }
     }
 

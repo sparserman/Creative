@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 5900643580017305085}
   - component: {fileID: 7885360414968248174}
   m_Layer: 8
-  m_Name: Gangster1
+  m_Name: FireWizard
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -463,7 +463,7 @@ Transform:
   m_GameObject: {fileID: 6146947189156360211}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.4533536, y: -2.2442994, z: 0}
+  m_LocalPosition: {x: -2.3840141, y: -2.2725215, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -513,7 +513,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: -1009585962, guid: 9ec1fc740c89bfc449755826d6834216, type: 3}
+  m_Sprite: {fileID: 1642865192, guid: f0e2e872297b9a049aefa081d40788c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -536,16 +536,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee3dad28c8993741bbfd2854dde606d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 1
-  state: 0
-  maxHp: 20
-  hp: 20
+  team: 0
+  state: 3
+  maxHp: 15
+  hp: 15
   maxMp: 0
   mp: 0
   shield: 0
-  ad: 3
+  ad: 5
   attackSpeed: 1
-  attackRange: 3
+  attackRange: 4
   shotSpeed: 0.1
   moveSpeed: 0.01
   runSpeed: 1.5
@@ -582,7 +582,9 @@ MonoBehaviour:
   coverList: []
   coverNum: 0
   buildPoint: {fileID: 0}
+  type: 6
   fire: 0
+  fireDamage: 0
   count: 1
 --- !u!95 &2458779494628782868
 Animator:
@@ -594,7 +596,7 @@ Animator:
   m_GameObject: {fileID: 6146947189156360211}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 20ecfec6e5843f849a5ad8ec70e2aacb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 38aa932af2e64f04e90f01b107f670cc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
