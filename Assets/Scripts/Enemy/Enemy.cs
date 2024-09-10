@@ -19,7 +19,8 @@ public enum E_State
     Defense,
     Retreat,
     Fixed,
-    Building
+    Building,
+    Player
 }
 
 public class Enemy : MonoBehaviour
@@ -62,12 +63,10 @@ public class Enemy : MonoBehaviour
 
     // 현재 엄폐물
     public Enemy cover;
-    // 엄폐중인 유닛
-    public List<Enemy> coverList;
-    // 엄폐가능인원
-    public int coverNum;
-    // 빌드 포인트
-    public GameObject buildPoint;
+    public List<Enemy> coverList;       // 엄폐중인 유닛
+    public int coverNum;                // 엄폐가능인원
+    public GameObject buildPoint;       // 빌드 포인트
+    public GameObject coverShotObj;     // 건물의 포탑
 
     public EnemyType type;
 
@@ -87,8 +86,6 @@ public class Enemy : MonoBehaviour
 
 
         command = GameObject.Find("Command");
-
-        //attackRange += Random.RandomRange()
 
         gm.mobList.Add(gameObject);
 
@@ -113,11 +110,10 @@ public class Enemy : MonoBehaviour
         {
             DieMotion();
 
-            if (stat.state != E_State.Fixed && stat.state != E_State.Building)
+            if (stat.state != E_State.Player)
             {
                 Sense();
             }
-
             AttackSpeedUpdate();
             StateAction();
 
@@ -154,6 +150,10 @@ public class Enemy : MonoBehaviour
                 
                 break;
             case E_State.Building:
+                TowerAttack();
+                break;
+            case E_State.Player:
+
                 break;
         }
 
@@ -277,6 +277,15 @@ public class Enemy : MonoBehaviour
         }
 
         destination = target.transform.position;
+
+        if(destination.x >= transform.position.x)
+        {
+            dir = true;
+        }
+        else
+        {
+            dir = false; 
+        }
 
         if (cover != null)
         {
@@ -492,7 +501,7 @@ public class Enemy : MonoBehaviour
                 case EnemyType.Gangster1:
                     {
                         go = Instantiate(Resources.Load("Prefabs/" + "Bullet") as GameObject);
-                        Vector2 dir = (target.transform.position + new Vector3(0, Random.Range(-0.15f, 0.15f), 0)) - transform.position;
+                        Vector2 dir = (target.transform.position + new Vector3(0, Random.Range(-0.07f, 0.07f), 0)) - transform.position;
                         go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
                     }
                     break;
@@ -500,6 +509,13 @@ public class Enemy : MonoBehaviour
                     {
                         go = Instantiate(Resources.Load("Prefabs/" + "FireBall") as GameObject);
                         Vector2 dir = target.transform.position - transform.position;
+                        go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
+                    }
+                    break;
+                case EnemyType.Tower:
+                    {
+                        go = Instantiate(Resources.Load("Prefabs/" + "TowerBullet") as GameObject);
+                        Vector2 dir = new Vector3(target.transform.position.x - transform.position.x, 0, 0);
                         go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
                     }
                     break;
@@ -799,6 +815,31 @@ public class Enemy : MonoBehaviour
 
     }
 
+    float shotTimer = 0;
+    void TowerAttack()
+    {
+        if (target != null)
+        {
+            Vector2 targetPos = target.transform.position;
+            if (transform.position.x + stat.attackRange >= targetPos.x && transform.position.x - stat.attackRange <= targetPos.x)
+            {
+                shotTimer += Time.deltaTime;
+
+                // 공속 확인
+                if (shotTimer >= stat.attackSpeed)
+                {
+                    // 모션
+                    Shot();
+                    shotTimer = 0;
+                }
+            }
+            else
+            {
+                shotTimer = 0;
+            }
+        }
+    }
+
     void Init()
     {
         // 방향 지정
@@ -827,6 +868,7 @@ public class Enemy : MonoBehaviour
             GameInfoMobUpdate();
         }
         
+
     }
 
     public void GameInfoMobUpdate()
@@ -957,6 +999,11 @@ public class Enemy : MonoBehaviour
     {
         if (stat.hp <= 0 && !die)
         {
+            if(stat.state == E_State.Player)
+            {
+                GetComponent<Player>().freeze = true;
+            }
+
             if (stat.team == Team.Blue)
             {
                 GameInfoMobUpdate();

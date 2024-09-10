@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UI;
 using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public enum EnemyType
@@ -13,7 +14,8 @@ public enum EnemyType
     Gangster1,
     Gangster2,
     Gangster3,
-    FireWizard
+    FireWizard,
+    Tower
 }
 
 public class Command : MonoBehaviour
@@ -37,6 +39,8 @@ public class Command : MonoBehaviour
     public List<GameObject> bList;
     int count = 0;  // 설치된 바리케이드의 인구수만큼 빠르게 소환하기용
     float tempSpawnTime;  // 스폰 시간 보관용
+
+    public GameObject soldierLoading;
 
 
     void Start()
@@ -191,7 +195,10 @@ public class Command : MonoBehaviour
                     gm.gi.spawnTime = tempSpawnTime;
                 }
             }
+
         }
+        // 소환 시간 표시용
+        soldierLoading.GetComponent<Image>().fillAmount = timer / gm.gi.spawnTime;
     }
 
     void Spawn()

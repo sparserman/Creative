@@ -53,4 +53,9 @@ public class CheckBox : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void EnableFalse()
+    {
+        gameObject.SetActive(false);
+    }
 }
