@@ -74,6 +74,8 @@ public class Enemy : MonoBehaviour
     public float fire;          // 걸린 점화 지속시간
     public float fireDamage;    // 점화 데미지
 
+    public bool spawnWaiting = false;   // 소환 대기 상태 (특수 병사)
+
     void Start()
     {
         gm = GameManager.GetInstance();
@@ -106,6 +108,15 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(!gm.timerOn)
+        {
+            anim.speed = 0;
+            return;
+        }
+        anim.speed = 1;
+
+        WaitingSystem();
+
         if (!die)
         {
             DieMotion();
@@ -123,6 +134,22 @@ public class Enemy : MonoBehaviour
             {
                 HpUpdate();
             }
+        }
+    }
+
+    void WaitingSystem()
+    {
+        if(spawnWaiting)
+        {
+            Color c = spriteRenderer.color;
+            spriteRenderer.color = new Color(c.r, c.g, c.b, 0.4f);
+            rigid.gravityScale = 0;
+        }
+        else if (!spawnWaiting)
+        {
+            Color c = spriteRenderer.color;
+            spriteRenderer.color = new Color(c.r, c.g, c.b, 1f);
+            rigid.gravityScale = 2;
         }
     }
 
@@ -922,6 +949,31 @@ public class Enemy : MonoBehaviour
         type = p_type;
     }
 
+    void Debuff()
+    {
+        // 점화
+        if (fire > 0)
+        {
+            float damage = fireDamage;
+            if (stat.shield > 0)
+            {
+                if (stat.shield >= damage)
+                {
+                    stat.shield -= damage;
+                    damage = 0;
+                }
+                else
+                {
+                    damage -= stat.shield;
+                    stat.shield = 0;
+                }
+            }
+
+            stat.hp -= damage;
+
+            fire -= Time.deltaTime;
+        }
+    }
 
     void Die()
     {
@@ -935,12 +987,23 @@ public class Enemy : MonoBehaviour
             // 바리케이드라면
             if (stat.state == E_State.Fixed)
             {
+                // 빌드 포인트 재생성 코루틴
                 if (m_BulidPointRespawnCrt != null)
                 {
                     StopCoroutine(m_BulidPointRespawnCrt);
                     m_BulidPointRespawnCrt = null;
                 }
                 m_BulidPointRespawnCrt = StartCoroutine(BuildPointRespawnCrt());
+            }
+            else if (stat.state == E_State.Player)
+            {
+                // 플레이어 부활 코루틴
+                if (m_PlayerRespawnCrt != null)
+                {
+                    StopCoroutine(m_PlayerRespawnCrt);
+                    m_PlayerRespawnCrt = null;
+                }
+                m_PlayerRespawnCrt = StartCoroutine(PlayerRespawnCrt());
             }
             else
             {
@@ -969,31 +1032,36 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Debuff()
+    Coroutine m_PlayerRespawnCrt = null;
+    IEnumerator PlayerRespawnCrt()
     {
-        // 점화
-        if(fire > 0)
+        float t = 0;
+        while (true)
         {
-            float damage = fireDamage;
-            if (stat.shield > 0)
+            gameObject.GetComponent<Player>().respawnTimer.text = Mathf.Round(10 + gm.gi.respawnTime - t).ToString();
+
+            t += Time.deltaTime;
+            if (t >= 10f + gm.gi.respawnTime)
             {
-                if (stat.shield >= damage)
-                {
-                    stat.shield -= damage;
-                    damage = 0;
-                }
-                else
-                {
-                    damage -= stat.shield;
-                    stat.shield = 0;
-                }
+                // 플레이어 부활
+                gm.player.freeze = false;
+                hpBar.transform.parent.gameObject.SetActive(true);
+                stat.hp = stat.maxHp;
+                anim.Play("Player_Idle_Anim");
+                gameObject.transform.position = command.transform.position + new Vector3(0, -0.6f, 0);
+                die = false;
+                col.enabled = true;
+                rigid.gravityScale = 2;
+                gm.player.respawnTimer.transform.parent.gameObject.SetActive(false);
+                gm.player.cMode = false;
+                gm.mobList.Add(gameObject);
+
+                break;
             }
-
-            stat.hp -= damage;
-
-            fire -= Time.deltaTime;
+            yield return null;
         }
     }
+
 
     void DieMotion()
     {
@@ -1002,6 +1070,9 @@ public class Enemy : MonoBehaviour
             if(stat.state == E_State.Player)
             {
                 GetComponent<Player>().freeze = true;
+                gm.player.respawnTimer.transform.parent.gameObject.SetActive(true);
+                gm.player.cMode = true;
+                gm.player.respawnTimer.text = "";
             }
 
             if (stat.team == Team.Blue)
@@ -1020,7 +1091,7 @@ public class Enemy : MonoBehaviour
                 rigid.gravityScale = 0;
             }
 
-            if(stat.state != E_State.Fixed)
+            if(stat.state != E_State.Fixed || stat.state != E_State.Building)
             {
                 anim.SetTrigger("isDie");
             }

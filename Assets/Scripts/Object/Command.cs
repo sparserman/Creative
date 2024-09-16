@@ -57,6 +57,11 @@ public class Command : MonoBehaviour
 
     void Update()
     {
+        if (!gm.timerOn)
+        {
+            return;
+        }
+
         InputSystem();
 
         SpawnSystem();
@@ -101,7 +106,7 @@ public class Command : MonoBehaviour
                             go.transform.position = bList[j].transform.position;
                             go.GetComponent<Enemy>().coverNum = gm.gi.coverNum;
                             go.GetComponent<Enemy>().buildPoint = bList[j].transform.GetChild(0).gameObject;
-                            count += gm.gi.population;
+                            count += gm.gi.populationNum;
                         }
                     }
                 }
@@ -142,12 +147,12 @@ public class Command : MonoBehaviour
                 // 바리케이드일 때
                 if (e.GetComponent<Stat>().state == E_State.Fixed)
                 {
-                    spawnNum += gm.gi.population;
+                    spawnNum += gm.gi.populationNum;
                 }
             }
         }
         // 최대 인구 저장
-        gm.gi.maxPopulationA = spawnNum;
+        gm.gi.maxPopulationNumA = spawnNum;
 
         // 현재 살아있는 인원 수 빼기 (플레이어 제외)
         for (int i = 0; i < gm.mobList.Count; i++)
@@ -157,7 +162,7 @@ public class Command : MonoBehaviour
                 Enemy e = gm.mobList[i].GetComponent<Enemy>();
 
                 // 아군 병사일 때
-                if (e.GetComponent<Stat>().team == Team.Blue)
+                if (e.GetComponent<Stat>().team == Team.Blue && e.GetComponent<Stat>().state != E_State.Player)
                 {
                     if (e.GetComponent<Stat>().state != E_State.Fixed && e.GetComponent<Stat>().state != E_State.Building)
                     {
@@ -168,7 +173,7 @@ public class Command : MonoBehaviour
         }
 
         // 현재 인구 수
-        gm.gi.curPopulationA = gm.gi.maxPopulationA - spawnNum;
+        gm.gi.curPopulationNumA = gm.gi.maxPopulationNumA - spawnNum;
 
         SpawnSoldier(spawnNum);
     }
@@ -287,7 +292,8 @@ public class Command : MonoBehaviour
         gm.player.freeze = false;
         gm.player.cameraTarget = gameObject;
         gm.player.cMode = false;
-        
+        gm.player.respawnTimer.transform.parent.gameObject.SetActive(false);
+        gm.player.respawnTimer.gameObject.SetActive(false);
     }
 
     public void CreateDestroyParticle()

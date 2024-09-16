@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -35,6 +36,8 @@ public class Player : MonoBehaviour
     public float cameraBackSpeed;   // 카메라 복귀 속도
     public GameObject cameraTarget; // 카메라의 타겟
 
+    public TextMeshProUGUI respawnTimer;     // 부활 타이머 오브젝트
+
 
     void Start()
     {
@@ -51,14 +54,17 @@ public class Player : MonoBehaviour
         playerLayer = LayerMask.NameToLayer("Player");
         groundLayer = LayerMask.NameToLayer("Ground");
 
-        gm.mobList.Add(gameObject);
-
         // 플레이어
         cameraTarget = gameObject;
     }
 
     void Update()
     {
+        if (!gm.timerOn)
+        {
+            return;
+        }
+
         // 카메라 사이즈
         height = Camera.main.orthographicSize;
         width = height * Screen.width / Screen.height;
@@ -77,6 +83,10 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!gm.timerOn)
+        {
+            return;
+        }
 
         if (!freeze)
         {

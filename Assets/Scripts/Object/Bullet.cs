@@ -38,6 +38,11 @@ public class Bullet : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!gm.timerOn)
+        {
+            return;
+        }
+
         Move();
     }
 

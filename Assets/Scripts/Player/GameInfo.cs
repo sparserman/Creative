@@ -33,7 +33,7 @@ public class GameInfo : MonoBehaviour
 
     // 특성 관련
     public int coverNum = 2; // 바리케이드 수용 인원 수
-    public int population = 1;  // 바리케이드당 인구
+    public int populationNum = 1;  // 바리케이드당 인구
     public float spawnTime = 2;    // 소환 대기 시간
 
     public float soldier1Hp = 0.0f;                 // Soldier1 hp % up
@@ -46,20 +46,23 @@ public class GameInfo : MonoBehaviour
     public float fireWizardAd = 0.0f;               // FireWizard ad % up
     public float fireWizardAttackSpeed = 0.0f;      // FireWizard attackSpeed % up
     public float fireTime = 3.0f;                   // 점화 지속 시간 (특성 강화시 생김)
+    public float respawnTime = 0.0f;                // 부활 시간 감소량
 
 
     // 로비 관련
-    public List<ManagerInfo> managerList = new List<ManagerInfo>();
+    public List<ManagerInfo> managerList = new List<ManagerInfo>();     // 매니저 리스트
 
-    public List<Point> pointList = new List<Point>();
+    public List<Point> pointList = new List<Point>();                   // 지역 리스트
+
+    public List<MobInfo> specialMobList = new List<MobInfo>();             // 특수병사 리스트
 
 
     // 월드 A
     public bool worldADestroy = false;    // 파괴 상태
     [SerializeField]
     public List<BarricadeInfo> barricadeAList = new List<BarricadeInfo>();   // 바리케이드 정보
-    public int maxPopulationA = 0;      // 최대 인구
-    public int curPopulationA = 0;      // 현재 인구
+    public int maxPopulationNumA = 0;      // 최대 인구
+    public int curPopulationNumA = 0;      // 현재 인구
 
 
     // 스폰 정보
