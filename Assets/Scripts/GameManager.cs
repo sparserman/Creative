@@ -50,7 +50,14 @@ public class GameManager : MonoBehaviour
         Init();
 
         sm = GetComponent<SoundManager>();
-        gi = gameObject.AddComponent<GameInfo>();
+        if (GetComponent<GameInfo>() == null)
+        {
+            gi = gameObject.AddComponent<GameInfo>();
+        }
+        else
+        {
+            gi = GetComponent<GameInfo>();
+        }
     }
 
     void Update()

@@ -12,51 +12,51 @@ public enum WorldCode
     D
 }
 
-public class PointInfo
-{
-    // 관리자 정보
-    public ManagerInfo manager;
+//public class PointInfo
+//{
+//    // 관리자 정보
+//    public ManagerInfo manager;
 
-    public WorldCode worldCode;
+//    public WorldCode worldCode;
 
-    public string worldName;
-    public Sprite worldImage;
-    public string worldDescription;
-    public string worldDetails;
+//    public string worldName;
+//    public Sprite worldImage;
+//    public string worldDescription;
+//    public string worldDetails;
 
-    public float management;    // 관리율
+//    public float management;    // 관리율
 
-    public PointInfo(WorldCode p_worldCode = WorldCode.A, string p_worldName = "None"
-        , Sprite p_worldImage = null, string p_worldDescription = "", string p_worldDetails = "", float p_management = 0)
-    {
-        worldCode = p_worldCode;
+//    public PointInfo(WorldCode p_worldCode = WorldCode.A, string p_worldName = "None"
+//        , Sprite p_worldImage = null, string p_worldDescription = "", string p_worldDetails = "", float p_management = 0)
+//    {
+//        worldCode = p_worldCode;
 
-        worldName = p_worldName;
-        worldImage = p_worldImage;
-        worldDescription = p_worldDescription;
-        worldDetails = p_worldDetails;
+//        worldName = p_worldName;
+//        worldImage = p_worldImage;
+//        worldDescription = p_worldDescription;
+//        worldDetails = p_worldDetails;
 
-        management = p_management;
-    }
+//        management = p_management;
+//    }
 
-    public PointInfo DeepCopy()
-    {
-        PointInfo clone = new PointInfo();
+//    //public PointInfo DeepCopy()
+//    //{
+//    //    PointInfo clone = new PointInfo();
 
-        clone.manager = manager;
+//    //    clone.manager = manager;
 
-        clone.worldCode = worldCode;
+//    //    clone.worldCode = worldCode;
 
-        clone.worldName = worldName;
-        clone.worldImage = worldImage;
-        clone.worldDescription = worldDescription;
-        clone.worldDetails = worldDetails;
+//    //    clone.worldName = worldName;
+//    //    clone.worldImage = worldImage;
+//    //    clone.worldDescription = worldDescription;
+//    //    clone.worldDetails = worldDetails;
 
-        clone.management = management;
+//    //    clone.management = management;
 
-        return clone;
-    }
-}
+//    //    return clone;
+//    //}
+//}
 
 public class Point : MonoBehaviour
 {
@@ -66,6 +66,10 @@ public class Point : MonoBehaviour
 
     GameObject parent;
 
+    // 활성화 된 지역인지
+    public bool enable;
+    public bool worldDestroy = false;    // 파괴 상태
+
     // 기입 될 정보들
     public WorldCode worldCode;
 
@@ -74,43 +78,38 @@ public class Point : MonoBehaviour
     public string worldDescription;
     public string worldDetails;
 
-    public float management;    // 관리율
+    public float management;        // 관리율
+    public float population;        // 인구
+    public float resourceAmount;          // 자원수집량
+    public Resource resource;   // 수집중인 자원
 
     // 관리자 정보
     public ManagerInfo manager;
 
-    // 정보
-    public PointInfo info;
-
     // 정보창 띄울 위치
     public Vector3 pos;
 
-    // Start is called before the first frame update
+    // 월드 인게임 정보
+    [SerializeField]
+    public List<BarricadeInfo> barricadeList = new List<BarricadeInfo>();   // 바리케이드 정보
+
+
     void Start()
     {
         gm = GameManager.GetInstance();
         parent = GameObject.Find("Layer1");
-        info = new PointInfo(worldCode, worldName, worldImage, worldDescription, worldDetails, management);
 
-        if (gm.gi.worldADestroy)
+        if (worldDestroy)
         {
             gameObject.SetActive(false);
         }
 
-        if (gm.gi.firstLobby)
+        if (infoInputCheck)
         {
-            if (infoInputCheck)
-            {
-                gm.gi.pointList.Add(this);
-            }
+            gm.gi.pointList.Add(this);
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     public void WorldClick()
     {
         GameObject go = Instantiate(Resources.Load("Prefabs/" + "WorldInfo") as GameObject);
@@ -155,10 +154,11 @@ public class Point : MonoBehaviour
         worldInfo.worldDescription.text = p.worldDescription;
         worldInfo.worldDetails.text = p.worldDetails;
         worldInfo.management.text = p.management.ToString() + "%";
+        worldInfo.population.text = p.population.ToString() + "명";
+        worldInfo.resource.text = p.resourceAmount.ToString();
+        worldInfo.resourceDropdown.value = (int)p.resource;
 
         worldInfo.worldCode = p.worldCode;
-
-        worldInfo.gameObject.SetActive(true);
 
         // 사운드
         if (gm.sm != null)

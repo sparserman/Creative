@@ -21,6 +21,7 @@ public enum EnemyType
 public class Command : MonoBehaviour
 {
     public string world;
+    public WorldCode worldCode;
 
     // 플레이어와 충돌 체크
     bool check;
@@ -42,11 +43,22 @@ public class Command : MonoBehaviour
 
     public GameObject soldierLoading;
 
+    // 지역 정보
+    Point p;
 
     void Start()
     {
         anim = potalUI.GetComponent<Animator>();
         gm = GameManager.GetInstance();
+
+        // 지역 입력
+        for (int i = 0; i < gm.gi.pointList.Count; i++)
+        {
+            if (gm.gi.pointList[i].worldCode == worldCode)
+            {
+                p = gm.gi.pointList[i];
+            }
+        }
 
         // 현재 월드 정보에 본인 넣기
         gm.gi.command = this;
@@ -81,32 +93,35 @@ public class Command : MonoBehaviour
     // 바리케이드 첫 정보 입력 및 불러오기
     void BarricadeInfoInput()
     {
-        if (gm.gi.barricadeAList.Count == 0)
+        if (p.barricadeList.Count == 0)
         {
-            for (int i = 0; i < bList.Count; i++)
+            if (bList.Count != 0)
             {
-                gm.gi.barricadeAList.Add(new BarricadeInfo(!bList[i].transform.GetChild(0).gameObject.activeSelf, bList[i].transform.position));
+                for (int i = 0; i < bList.Count; i++)
+                {
+                    p.barricadeList.Add(new BarricadeInfo(!bList[i].transform.GetChild(0).gameObject.activeSelf, bList[i].transform.position));
+                }
             }
         }
         else
         {
             
-            for (int i = 0; i < gm.gi.barricadeAList.Count; i++)
+            for (int i = 0; i < p.barricadeList.Count; i++)
             {
                 for(int j = 0; j < bList.Count; j++)
                 {
-                    if (gm.gi.barricadeAList[i].position == bList[j].transform.position)
+                    if (p.barricadeList[i].position == bList[j].transform.position)
                     {
-                        bList[j].SetActive(!gm.gi.barricadeAList[i].build);
+                        bList[j].SetActive(!p.barricadeList[i].build);
 
-                        if (gm.gi.barricadeAList[i].build)
+                        if (p.barricadeList[i].build)
                         {
                             // 바리케이드 생성
                             GameObject go = Instantiate(Resources.Load("Prefabs/" + "Barricade") as GameObject);
                             go.transform.position = bList[j].transform.position;
                             go.GetComponent<Enemy>().coverNum = gm.gi.coverNum;
                             go.GetComponent<Enemy>().buildPoint = bList[j].transform.GetChild(0).gameObject;
-                            count += gm.gi.populationNum;
+                            count += gm.gi.coverNum;
                         }
                     }
                 }
@@ -120,13 +135,13 @@ public class Command : MonoBehaviour
     // 바리케이드 정보 저장
     void BarricadeInfoSave()
     {
-        for (int i = 0; i < gm.gi.barricadeAList.Count; i++)
+        for (int i = 0; i < p.barricadeList.Count; i++)
         {
             for (int j = 0; j < bList.Count; j++)
             {
-                if (gm.gi.barricadeAList[i].position == bList[j].transform.position)
+                if (p.barricadeList[i].position == bList[j].transform.position)
                 {
-                    gm.gi.barricadeAList[i].build = !bList[j].transform.GetChild(0).gameObject.activeSelf;
+                    p.barricadeList[i].build = !bList[j].transform.GetChild(0).gameObject.activeSelf;
                 }
             }
         }
@@ -137,7 +152,7 @@ public class Command : MonoBehaviour
     {
         int spawnNum = 0;   // 생산 될 수 있는 인원 수
 
-        // 바리케이드당 인원 셋
+        // 바리케이드당 인원
         for (int i = 0; i < gm.mobList.Count; i++)
         {
             if (gm.mobList[i].GetComponent<Enemy>())
@@ -147,13 +162,13 @@ public class Command : MonoBehaviour
                 // 바리케이드일 때
                 if (e.GetComponent<Stat>().state == E_State.Fixed)
                 {
-                    spawnNum += gm.gi.populationNum;
+                    // 바리케이드 수용수만큼 생성 가능
+                    spawnNum += gm.gi.coverNum;
                 }
             }
         }
-        // 최대 인구 저장
-        gm.gi.maxPopulationNumA = spawnNum;
 
+        int tempPopulation = gm.gi.population;
         // 현재 살아있는 인원 수 빼기 (플레이어 제외)
         for (int i = 0; i < gm.mobList.Count; i++)
         {
@@ -167,15 +182,16 @@ public class Command : MonoBehaviour
                     if (e.GetComponent<Stat>().state != E_State.Fixed && e.GetComponent<Stat>().state != E_State.Building)
                     {
                         spawnNum--;
+                        tempPopulation--;
                     }
                 }
             }
         }
 
-        // 현재 인구 수
-        gm.gi.curPopulationNumA = gm.gi.maxPopulationNumA - spawnNum;
-
-        SpawnSoldier(spawnNum);
+        if (tempPopulation > 0)
+        {
+            SpawnSoldier(spawnNum);
+        }
     }
 
     float timer = 0;
@@ -237,7 +253,7 @@ public class Command : MonoBehaviour
             }
         }
         // 생성
-        GameObject go = Instantiate(Resources.Load("Prefabs/" + "Soldier1") as GameObject);
+        GameObject go = Instantiate(Resources.Load("Prefabs/Mob/" + "Soldier1") as GameObject);
         go.transform.position = transform.position + new Vector3(px, -0.6f, 0);
         go.GetComponent<Enemy>().EnemySpawn(EnemyType.Soldier1);
     }

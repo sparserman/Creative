@@ -7,8 +7,11 @@ public class CostUI : MonoBehaviour
 {
     GameManager gm;
 
-    public TextMeshProUGUI eterniumText;
+    public TextMeshProUGUI goldText;
+    public TextMeshProUGUI magicText;
+    public TextMeshProUGUI foodText;
     public TextMeshProUGUI cpText;
+    public TextMeshProUGUI mpText;
 
     void Start()
     {
@@ -22,14 +25,11 @@ public class CostUI : MonoBehaviour
 
     void TextUpdate()
     {
-        if (eterniumText != null)
-        {
-            eterniumText.text = gm.gi.eternium.ToString();
-        }
+        goldText.text = gm.gi.gold.ToString();
+        magicText.text = gm.gi.magic.ToString();
+        foodText.text = gm.gi.food.ToString();
 
-        if (cpText != null)
-        {
-            cpText.text = gm.gi.CP.ToString();
-        }
+        cpText.text = gm.gi.CP.ToString();
+        mpText.text = gm.gi.MP.ToString();
     }
 }

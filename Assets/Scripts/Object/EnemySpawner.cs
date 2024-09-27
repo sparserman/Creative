@@ -33,8 +33,9 @@ public class EnemySpawner : MonoBehaviour
     {
         for(int i = 0; i < p_num; i++)
         {
-            // 沥焊徘 积己
-            GameObject go = Instantiate(Resources.Load("Prefabs/" + p_name) as GameObject);
+            // 利 积己
+            GameObject go = Instantiate(Resources.Load("Prefabs/Mob/" + p_name) as GameObject);
+            go.GetComponent<Stat>().team = Team.Red;
             if(dir)
             {
                 go.transform.position = transform.position + new Vector3(i * 0.3f, 0, 0);

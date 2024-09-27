@@ -1,14 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+[System.Serializable]
 public class MobInfo
 {
+    public bool having;
+
     public string nameText;
     public string mobName;
     public int level;
-    public float hp;
-    public float ad;
+    public Image image;
+
+    public Stat stat;
 }
 
 public class CommandPanel : MonoBehaviour
@@ -21,12 +26,23 @@ public class CommandPanel : MonoBehaviour
 
         for (int i = 0; i < gm.gi.specialMobList.Count; i++)
         {
-            GameObject go = Instantiate(Resources.Load("Prefabs/" + "MobTab") as GameObject);
-            MobTab tab = go.GetComponent<MobTab>();
+            // 보유중이라면
+            if (gm.gi.specialMobList[i].having)
+            {
+                GameObject go = Instantiate(Resources.Load("Prefabs/" + "MobTab") as GameObject);
+                MobTab tab = go.GetComponent<MobTab>();
 
-            tab.nameText = gm.gi.specialMobList[i].nameText;
-            tab.mobName.text = gm.gi.specialMobList[i].mobName;
-            tab.level.text = gm.gi.specialMobList[i].level.ToString();
+                MobInfo tempInfo = gm.gi.specialMobList[i];
+
+                tab.nameText = tempInfo.nameText;
+                tab.mobName.text = tempInfo.mobName;
+                tab.level.text = "Lv." + tempInfo.level.ToString();
+                tab.image = tempInfo.image;
+
+                tab.hp.text = tempInfo.stat.maxHp.ToString();
+                tab.ad.text = tempInfo.stat.ad.ToString();
+            }
+
         }
         
     }

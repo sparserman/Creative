@@ -49,7 +49,7 @@ public class BuildPoint : MonoBehaviour
             }
             else if (UI != null)
             {
-                if (gm.gi.eternium >= 10)
+                if (gm.gi.gold >= 10)
                 {
                     // 바리케이드 생성
                     GameObject go = Instantiate(Resources.Load("Prefabs/" + "Barricade") as GameObject);
@@ -60,7 +60,7 @@ public class BuildPoint : MonoBehaviour
                     // 빌드 포인트 숨기기
                     gameObject.SetActive(false);
                     anim.SetTrigger("Off");
-                    gm.gi.eternium -= 10;
+                    gm.gi.gold -= 10;
                 }
                 else
                 {

@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class MobTab : MonoBehaviour
 {
+    GameManager gm;
+
     Collider2D col;
     public LayerMask mask;
 
@@ -19,11 +21,16 @@ public class MobTab : MonoBehaviour
     public TextMeshProUGUI hp;
     public TextMeshProUGUI ad;
 
+    public TextMeshProUGUI gold;
+    public TextMeshProUGUI magic;
+    public TextMeshProUGUI food;
+
     GameObject go;
 
     void Start()
     {
         col = GetComponent<Collider2D>();
+        gm = GameManager.GetInstance();
     }
 
     void Update()
@@ -44,7 +51,7 @@ public class MobTab : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    go = Instantiate(Resources.Load("Prefabs/" + nameText) as GameObject);
+                    go = Instantiate(Resources.Load("Prefabs/Mob/" + nameText) as GameObject);
                     go.GetComponent<Enemy>().spawnWaiting = true;
                 }
                 else if (Input.GetMouseButtonUp(0))
@@ -52,19 +59,21 @@ public class MobTab : MonoBehaviour
                     Destroy(go);
                 }
             }
-            else if (hit.collider != col)
+            else
             {
                 if (Input.GetMouseButtonUp(0))
                 {
                     go.GetComponent<Enemy>().spawnWaiting = false;
+                    gm.mobList.Add(go);
                 }
             }
         }
         else
         {
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && go != null)
             {
-
+                go.GetComponent<Enemy>().spawnWaiting = false;
+                gm.mobList.Add(go);
             }
         }
     }

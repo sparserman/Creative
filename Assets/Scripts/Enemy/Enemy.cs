@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using TreeEditor;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
@@ -74,6 +75,7 @@ public class Enemy : MonoBehaviour
     public float fire;          // 걸린 점화 지속시간
     public float fireDamage;    // 점화 데미지
 
+    // 드래그 중
     public bool spawnWaiting = false;   // 소환 대기 상태 (특수 병사)
 
     void Start()
@@ -89,7 +91,10 @@ public class Enemy : MonoBehaviour
 
         command = GameObject.Find("Command");
 
-        gm.mobList.Add(gameObject);
+        if (!spawnWaiting)
+        {
+            gm.mobList.Add(gameObject);
+        }
 
         Init();
 
@@ -117,22 +122,25 @@ public class Enemy : MonoBehaviour
 
         WaitingSystem();
 
-        if (!die)
+        if (!spawnWaiting)
         {
-            DieMotion();
-
-            if (stat.state != E_State.Player)
+            if (!die)
             {
-                Sense();
-            }
-            AttackSpeedUpdate();
-            StateAction();
+                DieMotion();
 
-            Debuff();
+                if (stat.state != E_State.Player)
+                {
+                    Sense();
+                }
+                AttackSpeedUpdate();
+                StateAction();
 
-            if (hpBar != null)
-            {
-                HpUpdate();
+                Debuff();
+
+                if (hpBar != null)
+                {
+                    HpUpdate();
+                }
             }
         }
     }
@@ -141,15 +149,22 @@ public class Enemy : MonoBehaviour
     {
         if(spawnWaiting)
         {
-            Color c = spriteRenderer.color;
-            spriteRenderer.color = new Color(c.r, c.g, c.b, 0.4f);
-            rigid.gravityScale = 0;
+            if (spriteRenderer && rigid)
+            {
+                Color c = spriteRenderer.color;
+                spriteRenderer.color = new Color(c.r, c.g, c.b, 0.4f);
+                rigid.gravityScale = 0;
+                transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            }
         }
         else if (!spawnWaiting)
         {
-            Color c = spriteRenderer.color;
-            spriteRenderer.color = new Color(c.r, c.g, c.b, 1f);
-            rigid.gravityScale = 2;
+            if (spriteRenderer && rigid)
+            {
+                Color c = spriteRenderer.color;
+                spriteRenderer.color = new Color(c.r, c.g, c.b, 1f);
+                rigid.gravityScale = 2;
+            }
         }
     }
 
@@ -1124,4 +1139,6 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    
 }

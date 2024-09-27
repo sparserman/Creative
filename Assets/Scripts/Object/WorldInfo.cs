@@ -6,6 +6,13 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Resource
+{
+    Gold = 0,
+    Magic,
+    Food
+}
+
 public class WorldInfo : MonoBehaviour
 {
     GameManager gm;
@@ -27,6 +34,10 @@ public class WorldInfo : MonoBehaviour
     public TextMeshProUGUI managerState; // 매니저 상태
 
     public TextMeshProUGUI management;    // 관리율
+    public TextMeshProUGUI population;    // 인구
+    public TextMeshProUGUI resource;    // 자원수집률
+
+    public TMP_Dropdown resourceDropdown;   // 자원 설정 드롭다운
 
     public WorldCode worldCode = 0;
 
@@ -148,4 +159,33 @@ public class WorldInfo : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    public void ResourceChange(int p_index)
+    {
+        if (gm != null)
+        {
+            Point p = null;
+            for (int i = 0; i < gm.gi.pointList.Count; i++)
+            {
+                if (gm.gi.pointList[i].worldCode == worldCode)
+                {
+                    p = gm.gi.pointList[i];
+                }
+            }
+
+            switch (p_index)
+            {
+                case (int)Resource.Gold:
+                    p.resource = Resource.Gold;
+                    break;
+                case (int)Resource.Magic:
+                    p.resource = Resource.Magic;
+                    break;
+                case (int)Resource.Food:
+                    p.resource = Resource.Food;
+                    break;
+            }
+        }
+    }
+
 }
