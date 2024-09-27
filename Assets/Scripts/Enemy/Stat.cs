@@ -7,6 +7,8 @@ public class Stat : MonoBehaviour
     public Team team;
     public E_State state;
 
+    public int level = 1;
+
     public float maxHp = 10;
     public float hp = 10;
     public float maxMp = 0;
@@ -30,7 +32,7 @@ public class Stat : MonoBehaviour
 
     void Start()
     {
-        attackRange += Random.Range(0.12f, -0.12f);
+        attackRange += Random.Range(0.21f, -0.21f);
     }
 
 }

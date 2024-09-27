@@ -803,10 +803,13 @@ MonoBehaviour:
   worldDescription: "\uBE44\uAD50\uC801 \uC548\uC804\uD558\uC9C0\uB9CC \uD56D\uC0C1
     \uC5B4\uB450\uC6B4 \uB3C4\uC2DC."
   worldDetails: "\uBCC0\uD568\uC5C6\uC774 \uC5B4\uB461\uB2E4."
-  management: 0
+  management: 100
   population: 50
   resourceAmount: 0
   resource: 0
+  goldEfficiency: 0.4
+  magicEfficiency: 0.2
+  foodEfficiency: 0.2
   manager: {fileID: 0}
   pos: {x: 0, y: 0, z: 0}
   barricadeList: []
@@ -835,6 +838,9 @@ MonoBehaviour:
   population: 40
   resourceAmount: 0
   resource: 0
+  goldEfficiency: 0
+  magicEfficiency: 0
+  foodEfficiency: 0
   manager: {fileID: 0}
   pos: {x: -1, y: 0, z: 0}
   barricadeList: []
@@ -862,6 +868,9 @@ MonoBehaviour:
   population: 35
   resourceAmount: 0
   resource: 0
+  goldEfficiency: 0
+  magicEfficiency: 0
+  foodEfficiency: 0
   manager: {fileID: 0}
   pos: {x: -1, y: 0, z: 0}
   barricadeList: []
@@ -890,6 +899,9 @@ MonoBehaviour:
   population: 100
   resourceAmount: 0
   resource: 0
+  goldEfficiency: 0
+  magicEfficiency: 0
+  foodEfficiency: 0
   manager: {fileID: 0}
   pos: {x: 0, y: 0, z: 0}
   barricadeList: []

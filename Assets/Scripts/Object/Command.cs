@@ -93,6 +93,11 @@ public class Command : MonoBehaviour
     // 바리케이드 첫 정보 입력 및 불러오기
     void BarricadeInfoInput()
     {
+        if(p == null)
+        {
+            return;
+        }
+
         if (p.barricadeList.Count == 0)
         {
             if (bList.Count != 0)

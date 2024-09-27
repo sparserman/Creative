@@ -66,6 +66,8 @@ public class Point : MonoBehaviour
 
     GameObject parent;
 
+    Point p;
+
     // 활성화 된 지역인지
     public bool enable;
     public bool worldDestroy = false;    // 파괴 상태
@@ -78,10 +80,16 @@ public class Point : MonoBehaviour
     public string worldDescription;
     public string worldDetails;
 
-    public float management;        // 관리율
-    public float population;        // 인구
-    public float resourceAmount;          // 자원수집량
-    public Resource resource;   // 수집중인 자원
+    // 자원 관련
+    public float management;                // 관리율 ( 여러 이벤트에 영향 및 자원 수집량에 효율 )
+    public float population;                // 인구       ( 자원 수집량에 영향 및 음식 소모량 증가 )
+    public int resourceAmount;              // 자원수집량
+    public Resource resource;               // 수집중인 자원
+
+    // 지역의 자원 효율
+    public float goldEfficiency;
+    public float magicEfficiency;
+    public float foodEfficiency;
 
     // 관리자 정보
     public ManagerInfo manager;
@@ -118,8 +126,7 @@ public class Point : MonoBehaviour
         worldInfo.transform.position = transform.position + pos;
         worldInfo.point = this;
 
-        Point p = null;
-
+        // 지역 정보 넣기
         for(int i = 0; i < gm.gi.pointList.Count; i++)
         {
             if(gm.gi.pointList[i].worldCode == worldCode)
@@ -148,6 +155,7 @@ public class Point : MonoBehaviour
             worldInfo.manager = null;
         }
 
+        UpdateResourceValue();
         // 정보 표시
         worldInfo.worldName.text = p.worldName;
         worldInfo.worldImage.sprite = p.worldImage;
@@ -169,4 +177,41 @@ public class Point : MonoBehaviour
         gm.goList.Add(worldInfo.gameObject);
     }
 
+    // 문제의 위치
+    public void UpdateResourceValue()
+    {
+        float var = 0;
+        switch(p.resource)
+        {
+            case Resource.Gold:
+                var = p.goldEfficiency;
+                break;
+            case Resource.Magic:
+                var = p.magicEfficiency;
+                break;
+            case Resource.Food:
+                var = p.foodEfficiency;
+                break;
+        }
+
+        p.resourceAmount = (int)(p.population * var * (p.management * 0.01f));
+    }
+
+    // 자원 수집
+    public void ResourceCollection()
+    {
+        switch(resource)
+        {
+            case Resource.Gold:
+                gm.gi.gold += p.resourceAmount;
+                break;
+            case Resource.Magic:
+                gm.gi.magic += p.resourceAmount;
+                break;
+            case Resource.Food:
+                gm.gi.food += p.resourceAmount;
+                break;
+        }
+        
+    }
 }

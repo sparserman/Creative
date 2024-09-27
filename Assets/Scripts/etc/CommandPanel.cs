@@ -20,6 +20,8 @@ public class CommandPanel : MonoBehaviour
 {
     GameManager gm;
 
+    public GameObject fieldPanel;
+
     void Start()
     {
         gm = GameManager.GetInstance();
@@ -34,6 +36,7 @@ public class CommandPanel : MonoBehaviour
 
                 MobInfo tempInfo = gm.gi.specialMobList[i];
 
+                // 정보 입력
                 tab.nameText = tempInfo.nameText;
                 tab.mobName.text = tempInfo.mobName;
                 tab.level.text = "Lv." + tempInfo.level.ToString();
@@ -41,6 +44,10 @@ public class CommandPanel : MonoBehaviour
 
                 tab.hp.text = tempInfo.stat.maxHp.ToString();
                 tab.ad.text = tempInfo.stat.ad.ToString();
+
+                // 패널 넣기
+                tab.panel = gameObject;
+                tab.fieldPanel = fieldPanel;
             }
 
         }

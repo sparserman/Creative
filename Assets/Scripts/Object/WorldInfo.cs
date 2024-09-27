@@ -185,6 +185,9 @@ public class WorldInfo : MonoBehaviour
                     p.resource = Resource.Food;
                     break;
             }
+
+            p.UpdateResourceValue();
+            resource.text = p.resourceAmount.ToString();
         }
     }
 

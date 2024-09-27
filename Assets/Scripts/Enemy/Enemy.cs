@@ -155,6 +155,9 @@ public class Enemy : MonoBehaviour
                 spriteRenderer.color = new Color(c.r, c.g, c.b, 0.4f);
                 rigid.gravityScale = 0;
                 transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 vec = transform.position;
+                vec.z = 0;
+                transform.position = vec;
             }
         }
         else if (!spawnWaiting)
@@ -1099,14 +1102,14 @@ public class Enemy : MonoBehaviour
             anim.enabled = true;
 
             die = true;
-            col.enabled = false;
+            //col.enabled = false;
 
             if(rigid != null)
             {
                 rigid.gravityScale = 0;
             }
 
-            if(stat.state != E_State.Fixed || stat.state != E_State.Building)
+            if(stat.state != E_State.Fixed && stat.state != E_State.Building)
             {
                 anim.SetTrigger("isDie");
             }
