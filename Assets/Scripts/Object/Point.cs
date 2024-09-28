@@ -66,7 +66,7 @@ public class Point : MonoBehaviour
 
     GameObject parent;
 
-    Point p;
+    public Point p;
 
     // 활성화 된 지역인지
     public bool enable;
@@ -155,7 +155,7 @@ public class Point : MonoBehaviour
             worldInfo.manager = null;
         }
 
-        UpdateResourceValue();
+        p.UpdateResourceValue();
         // 정보 표시
         worldInfo.worldName.text = p.worldName;
         worldInfo.worldImage.sprite = p.worldImage;
@@ -181,20 +181,20 @@ public class Point : MonoBehaviour
     public void UpdateResourceValue()
     {
         float var = 0;
-        switch(p.resource)
+        switch(resource)
         {
             case Resource.Gold:
-                var = p.goldEfficiency;
+                var = goldEfficiency;
                 break;
             case Resource.Magic:
-                var = p.magicEfficiency;
+                var = magicEfficiency;
                 break;
             case Resource.Food:
-                var = p.foodEfficiency;
+                var = foodEfficiency;
                 break;
         }
 
-        p.resourceAmount = (int)(p.population * var * (p.management * 0.01f));
+        resourceAmount = (int)(population * var * (management * 0.01f));
     }
 
     // 자원 수집
@@ -203,13 +203,13 @@ public class Point : MonoBehaviour
         switch(resource)
         {
             case Resource.Gold:
-                gm.gi.gold += p.resourceAmount;
+                gm.gi.gold += resourceAmount;
                 break;
             case Resource.Magic:
-                gm.gi.magic += p.resourceAmount;
+                gm.gi.magic += resourceAmount;
                 break;
             case Resource.Food:
-                gm.gi.food += p.resourceAmount;
+                gm.gi.food += resourceAmount;
                 break;
         }
         

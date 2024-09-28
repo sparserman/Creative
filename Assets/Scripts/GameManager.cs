@@ -126,6 +126,9 @@ public class GameManager : MonoBehaviour
                 seconds = 0;
                 if (minute >= 60)
                 {
+                    // 
+                    OneMinutePlay();
+
                     hour++;
                     minute = 0;
                     if (hour >= 24)
@@ -137,6 +140,17 @@ public class GameManager : MonoBehaviour
             }
 
         }
+    }
+
+    public void OneMinutePlay()
+    {
+        // 자원 수집
+        for (int i = 0; i < gi.pointList.Count; i++)
+        {
+            gi.pointList[i].ResourceCollection();
+        }
+
+        //
     }
 
     public void WorldInfoUpdate()
