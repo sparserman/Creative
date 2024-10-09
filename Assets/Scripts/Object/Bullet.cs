@@ -50,23 +50,23 @@ public class Bullet : MonoBehaviour
     {
         if(collision.gameObject == target)
         {
-            if (team != target.GetComponent<Stat>().team)
+            if (team != target.GetComponent<Enemy>().stat.team)
             {
-                if(target.GetComponent<Stat>().shield > 0)
+                if(target.GetComponent<Enemy>().stat.shield > 0)
                 {
-                    if (target.GetComponent<Stat>().shield >= damage)
+                    if (target.GetComponent<Enemy>().stat.shield >= damage)
                     {
-                        target.GetComponent<Stat>().shield -= damage;
+                        target.GetComponent<Enemy>().stat.shield -= damage;
                         damage = 0;
                     }
                     else
                     {
-                        damage -= target.GetComponent<Stat>().shield;
-                        target.GetComponent<Stat>().shield = 0;
+                        damage -= target.GetComponent<Enemy>().stat.shield;
+                        target.GetComponent<Enemy>().stat.shield = 0;
                     }
                 }
 
-                target.GetComponent<Stat>().hp -= damage;
+                target.GetComponent<Enemy>().stat.hp -= damage;
 
                 SpecialAbility();
             }
@@ -85,7 +85,7 @@ public class Bullet : MonoBehaviour
             case BulletType.FireBall:
                 for(int i = 0; i < gm.mobList.Count; i++)
                 {
-                    if (gm.mobList[i].GetComponent<Stat>().team != team && Vector2.Distance(transform.position, gm.mobList[i].transform.position) <= 0.75f)
+                    if (gm.mobList[i].GetComponent<Enemy>().stat.team != team && Vector2.Distance(transform.position, gm.mobList[i].transform.position) <= 0.75f)
                     {
                         gm.mobList[i].GetComponent<Enemy>().fire = gm.gi.fireTime;
                         gm.mobList[i].GetComponent<Enemy>().fireDamage = damage * 0.01f;

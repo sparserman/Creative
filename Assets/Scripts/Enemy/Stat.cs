@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stat : MonoBehaviour
+[System.Serializable]
+public class Stat
 {
     public Team team;
     public E_State state;

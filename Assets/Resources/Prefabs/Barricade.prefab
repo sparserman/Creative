@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7679768351452339544}
   - component: {fileID: 5915691950835601930}
-  - component: {fileID: 6361956698148508644}
   - component: {fileID: 8723515408154315745}
   - component: {fileID: 7945431155246299542}
   - component: {fileID: 222560507104264794}
@@ -91,34 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6361956698148508644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136879256636851078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee3dad28c8993741bbfd2854dde606d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 0
-  state: 5
-  maxHp: 100
-  hp: 100
-  maxMp: 0
-  mp: 0
-  shield: 0
-  ad: 0
-  attackSpeed: 0
-  attackRange: 3
-  shotSpeed: 1
-  moveSpeed: 0.01
-  runSpeed: 1.5
-  runValue: 0
-  jumpPower: 250
-  downJump: 0
 --- !u!114 &8723515408154315745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,13 +102,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa6dc32e05a06d428cff424744bbd11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   shotPos: []
   plusRange: 1
   moveRange: 1.2
   coverRange: 1.5
   hpBar: {fileID: 2837449856274018954}
   hpBack: {fileID: 642102713208718906}
-  stat: {fileID: 0}
+  stat:
+    team: 0
+    state: 0
+    level: 1
+    maxHp: 10
+    hp: 10
+    maxMp: 0
+    mp: 0
+    shield: 0
+    ad: 1
+    attackSpeed: 1
+    attackRange: 5
+    shotSpeed: 0.1
+    moveSpeed: 0.01
+    runSpeed: 1.5
+    runValue: 0
+    jumpPower: 250
+    downJump: 0
   target: {fileID: 0}
   ground:
     serializedVersion: 2
@@ -147,7 +136,10 @@ MonoBehaviour:
   coverList: []
   coverNum: 3
   buildPoint: {fileID: 0}
+  coverShotObj: {fileID: 0}
   fire: 0
+  fireDamage: 0
+  spawnWaiting: 0
   count: 1
 --- !u!61 &7945431155246299542
 BoxCollider2D:
@@ -206,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d9eb9791427634cb4da8fb920a27d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stat: {fileID: 0}
+  enemy: {fileID: 0}
   sprites:
   - sprite: {fileID: 21300000, guid: 5ad34fe46b18f46418d48dcdfe442404, type: 3}
     color:

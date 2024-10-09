@@ -15,7 +15,7 @@ public class ChangeForm : MonoBehaviour
 {
     SpriteRenderer spriteRenderer;
     Image image;
-    public Stat stat;
+    public Enemy enemy;
 
     [SerializeField]
     public List<Form> sprites;    // 바뀔 스프라이트
@@ -32,9 +32,9 @@ public class ChangeForm : MonoBehaviour
             image = GetComponent<Image>();
         }
 
-        if (GetComponent<Stat>() != null)
+        if (GetComponent<Enemy>() != null)
         {
-            stat = GetComponent<Stat>();
+            enemy = GetComponent<Enemy>();
         }
     }
 
@@ -53,7 +53,7 @@ public class ChangeForm : MonoBehaviour
         for (int i = 1; i <= sprites.Count; i++)
         {
             val -= (1.0f / sprites.Count);
-            if (stat.hp >= stat.maxHp * val)
+            if (enemy.stat.hp >= enemy.stat.maxHp * val)
             {
                 if (sprites[i - 1].sprite != null)
                 {

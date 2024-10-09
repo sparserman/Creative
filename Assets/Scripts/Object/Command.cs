@@ -165,7 +165,7 @@ public class Command : MonoBehaviour
                 Enemy e = gm.mobList[i].GetComponent<Enemy>();
 
                 // 바리케이드일 때
-                if (e.GetComponent<Stat>().state == E_State.Fixed)
+                if (e.GetComponent<Enemy>().stat.state == E_State.Fixed)
                 {
                     // 바리케이드 수용수만큼 생성 가능
                     spawnNum += gm.gi.coverNum;
@@ -182,9 +182,9 @@ public class Command : MonoBehaviour
                 Enemy e = gm.mobList[i].GetComponent<Enemy>();
 
                 // 아군 병사일 때
-                if (e.GetComponent<Stat>().team == Team.Blue && e.GetComponent<Stat>().state != E_State.Player)
+                if (e.GetComponent<Enemy>().stat.team == Team.Blue && e.GetComponent<Enemy>().stat.state != E_State.Player)
                 {
-                    if (e.GetComponent<Stat>().state != E_State.Fixed && e.GetComponent<Stat>().state != E_State.Building)
+                    if (e.GetComponent<Enemy>().stat.state != E_State.Fixed && e.GetComponent<Enemy>().stat.state != E_State.Building)
                     {
                         spawnNum--;
                         tempPopulation--;

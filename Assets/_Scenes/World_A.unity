@@ -4042,6 +4042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa6dc32e05a06d428cff424744bbd11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   shotPos:
   - {fileID: 330831869}
   - {fileID: 1528597565}
@@ -4061,7 +4062,6 @@ MonoBehaviour:
   coverNum: 0
   buildPoint: {fileID: 0}
   coverShotObj: {fileID: 0}
-  type: 7
   fire: 0
   fireDamage: 0
   spawnWaiting: 0
@@ -6018,6 +6018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa6dc32e05a06d428cff424744bbd11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   shotPos: []
   plusRange: 1
   moveRange: 1.2
@@ -6035,7 +6036,6 @@ MonoBehaviour:
   coverNum: 0
   buildPoint: {fileID: 0}
   coverShotObj: {fileID: 0}
-  type: 0
   fire: 0
   fireDamage: 0
   spawnWaiting: 0
@@ -8770,7 +8770,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1221897840
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8848,7 +8848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.36320752, g: 1, b: 0.7899842, a: 0.15686275}
+  m_Color: {r: 0.39215687, g: 1, b: 0.78431374, a: 0.15686275}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14281,9 +14281,9 @@ RectTransform:
   - {fileID: 925727353}
   m_Father: {fileID: 1235658079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 163.13, y: -89.305}
   m_SizeDelta: {x: 306.26, y: 158.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &4982946678487653927
@@ -14343,6 +14343,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b3ee50530499a74f960fb69a6eeddde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mobInfo:
+    having: 1
+    nameText: "\uBD88\uB9C8\uBC95\uC0AC"
+    mobName: FireWizard
+    level: 1
+    image: {fileID: 0}
+    stat: {fileID: 0}
+    gold: 100
+    magic: 0
+    food: 100
   mask:
     serializedVersion: 2
     m_Bits: 32

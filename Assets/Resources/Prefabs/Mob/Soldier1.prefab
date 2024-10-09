@@ -159,7 +159,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3608306386462968177}
   - component: {fileID: 4015637739838377077}
-  - component: {fileID: 990546038799932696}
   - component: {fileID: 3224690294217641205}
   - component: {fileID: 4447146705233118510}
   - component: {fileID: 7071337215401582254}
@@ -241,34 +240,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &990546038799932696
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3863771831245640670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dee3dad28c8993741bbfd2854dde606d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  team: 0
-  state: 3
-  maxHp: 20
-  hp: 20
-  maxMp: 0
-  mp: 0
-  shield: 0
-  ad: 3
-  attackSpeed: 1
-  attackRange: 3
-  shotSpeed: 0.1
-  moveSpeed: 0.01
-  runSpeed: 1.5
-  runValue: 0
-  jumpPower: 550
-  downJump: 0
 --- !u!114 &3224690294217641205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa6dc32e05a06d428cff424744bbd11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
   shotPos:
   - {fileID: 2396959500981102815}
   - {fileID: 4388449823829417870}
@@ -289,7 +261,24 @@ MonoBehaviour:
   coverRange: 1.2
   hpBar: {fileID: 8835151129025576282}
   hpBack: {fileID: 483339687049396841}
-  stat: {fileID: 0}
+  stat:
+    team: 0
+    state: 0
+    level: 1
+    maxHp: 10
+    hp: 10
+    maxMp: 0
+    mp: 0
+    shield: 0
+    ad: 1
+    attackSpeed: 1
+    attackRange: 5
+    shotSpeed: 0.1
+    moveSpeed: 0.01
+    runSpeed: 1.5
+    runValue: 0
+    jumpPower: 250
+    downJump: 0
   target: {fileID: 0}
   ground:
     serializedVersion: 2
@@ -300,7 +289,6 @@ MonoBehaviour:
   coverNum: 0
   buildPoint: {fileID: 0}
   coverShotObj: {fileID: 0}
-  type: 0
   fire: 0
   fireDamage: 0
   spawnWaiting: 0

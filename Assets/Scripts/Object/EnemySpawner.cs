@@ -35,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
         {
             // Àû »ý¼º
             GameObject go = Instantiate(Resources.Load("Prefabs/Mob/" + p_name) as GameObject);
-            go.GetComponent<Stat>().team = Team.Red;
+            go.GetComponent<Enemy>().stat.team = Team.Red;
             if(dir)
             {
                 go.transform.position = transform.position + new Vector3(i * 0.3f, 0, 0);

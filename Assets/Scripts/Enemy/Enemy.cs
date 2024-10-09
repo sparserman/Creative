@@ -28,6 +28,9 @@ public class Enemy : MonoBehaviour
 {
     GameManager gm;
 
+    // 몹 타입
+    public EnemyType enemyType;
+
     public List<GameObject> shotPos;
 
     // 공격자세중 늘어나는 사거리
@@ -69,8 +72,6 @@ public class Enemy : MonoBehaviour
     public GameObject buildPoint;       // 빌드 포인트
     public GameObject coverShotObj;     // 건물의 포탑
 
-    public EnemyType type;
-
     // 상태이상
     public float fire;          // 걸린 점화 지속시간
     public float fireDamage;    // 점화 데미지
@@ -86,7 +87,6 @@ public class Enemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
-        stat = GetComponent<Stat>();
 
 
         command = GameObject.Find("Command");
@@ -540,7 +540,7 @@ public class Enemy : MonoBehaviour
         if (target != null)
         {
             GameObject go = null;
-            switch (type)
+            switch (enemyType)
             {
                 case EnemyType.Soldier1:
                 case EnemyType.Gangster1:
@@ -616,7 +616,7 @@ public class Enemy : MonoBehaviour
                     {
                         for (int i = 0; i < gm.mobList.Count; i++)
                         {
-                            if (gm.mobList[i].GetComponent<Stat>().team != stat.team)
+                            if (gm.mobList[i].GetComponent<Enemy>().stat.team != stat.team)
                             {
                                 target = gm.mobList[i];
                             }
@@ -629,7 +629,7 @@ public class Enemy : MonoBehaviour
                 {
                     if (Vector2.Distance(transform.position, gm.mobList[i].transform.position) <= Vector2.Distance(transform.position, target.transform.position))
                     {
-                        if (gm.mobList[i].GetComponent<Stat>().team != stat.team)
+                        if (gm.mobList[i].GetComponent<Enemy>().stat.team != stat.team)
                         {
                             target = gm.mobList[i];
                         }
@@ -648,8 +648,8 @@ public class Enemy : MonoBehaviour
                 {
                     for (int i = 0; i < gm.mobList.Count; i++)
                     {
-                        if (gm.mobList[i].GetComponent<Stat>().team != stat.team)
-                        {
+                        if (gm.mobList[i].GetComponent<Enemy>().stat.team != stat.team)
+                        {   
                             target = gm.mobList[i];
                         }
                     }
@@ -708,10 +708,10 @@ public class Enemy : MonoBehaviour
                         Enemy e = gm.mobList[i].GetComponent<Enemy>();
 
                         // 건물일 때
-                        if (e.GetComponent<Stat>().state == E_State.Fixed)
+                        if (e.GetComponent<Enemy>().stat.state == E_State.Fixed)
                         {
                             // 본인 팀이랑 같을 때
-                            if(e.GetComponent<Stat>().team == stat.team)
+                            if(e.GetComponent<Enemy>().stat.team == stat.team)
                             {
                                 // 최대 엄폐 가능 인원이 비었다면 본인의 엄폐로 추가
                                 if (e.coverList.Count < e.coverNum)
@@ -827,7 +827,7 @@ public class Enemy : MonoBehaviour
                 bool flag = false;
                 for (int i = 0; i < gm.mobList.Count; i++)
                 {
-                    if (gm.mobList[i].GetComponent<Stat>().team == stat.team)
+                    if (gm.mobList[i].GetComponent<Enemy>().stat.team == stat.team)
                     {
                         if (gm.mobList[i] == cover.gameObject)
                         {
@@ -893,7 +893,7 @@ public class Enemy : MonoBehaviour
         float hp = 0;
         float mp = 0;
         float ad = 0;
-        switch (type)
+        switch (enemyType)
         {
             case EnemyType.Soldier1:
                 hp = gm.gi.soldier1Hp;
@@ -964,7 +964,7 @@ public class Enemy : MonoBehaviour
 
     public void EnemySpawn(EnemyType p_type)
     {
-        type = p_type;
+        enemyType = p_type;
     }
 
     void Debuff()

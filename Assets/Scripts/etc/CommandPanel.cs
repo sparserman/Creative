@@ -6,14 +6,21 @@ using UnityEngine.UI;
 [System.Serializable]
 public class MobInfo
 {
+    // 소유중인지
     public bool having;
 
+    // 정보
     public string nameText;
     public string mobName;
     public int level;
-    public Image image;
+    public Sprite sprite;
 
     public Stat stat;
+
+    // 자원
+    public int gold;
+    public int magic;
+    public int food;
 }
 
 public class CommandPanel : MonoBehaviour
@@ -34,16 +41,8 @@ public class CommandPanel : MonoBehaviour
                 GameObject go = Instantiate(Resources.Load("Prefabs/" + "MobTab") as GameObject);
                 MobTab tab = go.GetComponent<MobTab>();
 
-                MobInfo tempInfo = gm.gi.specialMobList[i];
-
                 // 정보 입력
-                tab.nameText = tempInfo.nameText;
-                tab.mobName.text = tempInfo.mobName;
-                tab.level.text = "Lv." + tempInfo.level.ToString();
-                tab.image = tempInfo.image;
-
-                tab.hp.text = tempInfo.stat.maxHp.ToString();
-                tab.ad.text = tempInfo.stat.ad.ToString();
+                tab.mobInfo = gm.gi.specialMobList[i];
 
                 // 패널 넣기
                 tab.panel = gameObject;
