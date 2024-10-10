@@ -15,7 +15,8 @@ public enum EnemyType
     Gangster2,
     Gangster3,
     FireWizard,
-    Tower
+    Tower,
+    Barricade
 }
 
 public class Command : MonoBehaviour

@@ -2553,32 +2553,93 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialMobInfoList:
-  - having: 0
-    nameText: "\uBD88 \uB9C8\uBC95\uC0AC"
-    mobName: FireWizard
+  - having: 1
+    placement: 1
+    nameText: FireWizard
+    mobName: "\uBD88 \uB9C8\uBC95\uC0AC"
     level: 1
     sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
     stat:
       team: 0
-      state: 0
+      state: 3
       level: 1
-      maxHp: 10
-      hp: 10
+      maxHp: 15
+      hp: 15
       maxMp: 0
       mp: 0
       shield: 0
-      ad: 1
+      ad: 8
       attackSpeed: 1
-      attackRange: 5
+      attackRange: 7
       shotSpeed: 0.1
       moveSpeed: 0.01
       runSpeed: 1.5
       runValue: 0
       jumpPower: 250
       downJump: 0
-    gold: 0
+    gold: 5
     magic: 0
     food: 0
+    curWaitingTime: 0
+    waitingTime: 5
+  - having: 1
+    placement: 1
+    nameText: FireWizard
+    mobName: "\uBD88\uBC95"
+    level: 1
+    sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
+    stat:
+      team: 0
+      state: 3
+      level: 1
+      maxHp: 15
+      hp: 15
+      maxMp: 0
+      mp: 0
+      shield: 0
+      ad: 8
+      attackSpeed: 1
+      attackRange: 7
+      shotSpeed: 0.1
+      moveSpeed: 0.01
+      runSpeed: 1.5
+      runValue: 0
+      jumpPower: 250
+      downJump: 0
+    gold: 20
+    magic: 0
+    food: 0
+    curWaitingTime: 0
+    waitingTime: 10
+  - having: 1
+    placement: 1
+    nameText: FireWizard
+    mobName: "\uBD88\uBC95"
+    level: 1
+    sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
+    stat:
+      team: 0
+      state: 3
+      level: 1
+      maxHp: 15
+      hp: 15
+      maxMp: 0
+      mp: 0
+      shield: 0
+      ad: 8
+      attackSpeed: 1
+      attackRange: 7
+      shotSpeed: 0.1
+      moveSpeed: 0.01
+      runSpeed: 1.5
+      runValue: 0
+      jumpPower: 250
+      downJump: 0
+    gold: 20
+    magic: 0
+    food: 0
+    curWaitingTime: 0
+    waitingTime: 10
 --- !u!4 &996268819
 Transform:
   m_ObjectHideFlags: 0
@@ -4404,7 +4465,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mCode: 3
-  image: {fileID: 21300000, guid: 03180e20147a289438d893a594452f9f, type: 3}
+  icon: {fileID: 0}
+  illust: {fileID: 0}
   managerName: "\uC8FC\uB974\uB974"
   level: 1
   state: "\uBCF4\uD1B5"
@@ -4424,12 +4486,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mCode: 2
-  image: {fileID: 21300000, guid: b7f6eebca7bc9834aa0c8591ec189cd2, type: 3}
-  managerName: "\uC9D5\uBC84\uAC70"
+  icon: {fileID: 21300000, guid: ba70764159f213a468f03ae21f30b49e, type: 3}
+  illust: {fileID: 21300000, guid: 329610b7028c74b4f8b0f2d322f5ac8a, type: 3}
+  managerName: "\uCE74\uC774\uB3C4"
   level: 1
   state: "\uBCF4\uD1B5"
-  eterniumPower: 40
-  defensivePower: 60
+  eterniumPower: 30
+  defensivePower: 70
   having: 0
 --- !u!114 &1963643839
 MonoBehaviour:
@@ -4444,13 +4507,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mCode: 1
-  image: {fileID: 21300000, guid: c66140605b80b394b8d0df4a87b61969, type: 3}
-  managerName: "\uC544\uC774\uB124"
+  icon: {fileID: 0}
+  illust: {fileID: 0}
+  managerName: "\uBCA8\uB77C\uB9AC\uC2A4"
   level: 1
   state: "\uBCF4\uD1B5"
   eterniumPower: 50
   defensivePower: 50
-  having: 1
+  having: 0
 --- !u!114 &1963643840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4464,13 +4528,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mCode: 0
-  image: {fileID: 21300000, guid: a08e3dee57f350c44afebb8cf72b6270, type: 3}
-  managerName: "\uC2DC\uADF8\uB9C8"
+  icon: {fileID: 21300000, guid: ea439b0655f4fd347ae056529f9c1263, type: 3}
+  illust: {fileID: 21300000, guid: 8e10c8c509336f94dbc0754b349000a0, type: 3}
+  managerName: "\uB9AC\uC624\uB77C"
   level: 1
   state: "\uBCF4\uD1B5"
-  eterniumPower: 80
-  defensivePower: 20
-  having: 1
+  eterniumPower: 60
+  defensivePower: 40
+  having: 0
 --- !u!4 &1963643841
 Transform:
   m_ObjectHideFlags: 0

@@ -24,6 +24,34 @@ public enum E_State
     Player
 }
 
+[System.Serializable]
+public class Stat
+{
+    public Team team;
+    public E_State state;
+
+    public int level = 1;
+
+    public float maxHp = 10;
+    public float hp = 10;
+    public float maxMp = 0;
+    public float mp = 0;
+
+    public float shield = 0;
+
+    public float ad = 1;    // attack damage
+    public float attackSpeed = 1;
+    public float attackRange = 5;
+    public float shotSpeed = 0.1f;
+
+    public float moveSpeed = 0.01f;
+    public float runSpeed = 1.5f;  // 값을 정해놓는 곳
+    public float runValue;  // 입력될 추가 %
+
+    public float jumpPower = 250;
+    public bool downJump;
+}
+
 public class Enemy : MonoBehaviour
 {
     GameManager gm;
@@ -98,16 +126,21 @@ public class Enemy : MonoBehaviour
 
         Init();
 
+        // 체력 세팅
         if (hpBar != null)
         {
             HpSetting();
         }
 
-
+        // 바리케이드라면
         if (stat.state == E_State.Fixed)
         {
+            // 기본 병사들의 위치 재배치
             EnemyPositionChange();
         }
+
+        // 사거리 편차
+        stat.attackRange += Random.Range(0.21f, -0.21f);
     }
 
 
@@ -1143,5 +1176,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    
+    void SpecialSkill()
+    {
+        if(stat.mp >= stat.maxMp)
+        {
+            anim.SetTrigger("Skill");
+        }
+    }
 }

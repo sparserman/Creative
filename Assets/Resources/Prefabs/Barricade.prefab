@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa6dc32e05a06d428cff424744bbd11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyType: 0
+  enemyType: 8
   shotPos: []
   plusRange: 1
   moveRange: 1.2

@@ -265,12 +265,12 @@ MonoBehaviour:
     team: 0
     state: 0
     level: 1
-    maxHp: 10
-    hp: 10
+    maxHp: 20
+    hp: 20
     maxMp: 0
     mp: 0
     shield: 0
-    ad: 1
+    ad: 3
     attackSpeed: 1
     attackRange: 5
     shotSpeed: 0.1

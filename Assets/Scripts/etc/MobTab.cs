@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Xml.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,7 @@ public class MobTab : MonoBehaviour
     public Image image;
     public TextMeshProUGUI hp;
     public TextMeshProUGUI ad;
+    public TextMeshProUGUI timer;
 
     // 소모 자원
     public TextMeshProUGUI gold;
@@ -38,18 +40,26 @@ public class MobTab : MonoBehaviour
     public GameObject panel;
     public GameObject fieldPanel;
 
+    // 위치
+    public int num;
+
     void Start()
     {
         gm = GameManager.GetInstance();
         anim = GetComponent<Animator>();
 
+        Init();
         ResourceImageDrawCheck();
+        
     }
 
     void Update()
     {
         ClickCheck();
         FieldColorChange();
+        MoveTab();
+
+        TimerUpdate();
     }
 
     void ClickCheck()
@@ -84,7 +94,7 @@ public class MobTab : MonoBehaviour
             }
         }
         // 패널에 닿았다면
-        else if(panelHit)
+        else if(panelHit && go != null)
         {
             // 패널안에 마우스가 있다면
             if (Input.GetMouseButtonUp(0))
@@ -98,12 +108,28 @@ public class MobTab : MonoBehaviour
                 // 필드 패널이면
                 else if(panelHit.collider.gameObject == fieldPanel)
                 {
-                    if (ResourceCheck())
+                    if (ResourceCheck() && TimerCheck())
                     {
+                        // 자원 계산
+                        gm.gi.gold -= mobInfo.gold;
+                        gm.gi.magic -= mobInfo.magic;
+                        gm.gi.food -= mobInfo.food;
+
                         // 소환
                         go.GetComponent<Enemy>().spawnWaiting = false;
                         gm.mobList.Add(go);
 
+                        // 탭 위치 정리
+                        for (int i = 0; i < panel.GetComponent<CommandPanel>().tabList.Count; i++)
+                        {
+                            panel.GetComponent<CommandPanel>().tabList[i].GetComponent<MobTab>().TabPositionChange(num);
+                        }
+
+                        // 현재 탭을 탭 리스트에서 지우기
+                        panel.GetComponent<CommandPanel>().tabList.Remove(gameObject);
+                        // 대기 큐에 넣기
+                        mobInfo.curWaitingTime = mobInfo.waitingTime;   // 대기 시간 적용 후
+                        panel.GetComponent<CommandPanel>().waitingTab.Enqueue(mobInfo);
                         Destroy(gameObject);
                     }
                     else
@@ -182,13 +208,15 @@ public class MobTab : MonoBehaviour
 
     void FieldColorChange()
     {
-        if(ResourceCheck())
+        if(ResourceCheck() && TimerCheck())
         {
             fieldPanel.GetComponent<Image>().color = new Color32(100, 255, 200, 40);
+            GetComponent<Image>().color = new Color32(70, 200, 160, 170);
         }
         else
         {
             fieldPanel.GetComponent<Image>().color = new Color32(255, 100, 100, 40);
+            GetComponent<Image>().color = new Color32(200, 70, 70, 170);
         }
     }
 
@@ -200,5 +228,49 @@ public class MobTab : MonoBehaviour
 
         // 필드 패널 숨기기
         fieldPanel.SetActive(false);
+    }
+
+    // 탭 자리 잡기
+    void MoveTab()
+    {
+        // 목표 위치
+        Vector3 pos = panel.GetComponent<CommandPanel>().posList[num].transform.position;
+
+        // 본인
+        Vector3 temppos = transform.position;
+
+        // 자리로 천천히 이동
+        temppos = Vector3.Lerp(temppos, pos, Time.deltaTime * 5f);
+        transform.position = temppos;
+    }
+
+    // 탭 위치 변경
+    void TabPositionChange(int p_num)
+    {
+        if (num > p_num)
+        {
+            num--;
+        }
+    }
+
+    bool TimerCheck()
+    {
+        if(mobInfo.curWaitingTime > 0)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    void TimerUpdate()
+    {
+        // 대기시간
+        mobInfo.curWaitingTime -= Time.deltaTime;
+        timer.text = Mathf.Round(mobInfo.curWaitingTime).ToString();
+
+        if (mobInfo.curWaitingTime <= 0)
+        {
+            timer.gameObject.SetActive(false);
+        }
     }
 }

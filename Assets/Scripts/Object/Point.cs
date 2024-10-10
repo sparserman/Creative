@@ -138,7 +138,7 @@ public class Point : MonoBehaviour
         // 관리자 정보 표시
         if (p.manager != null)
         {
-            worldInfo.managerImage.sprite = p.manager.image;
+            worldInfo.managerImage.sprite = p.manager.icon;
             worldInfo.managerName.text = p.manager.managerName;
             worldInfo.managerLevel.text = "Lv." + p.manager.level.ToString();
             worldInfo.managerState.text = p.manager.state;

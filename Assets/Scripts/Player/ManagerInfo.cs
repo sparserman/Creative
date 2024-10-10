@@ -4,9 +4,9 @@ using UnityEngine;
 
 public enum E_ManagerCode
 {
-    SIGMA,
-    INE,
-    JINGBURGER,
+    Liora,
+    Belaris,
+    Kaido,
     JURURU
 }
 
@@ -17,7 +17,8 @@ public class ManagerInfo : MonoBehaviour
     // 관리자 정보
     public E_ManagerCode mCode;
 
-    public Sprite image;
+    public Sprite icon;
+    public Sprite illust;
     public string managerName;
     public float level;
     public string state;

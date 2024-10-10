@@ -26,7 +26,7 @@ public class ManagerInfoTab : MonoBehaviour
         gm = GameManager.GetInstance();
 
         // ¼¼ÆÃ
-        image.sprite = manager.image;
+        image.sprite = manager.icon;
         managerName.text = manager.managerName;
         level.text = "Lv." + manager.level.ToString();
         state.text = manager.state;

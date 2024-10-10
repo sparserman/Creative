@@ -141,7 +141,7 @@ public class WorldInfo : MonoBehaviour
         }
         else
         {
-            managerImage.sprite = manager.image;
+            managerImage.sprite = manager.icon;
             managerName.text = manager.managerName;
             managerLevel.text = "Lv." + manager.level.ToString();
             managerState.text = manager.state;

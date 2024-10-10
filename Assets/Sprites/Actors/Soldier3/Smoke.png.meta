@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 448b7e5476f5ad846a64b4daed19d6ca
+guid: 78196fc98b84c4c488abffc592fd3358
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Recharge_0
+      name: Smoke_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74b53aebc698f66429b057597e7126bf
-      internalID: 838104610
+      spriteID: 493bbaf20b8bdc540b06e3f2142db490
+      internalID: -1687281339
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_1
+      name: Smoke_1
       rect:
         serializedVersion: 2
         x: 128
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f761e9fe1ad8ac547852934a59e2bd01
-      internalID: -1405204004
+      spriteID: 4b307461182d9214cb46d5a11a6b9f8e
+      internalID: 1510544792
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_2
+      name: Smoke_2
       rect:
         serializedVersion: 2
         x: 256
@@ -179,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ce938324333d424fb93493a919e5a4e
-      internalID: 1824185134
+      spriteID: bce4476cd306dbd47a5659a8f8696baa
+      internalID: -1710588154
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_3
+      name: Smoke_3
       rect:
         serializedVersion: 2
         x: 384
@@ -200,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 390a99f91def0b14ba4d65513794d19c
-      internalID: -1725182094
+      spriteID: 8625e60773b58614cbe6ab4ea6ba08b1
+      internalID: 786696169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_4
+      name: Smoke_4
       rect:
         serializedVersion: 2
         x: 512
@@ -221,14 +221,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 09fb1ca32edb85a479f698c3bf48d15c
-      internalID: -1479233662
+      spriteID: 033a7620a783576458de9dcb9b245190
+      internalID: -1120174750
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_5
+      name: Smoke_5
       rect:
         serializedVersion: 2
         x: 640
@@ -242,14 +242,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5dae15d907f4d5542ab1854c20d9615e
-      internalID: -953346111
+      spriteID: ab32235c71662a14b8138346f8830ae5
+      internalID: -1274920531
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_6
+      name: Smoke_6
       rect:
         serializedVersion: 2
         x: 768
@@ -263,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 38ba07e157e88534ab4fe7f0ea7eb90a
-      internalID: 891678206
+      spriteID: faf6fd4ce596db048a29ded76f726a98
+      internalID: 233294091
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_7
+      name: Smoke_7
       rect:
         serializedVersion: 2
         x: 896
@@ -284,14 +284,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5e22c31d56d9824c8b675a443f89c5c
-      internalID: -1506698749
+      spriteID: 07b7c16625defdc4988ca5d03f39c54d
+      internalID: -371872732
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_8
+      name: Smoke_8
       rect:
         serializedVersion: 2
         x: 1024
@@ -305,14 +305,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3f23df4b32d81ec449940575af561588
-      internalID: 595082698
+      spriteID: ae70fbeb930631f439a723179b34f2ee
+      internalID: -459486427
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_9
+      name: Smoke_9
       rect:
         serializedVersion: 2
         x: 1152
@@ -326,14 +326,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29e2939185dc4df4886a45e5fd3a640c
-      internalID: 1528436933
+      spriteID: 121ff1ea7e3124f4083e70adefe9ce2a
+      internalID: 1975348516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_10
+      name: Smoke_10
       rect:
         serializedVersion: 2
         x: 1280
@@ -347,14 +347,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6dc9bda5613b7e9438efe53064744b5a
-      internalID: 1119111785
+      spriteID: 46f9c210c54e1b4449f60928a893b299
+      internalID: -770401658
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_11
+      name: Smoke_11
       rect:
         serializedVersion: 2
         x: 1408
@@ -368,14 +368,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 46bd5116bc07e0d45a337ffbc9b871af
-      internalID: 1632974178
+      spriteID: 55774a96f0196e4489b29e2d493d42b7
+      internalID: 2060110802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Recharge_12
+      name: Smoke_12
       rect:
         serializedVersion: 2
         x: 1536
@@ -389,8 +389,197 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9859b9a172de23b4dbe499087b3306b1
-      internalID: 431738012
+      spriteID: 603e12e15fa8f214cb70ddf00aa992f1
+      internalID: 16208199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_13
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92ff10eb31f6cbe458741d04074802d9
+      internalID: 1834218303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_14
+      rect:
+        serializedVersion: 2
+        x: 1792
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07ffb6a228947ec4ab16a0ec02606d82
+      internalID: 259995472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_15
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 796bf336fcf9efa43b9a13b1b6d5cbf5
+      internalID: 1189486608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_16
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5436ec4039dda345b3cbfba4ce65905
+      internalID: -443629045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_17
+      rect:
+        serializedVersion: 2
+        x: 2176
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bb3ca8cce5cf4043be34163d4320cc9
+      internalID: 284404047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_18
+      rect:
+        serializedVersion: 2
+        x: 2304
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 955020e3e05004044864ac09e428059d
+      internalID: -1592121663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_19
+      rect:
+        serializedVersion: 2
+        x: 2432
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5af95be1e2802384d964c3a1f57b9efa
+      internalID: 1703113049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_20
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d041c461852bf24caf60712a9f3194a
+      internalID: -1578983274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Smoke_21
+      rect:
+        serializedVersion: 2
+        x: 2688
+        y: 0
+        width: 128
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f72e8fb3ba7abb5408219c756283afce
+      internalID: 1302424510
       vertices: []
       indices: 
       edges: []
@@ -398,7 +587,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 4792a4658ade7134aa4200f2bed9b4b3
+    spriteID: 48368f1a237d94c4891cc1a3fc4374f2
     internalID: 0
     vertices: []
     indices: 
@@ -406,19 +595,28 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Recharge_0: 838104610
-      Recharge_1: -1405204004
-      Recharge_10: 1119111785
-      Recharge_11: 1632974178
-      Recharge_12: 431738012
-      Recharge_2: 1824185134
-      Recharge_3: -1725182094
-      Recharge_4: -1479233662
-      Recharge_5: -953346111
-      Recharge_6: 891678206
-      Recharge_7: -1506698749
-      Recharge_8: 595082698
-      Recharge_9: 1528436933
+      Smoke_0: -1687281339
+      Smoke_1: 1510544792
+      Smoke_10: -770401658
+      Smoke_11: 2060110802
+      Smoke_12: 16208199
+      Smoke_13: 1834218303
+      Smoke_14: 259995472
+      Smoke_15: 1189486608
+      Smoke_16: -443629045
+      Smoke_17: 284404047
+      Smoke_18: -1592121663
+      Smoke_19: 1703113049
+      Smoke_2: -1710588154
+      Smoke_20: -1578983274
+      Smoke_21: 1302424510
+      Smoke_3: 786696169
+      Smoke_4: -1120174750
+      Smoke_5: -1274920531
+      Smoke_6: 233294091
+      Smoke_7: -371872732
+      Smoke_8: -459486427
+      Smoke_9: 1975348516
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -55,6 +55,8 @@ public class Player : MonoBehaviour
 
         // 플레이어
         cameraTarget = gameObject;
+
+        stat = GetComponent<Enemy>().stat;
     }
 
     void Update()
