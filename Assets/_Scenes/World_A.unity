@@ -1385,12 +1385,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bd16627f8787b7479176f0929626825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dList: []
-  boxSize: {x: 370, y: 80}
+  type: 1
+  boxSize: {x: 370, y: 50}
   color:
     serializedVersion: 2
     rgba: 4278255615
   sprite: {fileID: 21300000, guid: 44048fbd8480a0e48834123a6acbb3b5, type: 3}
+  description: 
 --- !u!61 &208113840
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2326,6 +2327,8 @@ GameObject:
   - component: {fileID: 291314974}
   - component: {fileID: 291314973}
   - component: {fileID: 291314972}
+  - component: {fileID: 291314976}
+  - component: {fileID: 291314975}
   m_Layer: 5
   m_Name: MagicName
   m_TagString: Untagged
@@ -2435,6 +2438,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 291314970}
   m_CullTransparentMesh: 1
+--- !u!61 &291314975
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291314970}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -18}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 85, y: 75}
+  m_EdgeRadius: 0
+--- !u!114 &291314976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291314970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd16627f8787b7479176f0929626825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 2
+  boxSize: {x: 370, y: 50}
+  color:
+    serializedVersion: 2
+    rgba: 4294901844
+  sprite: {fileID: 21300000, guid: 44048fbd8480a0e48834123a6acbb3b5, type: 3}
+  description: 
 --- !u!1 &303482139
 GameObject:
   m_ObjectHideFlags: 0
@@ -3153,6 +3220,8 @@ GameObject:
   - component: {fileID: 461698061}
   - component: {fileID: 461698060}
   - component: {fileID: 461698059}
+  - component: {fileID: 461698063}
+  - component: {fileID: 461698062}
   m_Layer: 5
   m_Name: FoodName
   m_TagString: Untagged
@@ -3262,6 +3331,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461698057}
   m_CullTransparentMesh: 1
+--- !u!114 &461698062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461698057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bd16627f8787b7479176f0929626825, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 3
+  boxSize: {x: 370, y: 50}
+  color:
+    serializedVersion: 2
+    rgba: 4278221311
+  sprite: {fileID: 21300000, guid: 44048fbd8480a0e48834123a6acbb3b5, type: 3}
+  description: 
+--- !u!61 &461698063
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461698057}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -18}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 85, y: 75}
+  m_EdgeRadius: 0
 --- !u!1 &470404197
 GameObject:
   m_ObjectHideFlags: 0
@@ -3723,8 +3856,12 @@ MonoBehaviour:
   plusRange: 1
   moveRange: 0
   coverRange: 0
+  skillRange: 0
+  curRange: 1
+  curMoveSpeed: 1
   hpBar: {fileID: 1313827468}
   hpBack: {fileID: 1680655607}
+  mpBar: {fileID: 0}
   stat:
     team: 0
     state: 6
@@ -3755,7 +3892,12 @@ MonoBehaviour:
   coverShotObj: {fileID: 0}
   fire: 0
   fireDamage: 0
+  smoke: 0
+  smokeRange: 1
+  smokeSpeed: 1
   spawnWaiting: 0
+  skillOn: 0
+  runOn: 0
   count: 1
 --- !u!95 &537824481
 Animator:
@@ -4974,7 +5116,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1450, y: 300}
+  m_Size: {x: 1450, y: 175}
   m_EdgeRadius: 0
 --- !u!114 &748443814
 MonoBehaviour:
@@ -5437,7 +5579,7 @@ Transform:
   m_GameObject: {fileID: 798154312}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -2.3, z: 0}
+  m_LocalPosition: {x: 0.03, y: -2.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5553,8 +5695,12 @@ MonoBehaviour:
   plusRange: 1
   moveRange: 1.2
   coverRange: 1.2
+  skillRange: 0
+  curRange: 1
+  curMoveSpeed: 1
   hpBar: {fileID: 1762567622}
   hpBack: {fileID: 1635237241}
+  mpBar: {fileID: 0}
   stat:
     team: 0
     state: 7
@@ -5585,7 +5731,12 @@ MonoBehaviour:
   coverShotObj: {fileID: 0}
   fire: 0
   fireDamage: 0
+  smoke: 0
+  smokeRange: 1
+  smokeSpeed: 1
   spawnWaiting: 0
+  skillOn: 0
+  runOn: 0
   count: 1
 --- !u!1 &808079048
 GameObject:
@@ -7808,14 +7959,14 @@ RectTransform:
   m_GameObject: {fileID: 1221897839}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.8223437, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1552662994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11.119995, y: -320.42004}
+  m_AnchoredPosition: {x: -11.119995, y: -264}
   m_SizeDelta: {x: 4081.46, y: -884.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!61 &1221897841
@@ -7876,7 +8027,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.39215687, g: 1, b: 0.78431374, a: 0.15686275}
+  m_Color: {r: 0.39215684, g: 1, b: 0.78431374, a: 0.15686275}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

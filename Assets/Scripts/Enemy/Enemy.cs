@@ -24,6 +24,15 @@ public enum E_State
     Player
 }
 
+public enum EnemyType
+{
+    Soldier1, Soldier2, Soldier3,
+    Gangster1, Gangster2, Gangster3,
+    FireWizard, Tower, Barricade,
+    LightningWizard, WandererWizard,
+    Raider1, Raider2, Raider3
+}
+
 [System.Serializable]
 public class Stat
 {
@@ -34,7 +43,7 @@ public class Stat
 
     public float maxHp = 10;
     public float hp = 10;
-    public float maxMp = 0;
+    public float maxMp = 10;
     public float mp = 0;
 
     public float shield = 0;
@@ -45,8 +54,8 @@ public class Stat
     public float shotSpeed = 0.1f;
 
     public float moveSpeed = 0.01f;
-    public float runSpeed = 1.5f;  // 값을 정해놓는 곳
-    public float runValue;  // 입력될 추가 %
+    public float runSpeed = 1.5f;  // Run으로 빨라질 값 (추가 %)
+    public float runValue;  // Run으로 빨라진 값 (추가 %)
 
     public float jumpPower = 250;
     public bool downJump;
@@ -62,14 +71,19 @@ public class Enemy : MonoBehaviour
     public List<GameObject> shotPos;
 
     // 공격자세중 늘어나는 사거리
-    public float plusRange = 1;    // 현재 늘어난 사거리
-    public float moveRange = 1.2f;
-    public float coverRange = 1.2f;
+    public float plusRange = 1;    // 전투 시 늘어난 사거리
+    public float moveRange = 1.2f;  // 이동할 사거리
+    public float coverRange = 1.2f; // 엄폐 시 사거리
+    public float skillRange = 0;    // 스킬 사거리 증가량
 
-    // 공격 자세
+    public float curRange = 1;      // 현재 공격 사거리
 
+    public float curMoveSpeed = 1;      // 현재 이동속도
+
+    // Bar
     public Image hpBar;
     public Image hpBack;
+    public Image mpBar;
 
     Animator anim;
     SpriteRenderer spriteRenderer;
@@ -100,12 +114,25 @@ public class Enemy : MonoBehaviour
     public GameObject buildPoint;       // 빌드 포인트
     public GameObject coverShotObj;     // 건물의 포탑
 
+
     // 상태이상
-    public float fire;          // 걸린 점화 지속시간
+    public float fire;          // 점화 지속시간
     public float fireDamage;    // 점화 데미지
+
+    public float smoke;         // 연막 지속시간
+    public float smokeRange = 1;    // 연막으로 인한 사거리 감소 (%로 변경하는 효과)
+    public float smokeSpeed = 1;    // 연막으로 인한 이동속도 감소 (%로 변경하는 효과)
+
+
 
     // 드래그 중
     public bool spawnWaiting = false;   // 소환 대기 상태 (특수 병사)
+
+    // 스킬을 사용 가능한 지
+    public bool skillOn = false;
+
+    // 달리기 모드
+    public bool runOn = false;
 
     void Start()
     {
@@ -159,21 +186,31 @@ public class Enemy : MonoBehaviour
         {
             if (!die)
             {
-                DieMotion();
+                DieMotion();            // 죽는 모션
+                DirectionCheck();       // 방향 체크
 
+                // 플레이어가 아니면 적 탐지
                 if (stat.state != E_State.Player)
                 {
-                    Sense();
-                }
-                AttackSpeedUpdate();
-                StateAction();
+                    // 사거리 지속 변경
+                    curRange = (stat.attackRange * plusRange + skillRange) * smokeRange;
 
-                Debuff();
+                    // 이동속도 지속 변경
+                    curMoveSpeed = (1 * stat.moveSpeed * stat.runValue) * smokeSpeed;
+
+                    Sense();
+                    SpecialSkill();
+
+                    AttackSpeedUpdate();    // 공격 속도 적용
+                    StateAction();          // 상태에 따라 행동
+                }
+                Debuff();               // 상태이상 효과적용
 
                 if (hpBar != null)
                 {
-                    HpUpdate();
+                    HpUpdate();         // 체력 이미지 변경
                 }
+                MpRegen();
             }
         }
     }
@@ -187,10 +224,6 @@ public class Enemy : MonoBehaviour
                 Color c = spriteRenderer.color;
                 spriteRenderer.color = new Color(c.r, c.g, c.b, 0.4f);
                 rigid.gravityScale = 0;
-                transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Vector3 vec = transform.position;
-                vec.z = 0;
-                transform.position = vec;
             }
         }
         else if (!spawnWaiting)
@@ -326,18 +359,24 @@ public class Enemy : MonoBehaviour
                 hpBack.fillAmount = hpBack.fillAmount;
             }
         }
+
+        // MP 표현
+        if (mpBar != null)
+        {
+            mpBar.fillAmount = stat.mp / stat.maxMp;
+        }
     }
 
     // 달리기 제어
     void RunControl()
     {
         // 달리기 제어
-        if (stat.state == E_State.Move)
+        if (!runOn)
         {
-            stat.runValue = 0;
+            stat.runValue = 1;
             anim.SetBool("isRun", false);
         }
-        else if (stat.state == E_State.Attack || stat.state == E_State.Retreat)
+        else
         {
             stat.runValue = stat.runSpeed;
             anim.SetBool("isRun", true);
@@ -374,7 +413,7 @@ public class Enemy : MonoBehaviour
         RunControl();
 
         // 목표 이동
-        TargetAttack(stat.attackRange * plusRange, stat.attackRange * plusRange, moveRange);
+        TargetAttack(curRange, curRange, moveRange);
 
         JumpSystem();
         
@@ -399,7 +438,7 @@ public class Enemy : MonoBehaviour
             Vector2 targetPos = target.transform.position;
             // 타겟이 사거리내에 들어왔고 목적지가 타겟방향일때, 공속 체크도 함
             if //(Vector2.Distance(transform.position, targetPos) > stat.attackRange * plusRange && targetPos.x > transform.position.x)
-            (transform.position.x + stat.attackRange * plusRange >= targetPos.x && transform.position.x - stat.attackRange * plusRange <= targetPos.x)
+            (transform.position.x + curRange >= targetPos.x && transform.position.x - curRange <= targetPos.x)
             {
                 // 모션
                 if (transform.position.x <= destination.x && dir)
@@ -446,7 +485,7 @@ public class Enemy : MonoBehaviour
 
             // 오른쪽 이동
             temppos = transform.position;
-            temppos.x += 1 * (stat.moveSpeed * (1 + stat.runValue));
+            temppos.x += curMoveSpeed;
             transform.position = temppos;
         }
         else if //(Vector2.Distance(transform.position, destination) > p_dis && destination.x < transform.position.x)
@@ -460,7 +499,7 @@ public class Enemy : MonoBehaviour
 
             // 왼쪽 이동
             temppos = transform.position;
-            temppos.x -= 1 * (stat.moveSpeed * (1 + stat.runValue));
+            temppos.x -= curMoveSpeed;
             transform.position = temppos;
         }
         // 목적지에 도착한 상태 (대기)
@@ -576,49 +615,122 @@ public class Enemy : MonoBehaviour
             switch (enemyType)
             {
                 case EnemyType.Soldier1:
+                case EnemyType.Soldier2:
+                case EnemyType.Soldier3:
+                case EnemyType.Raider2:
                 case EnemyType.Gangster1:
                     {
-                        go = Instantiate(Resources.Load("Prefabs/" + "Bullet") as GameObject);
+                        go = Instantiate(Resources.Load("Prefabs/Projectile/" + "Bullet") as GameObject);
                         Vector2 dir = (target.transform.position + new Vector3(0, Random.Range(-0.07f, 0.07f), 0)) - transform.position;
                         go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
                     }
                     break;
                 case EnemyType.FireWizard:
                     {
-                        go = Instantiate(Resources.Load("Prefabs/" + "FireBall") as GameObject);
+                        go = Instantiate(Resources.Load("Prefabs/Projectile/" + "FireBall") as GameObject);
                         Vector2 dir = target.transform.position - transform.position;
                         go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
                     }
                     break;
                 case EnemyType.Tower:
                     {
-                        go = Instantiate(Resources.Load("Prefabs/" + "TowerBullet") as GameObject);
+                        go = Instantiate(Resources.Load("Prefabs/Projectile/" + "TowerBullet") as GameObject);
                         Vector2 dir = new Vector3(target.transform.position.x - transform.position.x, 0, 0);
                         go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
                     }
                     break;
+                case EnemyType.Raider1:
+                    {
+                        // 샷건
+                        for (int i = -2; i < 3; i++)
+                        {
+                            GameObject tempGo = Instantiate(Resources.Load("Prefabs/Projectile/" + "Bullet") as GameObject);
+                            Vector2 dir = (target.transform.position + new Vector3(0, -0.18f * i, 0)) - transform.position;
+                            tempGo.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad, target);
+
+                            if (shotPos[0] != null && shotPos[1] != null)
+                            {
+                                if (!spriteRenderer.flipX)
+                                {
+                                    tempGo.transform.position = shotPos[0].transform.position;
+                                }
+                                else
+                                {
+                                    tempGo.transform.position = shotPos[1].transform.position;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case EnemyType.Raider3:
+                    {
+                        // 그냥 데미지 주기
+                        target.GetComponent<Enemy>().Damaged(stat.ad);
+                    }
+                    break;
             }
 
-            if (shotPos[0] != null && shotPos[1] != null)
+            // 총알 오브젝트가 비어있으면 하지않음
+            if (go != null)
             {
-                if (!spriteRenderer.flipX)
+                if (shotPos[0] != null && shotPos[1] != null)
                 {
-                    go.transform.position = shotPos[0].transform.position;
-                }
-                else
-                {
-                    go.transform.position = shotPos[1].transform.position;
+                    if (!spriteRenderer.flipX)
+                    {
+                        go.transform.position = shotPos[0].transform.position;
+                    }
+                    else
+                    {
+                        go.transform.position = shotPos[1].transform.position;
+                    }
                 }
             }
         }
     }
 
+    float attackTimer = 0;
     void AttackSpeedUpdate()
     {
-        if (stat.state != E_State.Fixed && stat.state != E_State.Building)
+        if (stat.state != E_State.Fixed && stat.state != E_State.Building && stat.state != E_State.Player)
         {
-            anim.SetFloat("AttackSpeed", stat.attackSpeed);
+            float temp = 1f / stat.attackSpeed;
+
+            if(temp >= 2.5f)
+            {
+                temp = 2.5f;
+            }
+            else if(temp <= 0.7f)
+            {
+                temp = 0.7f;
+            }
+
+            anim.SetFloat("AttackSpeed", temp);
+
+            // 공격 상태인데 타이머가 음수라면
+            if (anim.GetBool("isShot") && attackTimer < 0)
+            {
+                // 0으로 변경해서 타이머 작동
+                attackTimer = 0;
+            }
+
+            // 타이머가 0보다 크고 공속보다 작아야 시간이 지나감
+            if (attackTimer <= stat.attackSpeed && attackTimer >= 0)
+            {
+                attackTimer += Time.deltaTime;
+            }
+            // 공격 속도에 따라 트리거 켜주기
+            if(attackTimer >= stat.attackSpeed)
+            {
+                anim.SetTrigger("isAttack");
+                attackTimer = -1;
+            }
         }
+    }
+
+    // 공격 타이머 리셋
+    public void AttackTimerReset()
+    {
+        attackTimer = 0;
     }
 
     void Sense()
@@ -1006,21 +1118,7 @@ public class Enemy : MonoBehaviour
         if (fire > 0)
         {
             float damage = fireDamage;
-            if (stat.shield > 0)
-            {
-                if (stat.shield >= damage)
-                {
-                    stat.shield -= damage;
-                    damage = 0;
-                }
-                else
-                {
-                    damage -= stat.shield;
-                    stat.shield = 0;
-                }
-            }
-
-            stat.hp -= damage;
+            Damaged(damage);
 
             fire -= Time.deltaTime;
         }
@@ -1152,6 +1250,7 @@ public class Enemy : MonoBehaviour
             if (hpBar != null)
             {
                 hpBar.GetComponentInParent<Animator>().SetTrigger("Off");
+                mpBar.GetComponentInParent<Animator>().SetTrigger("Off");
             }
 
             if (gm.mobList != null)
@@ -1176,11 +1275,89 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // 
+    void MpRegen()
+    {
+        if (mpBar != null)
+        {
+            if (!anim.GetBool("isSkill") && skillOn)
+            {
+                stat.mp += Time.deltaTime;
+            }
+        }
+    }
+
     void SpecialSkill()
     {
-        if(stat.mp >= stat.maxMp)
+        if(stat.mp >= stat.maxMp && skillOn)
         {
-            anim.SetTrigger("Skill");
+            anim.SetBool("isSkill", true);
+            skillRange = 0.4f;
+            stat.mp = stat.maxMp;
         }
+    }
+
+    public void UseSkill()
+    {
+        if (target != null)
+        {
+            GameObject go = null;
+            switch (enemyType)
+            {
+                case EnemyType.Soldier1:
+                    {
+
+                    }
+                    break;
+                case EnemyType.Gangster1:
+                    {
+                        
+                    }
+                    break;
+                case EnemyType.FireWizard:
+                    {
+                        go = Instantiate(Resources.Load("Prefabs/Projectile/" + "FireBall") as GameObject);
+                        Vector2 dir = target.transform.position - transform.position;
+                        go.GetComponent<Bullet>().Init(stat.team, dir.normalized, stat.shotSpeed, stat.ad * 1.5f, target);
+                        go.transform.localScale = new Vector3(3, 3, 1);
+                    }
+                    break;
+            }
+
+            if (shotPos[0] != null && shotPos[1] != null)
+            {
+                if (!spriteRenderer.flipX)
+                {
+                    go.transform.position = shotPos[0].transform.position;
+                }
+                else
+                {
+                    go.transform.position = shotPos[1].transform.position;
+                }
+            }
+
+            stat.mp = 0;
+            anim.SetBool("isSkill", false);
+            skillRange = 0f;
+        }
+    }
+
+    public void Damaged(float damage)
+    {
+        if (stat.shield > 0)
+        {
+            if (stat.shield >= damage)
+            {
+                stat.shield -= damage;
+                damage = 0;
+            }
+            else
+            {
+                damage -= stat.shield;
+                stat.shield = 0;
+            }
+        }
+
+        stat.hp -= damage;
     }
 }

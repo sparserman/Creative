@@ -55,11 +55,10 @@ public class MobTab : MonoBehaviour
 
     void Update()
     {
-        ClickCheck();
-        FieldColorChange();
-        MoveTab();
-
-        TimerUpdate();
+        ClickCheck();           // 클릭 확인
+        FieldColorChange();     // 필드 색 변경
+        MoveTab();              // 탭 자리이동
+        TimerUpdate();          // 대기시간 표시
     }
 
     void ClickCheck()
@@ -69,6 +68,15 @@ public class MobTab : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, 1, mask);
         RaycastHit2D panelHit = Physics2D.Raycast(ray.origin, ray.direction, 1, panelMask);
 
+
+        Vector3 vec = Vector3.zero;
+        if (go != null)
+        {
+            // 몹 위치를 마우스에 맞춰 이동
+            go.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            vec = go.transform.position;
+            vec.z = 0;
+        }
 
         // MobTab에 마우스가 닿았는데
         if (hit)
@@ -82,20 +90,34 @@ public class MobTab : MonoBehaviour
                     go = Instantiate(Resources.Load("Prefabs/Mob/" + nameText) as GameObject);
                     go.GetComponent<Enemy>().spawnWaiting = true;
                     go.GetComponent<Enemy>().stat = mobInfo.stat;
+                    go.GetComponent<Enemy>().enemyType = mobInfo.type;
+                    go.GetComponent<Enemy>().skillOn = mobInfo.skillOn;
 
                     // 필드 패널 보이기
                     fieldPanel.SetActive(true);
                 }
-                else if (Input.GetMouseButtonUp(0))
+                else if (Input.GetMouseButtonUp(0) && go != null)
                 {
                     // 소환 취소
                     SpawnCancel();
                 }
             }
+            else if(Input.GetMouseButtonUp(0) && go != null)
+            {
+                // 소환 취소
+                SpawnCancel();
+            }
         }
         // 패널에 닿았다면
-        else if(panelHit && go != null)
+        else if (panelHit && go != null)
         {
+            // 패널에 마우스가 있다면
+            if (panelHit.collider.gameObject == fieldPanel)
+            {
+                // 몹 위치를 바닥에 붙이기
+                vec.y = -2.4f;
+            }
+
             // 패널안에 마우스가 있다면
             if (Input.GetMouseButtonUp(0))
             {
@@ -106,8 +128,9 @@ public class MobTab : MonoBehaviour
                     SpawnCancel();
                 }
                 // 필드 패널이면
-                else if(panelHit.collider.gameObject == fieldPanel)
+                else if (panelHit.collider.gameObject == fieldPanel)
                 {
+
                     if (ResourceCheck() && TimerCheck())
                     {
                         // 자원 계산
@@ -115,9 +138,22 @@ public class MobTab : MonoBehaviour
                         gm.gi.magic -= mobInfo.magic;
                         gm.gi.food -= mobInfo.food;
 
+                        // 이미 소환되어있다면
+                        if(SpawnCheck())
+                        {
+                            // 생성되어있는 병사 삭제
+                            GameObject temp = CurSpawnObject();
+                            gm.mobList.Remove(temp);
+                            Destroy(temp);
+                        }
+
                         // 소환
                         go.GetComponent<Enemy>().spawnWaiting = false;
                         gm.mobList.Add(go);
+
+                        // 스탯 세팅
+                        StatSetting();
+
 
                         // 탭 위치 정리
                         for (int i = 0; i < panel.GetComponent<CommandPanel>().tabList.Count; i++)
@@ -151,6 +187,11 @@ public class MobTab : MonoBehaviour
                 // 소환 취소
                 SpawnCancel();
             }
+        }
+
+        if(go != null)
+        {
+            go.transform.position = vec;
         }
     }
 
@@ -208,14 +249,30 @@ public class MobTab : MonoBehaviour
 
     void FieldColorChange()
     {
-        if(ResourceCheck() && TimerCheck())
+        if (SpawnCheck())
         {
-            fieldPanel.GetComponent<Image>().color = new Color32(100, 255, 200, 40);
+            if (go != null)
+            {
+                fieldPanel.GetComponent<Image>().color = new Color32(250, 255, 100, 40);
+            }
+            GetComponent<Image>().color = new Color32(200, 200, 70, 170);
+        }
+        else if (ResourceCheck() && TimerCheck())
+        {
+            if (go != null)
+            {
+                // 필드 색깔 변경
+                fieldPanel.GetComponent<Image>().color = new Color32(100, 255, 200, 40);
+            }
+            // 탭 색깔 변경
             GetComponent<Image>().color = new Color32(70, 200, 160, 170);
         }
         else
         {
-            fieldPanel.GetComponent<Image>().color = new Color32(255, 100, 100, 40);
+            if (go != null)
+            {
+                fieldPanel.GetComponent<Image>().color = new Color32(255, 100, 100, 40);
+            }
             GetComponent<Image>().color = new Color32(200, 70, 70, 170);
         }
     }
@@ -264,13 +321,41 @@ public class MobTab : MonoBehaviour
 
     void TimerUpdate()
     {
-        // 대기시간
-        mobInfo.curWaitingTime -= Time.deltaTime;
         timer.text = Mathf.Round(mobInfo.curWaitingTime).ToString();
-
-        if (mobInfo.curWaitingTime <= 0)
+        if(mobInfo.curWaitingTime <= 0)
         {
             timer.gameObject.SetActive(false);
         }
+    }
+
+    // 본인이 소환되어있는 지 체크
+    bool SpawnCheck()
+    {
+        for (int i = 0; i < gm.mobList.Count; i++)
+        {
+            if (gm.mobList[i].GetComponent<Enemy>().stat == mobInfo.stat)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 현재 소환되어있는 오브젝트
+    GameObject CurSpawnObject()
+    {
+        for (int i = 0; i < gm.mobList.Count; i++)
+        {
+            if (gm.mobList[i].GetComponent<Enemy>().stat == mobInfo.stat)
+            {
+                return gm.mobList[i];
+            }
+        }
+        return null;
+    }
+
+    void StatSetting()
+    {
+        mobInfo.stat.hp = mobInfo.stat.maxHp;           // 체력 회복
     }
 }

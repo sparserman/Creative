@@ -97,7 +97,7 @@ public class LoadingSceneManager : MonoBehaviour
         {
             case (int)STAGE.MAIN:
                 currentStage = num;
-                LoadScene("MainMenu");
+                LoadScene("Mainmenu");
                 break;
             case (int)STAGE.LOBBY:
                 currentStage = num;

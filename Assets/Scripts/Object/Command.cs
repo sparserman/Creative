@@ -6,19 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
-public enum EnemyType
-{
-    Soldier1,
-    Soldier2,
-    Soldier3,
-    Gangster1,
-    Gangster2,
-    Gangster3,
-    FireWizard,
-    Tower,
-    Barricade
-}
-
 public class Command : MonoBehaviour
 {
     public string world;

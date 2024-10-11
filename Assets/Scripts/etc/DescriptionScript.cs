@@ -4,45 +4,60 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class DescriptionClass
+public enum BoxType
 {
-    public string description;
-    public string variable;
+    None = 0, Gold, Magic, Food
 }
 
 public class DescriptionScript : MonoBehaviour
 {
-    [SerializeField]
-    public List<DescriptionClass> dList;
+    public BoxType type;
 
     public Vector2 boxSize;
     public Color32 color;
     public Sprite sprite;
+    public string description;
 
     GameObject go;
+    GameManager gm;
+
+    private void Start()
+    {
+        gm = GameManager.GetInstance();
+    }
+
 
     private void OnMouseDown()
     {
+        
         go = Instantiate(Resources.Load("Prefabs/" + "DescriptionWindow") as GameObject);
+        go.transform.SetParent(GameObject.Find("Canvas").transform, false);
         go.GetComponent<Image>().rectTransform.sizeDelta = boxSize;
         go.GetComponent<Image>().sprite = sprite;
-        go.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        go.GetComponent<Image>().color = color;
 
-        for(int i = 0; i < dList.Count; i++)
+        // 내용
+        switch (type)
         {
-            GameObject g = Instantiate(Resources.Load("Prefab/" + "DescriptionText") as GameObject);
-            if (dList[i].variable != null)
-            {
-                g.GetComponent<TextMeshProUGUI>().text = dList[i].description + dList[i].variable;
-            }
-            else
-            {
-                g.GetComponent<TextMeshProUGUI>().text = dList[i].description;
-            }
-
-            g.GetComponent<TextMeshProUGUI>().rectTransform.sizeDelta = boxSize * 0.7f;
+            case BoxType.Gold:
+                description = $"시간 당 골드 수집량 : {gm.gi.goldSupply}";
+                break;
+            case BoxType.Magic:
+                description = $"시간 당 마나 수집량 : {gm.gi.magicSupply}";
+                break;
+            case BoxType.Food:
+                description = $"시간 당 식량 수집량 : {gm.gi.foodSupply}";
+                break;
         }
+
+        go.GetComponent<DescriptionWindow>().description.text = description;
+        go.GetComponent<DescriptionWindow>().description.rectTransform.sizeDelta = boxSize * 0.75f;
+
+        Vector3 temppos = go.transform.position;
+        temppos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        temppos.z = 0;
+        go.transform.position = temppos;
+        
     }
 
     private void OnMouseUp() 

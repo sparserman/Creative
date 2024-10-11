@@ -13,6 +13,9 @@ public enum Faction
 [System.Serializable]
 public class MobInfo
 {
+    // 타입
+    public EnemyType type;
+
     // 소유중인지
     public bool having;
 
@@ -35,6 +38,9 @@ public class MobInfo
     // 대기시간
     public float curWaitingTime;
     public float waitingTime;
+
+    // 스킬이 사용가능한 상태인지
+    public bool skillOn;
 }
 
 public class CommandPanel : MonoBehaviour
@@ -61,6 +67,7 @@ public class CommandPanel : MonoBehaviour
     void Update()
     {
         SettingTab();   // 탭 세팅
+        TimerUpdate();  // 대기시간 감소
     }
 
     void Init()
@@ -80,12 +87,14 @@ public class CommandPanel : MonoBehaviour
             if (gm.gi.specialMobList[i].having && gm.gi.specialMobList[i].placement)
             {
                 // 보유 탭 리스트에 넣기
-                havingTabList.Add(gm.gi.specialMobList[i]);
+                  havingTabList.Add(gm.gi.specialMobList[i]);
             }
         }
 
+
+        int count = havingTabList.Count;
         // 대기 큐에 넣기
-        for (int i = 0; i <= havingTabList.Count; i++)
+        for (int i = 0; i < count; i++)
         {
             int n = Random.Range(0, havingTabList.Count - 1);
             waitingTab.Enqueue(havingTabList[n]);
@@ -118,6 +127,23 @@ public class CommandPanel : MonoBehaviour
                     mobTab.GetComponent<MobTab>().num = tabList.Count - 1;
 
                     t = 0;
+                }
+            }
+        }
+    }
+
+    void TimerUpdate()
+    {
+        // 대기시간
+        for (int i = 0; i < gm.gi.specialMobList.Count; i++)
+        {
+            // 보유중이면서
+            if (gm.gi.specialMobList[i].having && gm.gi.specialMobList[i].placement)
+            {
+                // 타이머가 남은 애들
+                if (gm.gi.specialMobList[i].curWaitingTime >= 0)
+                {
+                    gm.gi.specialMobList[i].curWaitingTime -= Time.deltaTime;
                 }
             }
         }

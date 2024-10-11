@@ -350,7 +350,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0e991c31596381a4fb151c3f1d7f02af, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33122eff94400d245a5157b2e6ccbd3a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -774,7 +774,7 @@ MonoBehaviour:
   Effect_audioSource: {fileID: 424467468}
   BGM_audioSource: {fileID: 424467467}
   mainBGM: {fileID: 8300000, guid: 7b7017504a080364990f9e4bc91951aa, type: 3}
-  lobbyBGM: {fileID: 8300000, guid: dd276493005c1334d9b518c9ed500922, type: 3}
+  lobbyBGM: {fileID: 8300000, guid: 27301869b38c4f543ae3f458b93b7462, type: 3}
   battleBGM: {fileID: 0}
   click: {fileID: 8300000, guid: ef5b4c7a9d698ba4b93b8633dee356f1, type: 3}
 --- !u!1 &481793395
@@ -2553,7 +2553,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   specialMobInfoList:
-  - having: 1
+  - type: 6
+    having: 1
     placement: 1
     nameText: FireWizard
     mobName: "\uBD88 \uB9C8\uBC95\uC0AC"
@@ -2563,83 +2564,181 @@ MonoBehaviour:
       team: 0
       state: 3
       level: 1
-      maxHp: 15
-      hp: 15
-      maxMp: 0
+      maxHp: 20
+      hp: 20
+      maxMp: 20
       mp: 0
       shield: 0
-      ad: 8
-      attackSpeed: 1
-      attackRange: 7
+      ad: 6
+      attackSpeed: 1.5
+      attackRange: 6
       shotSpeed: 0.1
       moveSpeed: 0.01
-      runSpeed: 1.5
+      runSpeed: 2.5
+      runValue: 0
+      jumpPower: 250
+      downJump: 0
+    gold: 10
+    magic: 25
+    food: 0
+    curWaitingTime: 0
+    waitingTime: 30
+    skillOn: 0
+  - type: 1
+    having: 1
+    placement: 1
+    nameText: Soldier2
+    mobName: "\uB3CC\uACA9\uBCD1"
+    level: 1
+    sprite: {fileID: 21300000, guid: de2f265f38becc644b505d40cc57d26e, type: 3}
+    stat:
+      team: 0
+      state: 3
+      level: 1
+      maxHp: 40
+      hp: 40
+      maxMp: 20
+      mp: 0
+      shield: 0
+      ad: 2
+      attackSpeed: 1
+      attackRange: 4.5
+      shotSpeed: 0.1
+      moveSpeed: 0.011
+      runSpeed: 2.5
+      runValue: 0
+      jumpPower: 250
+      downJump: 0
+    gold: 15
+    magic: 0
+    food: 5
+    curWaitingTime: 0
+    waitingTime: 15
+    skillOn: 0
+  - type: 2
+    having: 1
+    placement: 1
+    nameText: Soldier3
+    mobName: "\uC800\uACA9\uC218"
+    level: 1
+    sprite: {fileID: 21300000, guid: 95a66edbe5cd633439a333abea66b055, type: 3}
+    stat:
+      team: 0
+      state: 3
+      level: 1
+      maxHp: 18
+      hp: 18
+      maxMp: 15
+      mp: 0
+      shield: 0
+      ad: 9
+      attackSpeed: 2
+      attackRange: 7.5
+      shotSpeed: 0.25
+      moveSpeed: 0.01
+      runSpeed: 2.5
+      runValue: 0
+      jumpPower: 250
+      downJump: 0
+    gold: 25
+    magic: 0
+    food: 8
+    curWaitingTime: 0
+    waitingTime: 20
+    skillOn: 0
+  - type: 11
+    having: 1
+    placement: 1
+    nameText: Raider1
+    mobName: "\uBBFC\uBCD1\uB300\uC6D0"
+    level: 1
+    sprite: {fileID: 21300000, guid: 612b298a2887a8e4d926459e5ce3f9b1, type: 3}
+    stat:
+      team: 0
+      state: 3
+      level: 1
+      maxHp: 16
+      hp: 16
+      maxMp: 10
+      mp: 0
+      shield: 0
+      ad: 2
+      attackSpeed: 1.1
+      attackRange: 5
+      shotSpeed: 0.1
+      moveSpeed: 0.01
+      runSpeed: 2.5
       runValue: 0
       jumpPower: 250
       downJump: 0
     gold: 5
     magic: 0
-    food: 0
+    food: 10
     curWaitingTime: 0
-    waitingTime: 5
-  - having: 1
+    waitingTime: 25
+    skillOn: 0
+  - type: 12
+    having: 1
     placement: 1
-    nameText: FireWizard
-    mobName: "\uBD88\uBC95"
+    nameText: Raider2
+    mobName: "\uC608\uBE44\uAD70"
     level: 1
-    sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
+    sprite: {fileID: 21300000, guid: cfa2998cc21fcb143a4b3c720ae14b90, type: 3}
     stat:
       team: 0
       state: 3
       level: 1
-      maxHp: 15
-      hp: 15
-      maxMp: 0
+      maxHp: 18
+      hp: 18
+      maxMp: 10
       mp: 0
       shield: 0
-      ad: 8
+      ad: 2
       attackSpeed: 1
-      attackRange: 7
+      attackRange: 5
       shotSpeed: 0.1
       moveSpeed: 0.01
-      runSpeed: 1.5
+      runSpeed: 2.5
       runValue: 0
       jumpPower: 250
       downJump: 0
-    gold: 20
+    gold: 3
     magic: 0
-    food: 0
+    food: 5
     curWaitingTime: 0
-    waitingTime: 10
-  - having: 1
+    waitingTime: 25
+    skillOn: 0
+  - type: 13
+    having: 1
     placement: 1
-    nameText: FireWizard
-    mobName: "\uBD88\uBC95"
+    nameText: Raider3
+    mobName: "\uBBFC\uBCD1\uB300\uC7A5"
     level: 1
-    sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
+    sprite: {fileID: 21300000, guid: 15d6da45b7e0b834695d33b5ab7ac08e, type: 3}
     stat:
       team: 0
       state: 3
       level: 1
-      maxHp: 15
-      hp: 15
-      maxMp: 0
+      maxHp: 35
+      hp: 35
+      maxMp: 10
       mp: 0
       shield: 0
-      ad: 8
-      attackSpeed: 1
-      attackRange: 7
+      ad: 4
+      attackSpeed: 0.6
+      attackRange: 0.5
       shotSpeed: 0.1
-      moveSpeed: 0.01
-      runSpeed: 1.5
+      moveSpeed: 0.011
+      runSpeed: 2.5
       runValue: 0
       jumpPower: 250
       downJump: 0
-    gold: 20
+    gold: 12
     magic: 0
-    food: 0
+    food: 8
     curWaitingTime: 0
-    waitingTime: 10
+    waitingTime: 25
+    skillOn: 0
 --- !u!4 &996268819
 Transform:
   m_ObjectHideFlags: 0

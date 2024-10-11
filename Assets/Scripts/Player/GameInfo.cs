@@ -25,8 +25,8 @@ public class GameInfo : MonoBehaviour
 
     // 자원 관련
     public int gold = 100;      // 기본 자원 3가지    ( 기본 병사 강화[수류탄 장착], 건물 강화 및 배치 )
-    public int magic = 0;       // 특수 자원         ( 특수 병사 소환 및 특수 병사 강화 )
-    public int food = 0;        // 지속 소비 자원     ( 인구 수 유지, 관리율 관련 )
+    public int magic = 100;       // 특수 자원         ( 특수 병사 소환 및 특수 병사 강화 )
+    public int food = 100;        // 지속 소비 자원     ( 인구 수 유지, 관리율 관련 )
 
     public int goldSupply = 0;      // 시간 당 수급량
     public int magicSupply = 0;
@@ -96,6 +96,7 @@ public class GameInfo : MonoBehaviour
     void Update()
     {
         SpawnTimer();
+        ResourceSupplyCalc();
     }
 
     // 0. world, 1. day, 2. hour, 3. minute, 4. type, 5. num, 6. spawner
@@ -118,6 +119,34 @@ public class GameInfo : MonoBehaviour
                 }
             }
         }
+    }
+
+    // 수급량 계산
+    void ResourceSupplyCalc()
+    {
+        int gtemp = 0;
+        int mtemp = 0;
+        int ftemp = 0;
+
+        for (int i = 0; i < pointList.Count; i++)
+        {
+            switch(pointList[i].resource)
+            {
+                case Resource.Gold:
+                    gtemp += pointList[i].resourceAmount;
+                    break;
+                case Resource.Magic:
+                    mtemp += pointList[i].resourceAmount;
+                    break;
+                case Resource.Food:
+                    ftemp += pointList[i].resourceAmount;
+                    break;
+            }
+        }
+
+        goldSupply = gtemp;
+        magicSupply = mtemp;
+        foodSupply = ftemp;
     }
 
     // 스폰정보세팅
