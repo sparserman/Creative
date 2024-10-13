@@ -125,12 +125,12 @@ public class Player : MonoBehaviour
         if (!anim.GetBool("isJump"))
         {
             // 하단 점프
-            if (Input.GetKey(KeyCode.DownArrow) && Input.GetKeyDown(KeyCode.X) && transform.position.y > -2.0f)
+            if (Input.GetKey(KeyCode.S) && transform.position.y > -2.0f)
             {
                 stat.downJump = true;
             }
             // 점프
-            else if (Input.GetKeyDown(KeyCode.X))
+            else if (Input.GetKeyDown(KeyCode.W))
             {
                 rigid.velocity = Vector2.zero;
                 rigid.AddForce(transform.up * (stat.jumpPower + (stat.runValue * 100)));

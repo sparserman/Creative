@@ -3,18 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// 파벌 (관리자 산하)
-public enum Faction
-{
-    Player = 0,
-    Liora
-}
-
 [System.Serializable]
 public class MobInfo
 {
     // 타입
     public EnemyType type;
+
+    // 파벌
+    public string faction;
 
     // 소유중인지
     public bool having;
@@ -25,8 +21,8 @@ public class MobInfo
     // 정보
     public string nameText;
     public string mobName;
-    public int level;
     public Sprite sprite;
+    public Sprite illust;
 
     public Stat stat;
 
@@ -41,6 +37,19 @@ public class MobInfo
 
     // 스킬이 사용가능한 상태인지
     public bool skillOn;
+
+    // 리셋
+    public void ResetStat()
+    {
+        stat.hp = stat.maxHp;           // 체력 회복
+    }
+
+    // 초기화
+    public void InitStat()
+    {
+        stat.hp = stat.maxHp;           // 체력 회복
+        stat.mp = 0;           // MP 초기화
+    }
 }
 
 public class CommandPanel : MonoBehaviour
@@ -87,7 +96,7 @@ public class CommandPanel : MonoBehaviour
             if (gm.gi.specialMobList[i].having && gm.gi.specialMobList[i].placement)
             {
                 // 보유 탭 리스트에 넣기
-                  havingTabList.Add(gm.gi.specialMobList[i]);
+                havingTabList.Add(gm.gi.specialMobList[i]);
             }
         }
 

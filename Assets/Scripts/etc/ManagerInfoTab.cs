@@ -37,7 +37,7 @@ public class ManagerInfoTab : MonoBehaviour
 
     public void ManagerSelect()
     {
-        // 정보탭 생성
+        // 체크박스 생성
         GameObject go = Instantiate(Resources.Load("Prefabs/" + "CheckBox") as GameObject);
         go.transform.SetParent(transform.parent.parent, false);
         go.transform.position = transform.position;

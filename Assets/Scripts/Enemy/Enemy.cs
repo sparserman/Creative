@@ -356,7 +356,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                hpBack.fillAmount = hpBack.fillAmount;
+                hpBack.fillAmount = hpBar.fillAmount;
             }
         }
 

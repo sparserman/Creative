@@ -151,8 +151,8 @@ public class MobTab : MonoBehaviour
                         go.GetComponent<Enemy>().spawnWaiting = false;
                         gm.mobList.Add(go);
 
-                        // 스탯 세팅
-                        StatSetting();
+                        // 스탯 리셋
+                        mobInfo.ResetStat();
 
 
                         // 탭 위치 정리
@@ -200,7 +200,7 @@ public class MobTab : MonoBehaviour
         // 정보 입력
         nameText = mobInfo.nameText;
         mobName.text = mobInfo.mobName;
-        level.text = "Lv." + mobInfo.level.ToString();
+        level.text = "Lv." + mobInfo.stat.level.ToString();
         image.sprite = mobInfo.sprite;
 
         hp.text = mobInfo.stat.maxHp.ToString();
@@ -253,7 +253,7 @@ public class MobTab : MonoBehaviour
         {
             if (go != null)
             {
-                fieldPanel.GetComponent<Image>().color = new Color32(250, 255, 100, 40);
+                fieldPanel.GetComponent<SpriteRenderer>().color = new Color32(250, 255, 100, 40);
             }
             GetComponent<Image>().color = new Color32(200, 200, 70, 170);
         }
@@ -262,7 +262,7 @@ public class MobTab : MonoBehaviour
             if (go != null)
             {
                 // 필드 색깔 변경
-                fieldPanel.GetComponent<Image>().color = new Color32(100, 255, 200, 40);
+                fieldPanel.GetComponent<SpriteRenderer>().color = new Color32(100, 255, 200, 40);
             }
             // 탭 색깔 변경
             GetComponent<Image>().color = new Color32(70, 200, 160, 170);
@@ -271,7 +271,7 @@ public class MobTab : MonoBehaviour
         {
             if (go != null)
             {
-                fieldPanel.GetComponent<Image>().color = new Color32(255, 100, 100, 40);
+                fieldPanel.GetComponent<SpriteRenderer>().color = new Color32(255, 100, 100, 40);
             }
             GetComponent<Image>().color = new Color32(200, 70, 70, 170);
         }
@@ -352,10 +352,5 @@ public class MobTab : MonoBehaviour
             }
         }
         return null;
-    }
-
-    void StatSetting()
-    {
-        mobInfo.stat.hp = mobInfo.stat.maxHp;           // 체력 회복
     }
 }

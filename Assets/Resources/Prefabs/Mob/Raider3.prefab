@@ -202,9 +202,9 @@ MonoBehaviour:
     shield: 0
     ad: 8
     attackSpeed: 1
-    attackRange: 5
+    attackRange: 0.5
     shotSpeed: 0.1
-    moveSpeed: 0.01
+    moveSpeed: 0.011
     runSpeed: 1.5
     runValue: 0
     jumpPower: 250

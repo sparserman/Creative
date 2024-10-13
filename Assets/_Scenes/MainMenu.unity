@@ -1815,6 +1815,83 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &707650537
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 707650538}
+  - component: {fileID: 707650539}
+  - component: {fileID: 707650540}
+  m_Layer: 5
+  m_Name: SettingObj
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &707650538
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707650537}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 827781526}
+  - {fileID: 1466710107}
+  m_Father: {fileID: 1873453265}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.0079956, y: -0.020998476}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &707650539
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707650537}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f25768c7eec6c7649904dc64200c3ca7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &707650540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707650537}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d297706e5c63eb44d978627199bd0dfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  setting: {fileID: 0}
+  mainVolSlider: {fileID: 0}
+  effectVolSlider: {fileID: 0}
+  BGMVolSlider: {fileID: 0}
+  mobWindow: {fileID: 0}
 --- !u!1 &806637768
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,12 +2068,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 827781525}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 108, y: 108, z: 108}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1466710107}
+  m_Father: {fileID: 707650538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2554,15 +2631,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   specialMobInfoList:
   - type: 6
+    faction: 
     having: 1
     placement: 1
     nameText: FireWizard
     mobName: "\uBD88 \uB9C8\uBC95\uC0AC"
-    level: 1
     sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
+    illust: {fileID: 21300000, guid: 2d341639bd8e8254a857d34900f90466, type: 3}
     stat:
       team: 0
-      state: 3
+      state: 0
       level: 1
       maxHp: 20
       hp: 20
@@ -2585,15 +2663,16 @@ MonoBehaviour:
     waitingTime: 30
     skillOn: 0
   - type: 1
+    faction: 
     having: 1
     placement: 1
     nameText: Soldier2
     mobName: "\uB3CC\uACA9\uBCD1"
-    level: 1
     sprite: {fileID: 21300000, guid: de2f265f38becc644b505d40cc57d26e, type: 3}
+    illust: {fileID: 21300000, guid: 5c71fc81a1a85754094feef5df71c8db, type: 3}
     stat:
       team: 0
-      state: 3
+      state: 0
       level: 1
       maxHp: 40
       hp: 40
@@ -2616,15 +2695,16 @@ MonoBehaviour:
     waitingTime: 15
     skillOn: 0
   - type: 2
+    faction: 
     having: 1
     placement: 1
     nameText: Soldier3
     mobName: "\uC800\uACA9\uC218"
-    level: 1
     sprite: {fileID: 21300000, guid: 95a66edbe5cd633439a333abea66b055, type: 3}
+    illust: {fileID: 21300000, guid: 8ad48f40fe5e27d409751b5aae267607, type: 3}
     stat:
       team: 0
-      state: 3
+      state: 0
       level: 1
       maxHp: 18
       hp: 18
@@ -2647,15 +2727,16 @@ MonoBehaviour:
     waitingTime: 20
     skillOn: 0
   - type: 11
+    faction: 
     having: 1
-    placement: 1
+    placement: 0
     nameText: Raider1
     mobName: "\uBBFC\uBCD1\uB300\uC6D0"
-    level: 1
     sprite: {fileID: 21300000, guid: 612b298a2887a8e4d926459e5ce3f9b1, type: 3}
+    illust: {fileID: 21300000, guid: 7f22a7480a1c9d64eb2ce7332f342d01, type: 3}
     stat:
       team: 0
-      state: 3
+      state: 0
       level: 1
       maxHp: 16
       hp: 16
@@ -2664,7 +2745,7 @@ MonoBehaviour:
       shield: 0
       ad: 2
       attackSpeed: 1.1
-      attackRange: 5
+      attackRange: 5.5
       shotSpeed: 0.1
       moveSpeed: 0.01
       runSpeed: 2.5
@@ -2678,22 +2759,23 @@ MonoBehaviour:
     waitingTime: 25
     skillOn: 0
   - type: 12
+    faction: 
     having: 1
-    placement: 1
+    placement: 0
     nameText: Raider2
     mobName: "\uC608\uBE44\uAD70"
-    level: 1
     sprite: {fileID: 21300000, guid: cfa2998cc21fcb143a4b3c720ae14b90, type: 3}
+    illust: {fileID: 21300000, guid: 331bdb6522d9f5149b9e55f7581f1b1a, type: 3}
     stat:
       team: 0
-      state: 3
+      state: 0
       level: 1
       maxHp: 18
       hp: 18
       maxMp: 10
       mp: 0
       shield: 0
-      ad: 2
+      ad: 3
       attackSpeed: 1
       attackRange: 5
       shotSpeed: 0.1
@@ -2709,15 +2791,16 @@ MonoBehaviour:
     waitingTime: 25
     skillOn: 0
   - type: 13
+    faction: 
     having: 1
-    placement: 1
+    placement: 0
     nameText: Raider3
     mobName: "\uBBFC\uBCD1\uB300\uC7A5"
-    level: 1
     sprite: {fileID: 21300000, guid: 15d6da45b7e0b834695d33b5ab7ac08e, type: 3}
+    illust: {fileID: 21300000, guid: bc13a120acb09ae428fe75ffbec3257f, type: 3}
     stat:
       team: 0
-      state: 3
+      state: 0
       level: 1
       maxHp: 35
       hp: 35
@@ -3376,11 +3459,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d297706e5c63eb44d978627199bd0dfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setting: {fileID: 1466710106}
-  gm: {fileID: 0}
+  setting: {fileID: 707650537}
   mainVolSlider: {fileID: 647840450}
   effectVolSlider: {fileID: 267206451}
   BGMVolSlider: {fileID: 1360359853}
+  mobWindow: {fileID: 0}
 --- !u!4 &1326557120
 Transform:
   m_ObjectHideFlags: 0
@@ -3692,15 +3775,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1466710107}
-  - component: {fileID: 1466710108}
-  - component: {fileID: 1466710109}
   m_Layer: 5
   m_Name: SettingPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1466710107
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3708,58 +3789,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1466710106}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 827781526}
   - {fileID: 664448936}
-  m_Father: {fileID: 1873453265}
+  m_Father: {fileID: 707650538}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0079956, y: -0.020996}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1466710108
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466710106}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f25768c7eec6c7649904dc64200c3ca7, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1466710109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466710106}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d297706e5c63eb44d978627199bd0dfe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  setting: {fileID: 0}
-  gm: {fileID: 0}
-  mainVolSlider: {fileID: 0}
-  effectVolSlider: {fileID: 0}
-  BGMVolSlider: {fileID: 0}
 --- !u!1 &1475790870
 GameObject:
   m_ObjectHideFlags: 0
@@ -4447,7 +4489,7 @@ RectTransform:
   m_Children:
   - {fileID: 163318435}
   - {fileID: 497210547}
-  - {fileID: 1466710107}
+  - {fileID: 707650538}
   - {fileID: 1963217968}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

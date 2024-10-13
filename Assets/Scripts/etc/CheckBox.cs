@@ -5,7 +5,9 @@ using UnityEngine;
 
 public enum E_BoxType
 {
-    ManagerSelect
+    ManagerSelect = 0,
+    MobPlacement = 1,
+    MobRelease
 }
 
 public class CheckBox : MonoBehaviour
@@ -37,6 +39,18 @@ public class CheckBox : MonoBehaviour
             {
                 case E_BoxType.ManagerSelect:
                     obj.GetComponent<ManagerInfoTab>().ManagerChange();
+                    break;
+                case E_BoxType.MobPlacement:
+                    obj.GetComponent<MobProfile>().mobInfo.placement = true;
+                    // 표시 다시하기
+                    obj.GetComponent<MobProfile>().mobWindow.InitMobProfile();
+                    obj.GetComponent<MobProfile>().mobWindow.MobProfileSetting();
+                    break;
+                case E_BoxType.MobRelease:
+                    obj.GetComponent<PlacementMobImage>().mobInfo.placement = false;
+                    // 표시 다시하기
+                    obj.GetComponent<PlacementMobImage>().mobWindow.InitMobProfile();
+                    obj.GetComponent<PlacementMobImage>().mobWindow.MobProfileSetting();
                     break;
             }
         }

@@ -41,7 +41,7 @@ public class BuildPoint : MonoBehaviour
     void InputSystem()
     {
         // 상호작용 키
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (check && UI == null)
             {
@@ -68,8 +68,7 @@ public class BuildPoint : MonoBehaviour
                 }
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.X))
+        else if (Input.anyKeyDown)
         {
             if (UI != null)
             {
