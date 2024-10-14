@@ -1197,8 +1197,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 162.17, y: 337.38}
-  m_SizeDelta: {x: 760.33, y: 87.25}
+  m_AnchoredPosition: {x: 162.17, y: 332.95}
+  m_SizeDelta: {x: 760.33, y: 96.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &100383863
 MonoBehaviour:
@@ -1839,7 +1839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 929, y: 84}
+  m_AnchoredPosition: {x: 917, y: 84}
   m_SizeDelta: {x: 79.2, y: 250.57}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &185625683
@@ -4657,7 +4657,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c08ae9a3bf34891469c5eab1a90367a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
   mapIcon: {fileID: 1920649738}
 --- !u!1 &718102525
 GameObject:
@@ -7960,16 +7959,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 428303793}
-        m_TargetAssemblyTypeName: Setting, Assembly-CSharp
-        m_MethodName: Off
+      - m_Target: {fileID: 686070843}
+        m_TargetAssemblyTypeName: WorldMap, Assembly-CSharp
+        m_MethodName: WorldMapOffAnim
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Off
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1227107704
@@ -7986,7 +7985,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

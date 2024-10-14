@@ -118,12 +118,12 @@ MonoBehaviour:
   mpBar: {fileID: 8245870525903873268}
   stat:
     team: 0
-    state: 0
+    state: 3
     level: 1
     maxHp: 20
     hp: 20
-    maxMp: 1
-    mp: 20
+    maxMp: 30
+    mp: 0
     shield: 0
     ad: 3
     attackSpeed: 0.8

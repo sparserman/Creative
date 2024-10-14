@@ -4,21 +4,24 @@ using UnityEngine;
 
 public class WorldMap : MonoBehaviour
 {
-    public Animator anim;
+    Animator anim;
     GameManager gm;
-    SoundManager sm;
 
     public GameObject mapIcon;
 
     void Start()
     {
         gm = GameManager.GetInstance();
-        sm = gm.GetComponent<SoundManager>();
 
         anim = GetComponent<Animator>();
 
     }
 
+    public void WorldMapOffAnim()
+    {
+        anim.SetTrigger("Off");
+        gm.sm.PlayEffectSound(gm.sm.click);
+    }
 
     // ¸Ê ²ô±â (Anim)
     public void WorldMapOff()
