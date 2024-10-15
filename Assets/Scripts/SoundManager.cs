@@ -54,12 +54,18 @@ public class SoundManager : MonoBehaviour
     // Effect 사운드 재생
     public void PlayEffectSound(AudioClip clip)
     {
-        Effect_audioSource.PlayOneShot(clip);
+        if (clip != null)
+        {
+            Effect_audioSource.PlayOneShot(clip);
+        }
     }
 
     public void SetEffectVolume()
     {
-        Effect_audioSource.volume = effectVolume;
+        if (Effect_audioSource != null)
+        {
+            Effect_audioSource.volume = effectVolume;
+        }
     }
 
     public void MuteEffectVolume()
@@ -72,13 +78,19 @@ public class SoundManager : MonoBehaviour
     // BGM 사운드
     public void PlayBGMSound(AudioClip clip)
     {
-        BGM_audioSource.clip = clip;
-        BGM_audioSource.Play();
+        if (clip != null)
+        {
+            BGM_audioSource.clip = clip;
+            BGM_audioSource.Play();
+        }
     }
 
     public void SetBGMVolume()
     {
-        BGM_audioSource.volume = BGMVolume;
+        if (BGM_audioSource != null)
+        {
+            BGM_audioSource.volume = BGMVolume;
+        }
     }
 
     public void MuteBGMVolume()
@@ -91,8 +103,11 @@ public class SoundManager : MonoBehaviour
     // 전체 사운드
     public void SetVolume()
     {
-        Effect_audioSource.volume = volume * effectVolume;
-        BGM_audioSource.volume = volume * BGMVolume;
+        if (BGM_audioSource != null && Effect_audioSource != null)
+        {
+            Effect_audioSource.volume = volume * effectVolume;
+            BGM_audioSource.volume = volume * BGMVolume;
+        }
     }
 
     public void MuteVolume()

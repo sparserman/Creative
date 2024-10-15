@@ -28,30 +28,29 @@ public class MobProfile : MonoBehaviour
 
     public void PlusClick()
     {
-        // 체크박스 생성
-        GameObject go = Instantiate(Resources.Load("Prefabs/" + "CheckBox") as GameObject);
-        go.transform.SetParent(transform.parent.parent, false);
-        go.transform.position = transform.position;
-
-        go.GetComponent<CheckBox>().obj = gameObject;
-        go.GetComponent<CheckBox>().type = E_BoxType.MobPlacement;
-
-
         // 확인창 내용 설정
         // 꽉 찼는 지 체크
         if (ListMaxCheck())
         {
+            // 체크박스 생성
+            GameObject go = Instantiate(Resources.Load("Prefabs/" + "CheckBox") as GameObject);
+            go.transform.SetParent(transform.parent.parent, false);
+            go.transform.position = transform.position;
+
+            go.GetComponent<CheckBox>().obj = gameObject;
             go.GetComponent<CheckBox>().description.text = "부대가 가득 찼습니다.";
             go.GetComponent<CheckBox>().button1.gameObject.transform.parent.gameObject.SetActive(false);    // yes버튼 없애기
             go.GetComponent<CheckBox>().button2.text = "확인";
+
+            gm.goList.Add(go);
         }
         else
         {
-            go.GetComponent<CheckBox>().description.text = "배치하시겠습니까?";
+            GetComponent<MobProfile>().mobInfo.placement = true;
+            // 표시 다시하기
+            GetComponent<MobProfile>().mobWindow.InitMobProfile();
+            GetComponent<MobProfile>().mobWindow.MobProfileSetting();
         }
-
-        gm.goList.Add(go);
-
     }
 
     // 배치할 8칸이 다 찼는 지 체크

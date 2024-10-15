@@ -22,19 +22,11 @@ public class PlacementMobImage : MonoBehaviour
 
     public void MinusClick()
     {
-        // 체크박스 생성
-        GameObject go = Instantiate(Resources.Load("Prefabs/" + "CheckBox") as GameObject);
-        go.transform.SetParent(transform.parent.parent, false);
-        go.transform.position = transform.position;
-
-        go.GetComponent<CheckBox>().obj = gameObject;
-        go.GetComponent<CheckBox>().type = E_BoxType.MobRelease;
-
-
-        // 확인창 내용 설정
-        go.GetComponent<CheckBox>().description.text = "해제하시겠습니까?";
-
-        gm.goList.Add(go);
+        // 배치 해제
+        GetComponent<MobProfile>().mobInfo.placement = true;
+        // 표시 다시하기
+        GetComponent<MobProfile>().mobWindow.InitMobProfile();
+        GetComponent<MobProfile>().mobWindow.MobProfileSetting();
 
     }
 

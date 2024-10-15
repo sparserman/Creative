@@ -63,10 +63,9 @@ public class ManagerInfoTab : MonoBehaviour
 
         gm.goList.Add(go);
 
-        if (gm.sm != null)
-        {
-            gm.sm.PlayEffectSound(gm.sm.click);
-        }
+
+        gm.sm.PlayEffectSound(gm.sm.click);
+
     }
 
     public void ManagerChange()

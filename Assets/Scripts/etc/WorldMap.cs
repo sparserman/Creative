@@ -20,6 +20,13 @@ public class WorldMap : MonoBehaviour
     public void WorldMapOffAnim()
     {
         anim.SetTrigger("Off");
+
+        // 자기 위로 다 끄기
+        for (int i = 0; i < gm.goList.Count; i++)
+        {
+            gm.MenuOff(false);
+        }
+
         gm.sm.PlayEffectSound(gm.sm.click);
     }
 

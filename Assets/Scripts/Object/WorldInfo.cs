@@ -55,20 +55,18 @@ public class WorldInfo : MonoBehaviour
         // int로 변경해서
         gm.lm.StartFadeIn((int)worldCode);
 
-        if (gm.sm != null)
-        {
-            gm.sm.PlayEffectSound(gm.sm.click);
-        }
+        gm.sm.PlayEffectSound(gm.sm.click);
+
     }
 
     public void WorldInfoOff()
     {
         anim.SetTrigger("Off");
         gm.goList.Remove(gameObject);
-        if (gm.sm != null)
-        {
-            gm.sm.PlayEffectSound(gm.sm.click);
-        }
+
+
+        gm.sm.PlayEffectSound(gm.sm.click);
+
     }
 
     GameObject worldTab = null;
@@ -81,10 +79,9 @@ public class WorldInfo : MonoBehaviour
         gm.goList.Add(go);
         worldTab = go;
 
-        if (gm.sm != null)
-        {
-            gm.sm.PlayEffectSound(gm.sm.click);
-        }
+
+        gm.sm.PlayEffectSound(gm.sm.click);
+
     }
 
     // 관리자 선택

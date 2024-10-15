@@ -77,7 +77,9 @@ public class Point : MonoBehaviour
 
     public string worldName;
     public Sprite worldImage;
+    [TextArea]
     public string worldDescription;
+    [TextArea]
     public string worldDetails;
 
     // 자원 관련
@@ -127,9 +129,9 @@ public class Point : MonoBehaviour
         worldInfo.point = this;
 
         // 지역 정보 넣기
-        for(int i = 0; i < gm.gi.pointList.Count; i++)
+        for (int i = 0; i < gm.gi.pointList.Count; i++)
         {
-            if(gm.gi.pointList[i].worldCode == worldCode)
+            if (gm.gi.pointList[i].worldCode == worldCode)
             {
                 p = gm.gi.pointList[i];
             }
@@ -169,10 +171,9 @@ public class Point : MonoBehaviour
         worldInfo.worldCode = p.worldCode;
 
         // 사운드
-        if (gm.sm != null)
-        {
-            gm.sm.PlayEffectSound(gm.sm.click);
-        }
+
+        gm.sm.PlayEffectSound(gm.sm.click);
+
 
         gm.goList.Add(worldInfo.gameObject);
     }

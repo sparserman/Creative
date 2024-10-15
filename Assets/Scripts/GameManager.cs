@@ -49,7 +49,15 @@ public class GameManager : MonoBehaviour
     {
         Init();
 
-        sm = GetComponent<SoundManager>();
+        if (GetComponent<SoundManager>() == null)
+        {
+            sm = gameObject.AddComponent<SoundManager>();
+        }
+        else
+        {
+            sm = GetComponent<SoundManager>();
+        }
+
         if (GetComponent<GameInfo>() == null)
         {
             gi = gameObject.AddComponent<GameInfo>();
@@ -102,13 +110,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void MenuOff()
+    public void MenuOff(bool p_flag = true)
     {
         if (goList.Count > 0)
         {
             goList.LastOrDefault().GetComponent<Animator>().SetTrigger("Off");
             goList.Remove(goList.LastOrDefault());
-            if (sm != null)
+            if (sm != null && p_flag)
             {
                 sm.PlayEffectSound(sm.click);
             }
