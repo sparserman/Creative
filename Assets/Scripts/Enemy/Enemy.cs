@@ -1193,6 +1193,7 @@ public class Enemy : MonoBehaviour
             if (t >= 10f + gm.gi.respawnTime)
             {
                 // 플레이어 부활
+                gm.player.die = false;
                 gm.player.freeze = false;
                 hpBar.transform.parent.gameObject.SetActive(true);
                 stat.hp = stat.maxHp;
@@ -1222,6 +1223,7 @@ public class Enemy : MonoBehaviour
                 gm.player.respawnTimer.transform.parent.gameObject.SetActive(true);
                 gm.player.cMode = true;
                 gm.player.respawnTimer.text = "";
+                gm.player.die = true;
             }
 
             if (stat.team == Team.Blue)
@@ -1250,6 +1252,11 @@ public class Enemy : MonoBehaviour
             if (hpBar != null)
             {
                 hpBar.GetComponentInParent<Animator>().SetTrigger("Off");
+                
+            }
+            // mp가 없는게 아니라면
+            if (mpBar != null)
+            {
                 mpBar.GetComponentInParent<Animator>().SetTrigger("Off");
             }
 

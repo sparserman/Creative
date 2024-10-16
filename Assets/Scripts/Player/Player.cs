@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
 
     public TextMeshProUGUI respawnTimer;     // 부활 타이머 오브젝트
 
+    public bool die;
+
 
     void Start()
     {

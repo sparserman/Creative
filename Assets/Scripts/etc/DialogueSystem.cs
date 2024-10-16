@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,14 +54,13 @@ public class DialogueSystem : MonoBehaviour
     public float typingSpeed = 0.1f;        // 텍스트 재생 속도
     public bool isTyping = false;           // 텍스트 재생중인지
 
-    GameObject dialogPanel;                 // 대화 패널
+    public GameObject dialogPanel;                 // 대화 패널
 
     public List<string> DBNameList;         // 등장하는 인물 이름
 
     private void Awake()
     {
         gm = GameManager.GetInstance();
-        dialogPanel = GameObject.Find("DialogPanel");
 
         List<DialogDBEntity> listDB = null;
         // DB 정보 세팅
@@ -113,7 +113,13 @@ public class DialogueSystem : MonoBehaviour
 
     public void CharacterSetting(string p_name)
     {
-        for(int i = 0; i < gm.gi.managerList.Count;i++)
+        // 패널 켜기
+        dialogPanel.SetActive(true);
+
+        // 시간 멈추기
+        gm.timerOn = false;
+
+        for (int i = 0; i < gm.gi.managerList.Count;i++)
         {
             // 관리자의 이름을 받아와서 비교
             if (gm.gi.managerList[i].managerName == p_name)

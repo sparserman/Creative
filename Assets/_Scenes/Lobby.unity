@@ -2156,13 +2156,14 @@ GameObject:
   - component: {fileID: 204153166}
   - component: {fileID: 204153168}
   - component: {fileID: 204153167}
+  - component: {fileID: 204153169}
   m_Layer: 5
   m_Name: DialogPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &204153166
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2179,8 +2180,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0009765625, y: 0}
-  m_SizeDelta: {x: 1819.998, y: 773.85}
+  m_AnchoredPosition: {x: 0.0009765625, y: -3.3550987}
+  m_SizeDelta: {x: 1820, y: 979.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &204153167
 MonoBehaviour:
@@ -2214,6 +2215,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 204153165}
   m_CullTransparentMesh: 1
+--- !u!114 &204153169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204153165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.38679248, b: 0.18014988, a: 0.27450982}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &234284310
 GameObject:
   m_ObjectHideFlags: 0
@@ -3753,6 +3784,62 @@ RectTransform:
   m_AnchoredPosition: {x: -960, y: -540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &488964045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 488964047}
+  - component: {fileID: 488964046}
+  m_Layer: 0
+  m_Name: DialogSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &488964046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488964045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697d269fb1878a440a0e1ac06b4c9ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  branch: 1
+  dialogDB: {fileID: 11400000, guid: 78faf1f1f2a9b694280b14ba1edb983f, type: 2}
+  typeDB: 0
+  speakers: []
+  dialogs: []
+  isFirst: 1
+  curDialogIndex: -1
+  curSpeakerIndex: 0
+  typingSpeed: 0.1
+  isTyping: 0
+  dialogPanel: {fileID: 204153165}
+  DBNameList: []
+--- !u!4 &488964047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488964045}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.6393677, y: 1.0203514, z: -2.272877}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &496757803
 GameObject:
   m_ObjectHideFlags: 0
@@ -11948,7 +12035,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1780769231}
   - component: {fileID: 1780769230}
-  - component: {fileID: 1780769229}
   m_Layer: 0
   m_Name: TutorialSystem
   m_TagString: Untagged
@@ -11956,39 +12042,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1780769229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1780769228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 697d269fb1878a440a0e1ac06b4c9ef4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  branch: 1
-  dialogDB: {fileID: 11400000, guid: 78faf1f1f2a9b694280b14ba1edb983f, type: 2}
-  typeDB: 0
-  speakers: []
-  dialogs:
-  - name: "\uB9AC\uC624\uB77C"
-    dialog: "\uC548\uB155\uD558\uC138\uC694!"
-  - name: "\uB9AC\uC624\uB77C"
-    dialog: "\uB9AC\uC624\uB77C\uB77C\uACE0\uD569\uB2C8\uB2E4."
-  - name: "\uB9AC\uC624\uB77C"
-    dialog: "\uD14C\uC2A4\uD2B8\uC911\uC774\uC5D0\uC694"
-  - name: "\uB9AC\uC624\uB77C2"
-    dialog: "\uC800\uB294 \uB9AC\uC624\uB77C\uB2D8\uC758 \uBD84\uC2E0\uC785\uB2C8\uB2E4."
-  - name: "\uB9AC\uC624\uB77C2"
-    dialog: "\uAC19\uC774 \uD14C\uC2A4\uD2B8\uC911\uC774\uC5D0\uC694"
-  isFirst: 1
-  curDialogIndex: -1
-  curSpeakerIndex: 0
-  typingSpeed: 0.1
-  isTyping: 0
-  DBNameList: []
 --- !u!114 &1780769230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12002,7 +12055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogSystemList:
-  - {fileID: 1780769229}
+  - {fileID: 488964046}
   index: 0
   nextChapter: 0
 --- !u!4 &1780769231
@@ -14296,3 +14349,4 @@ SceneRoots:
   - {fileID: 428303794}
   - {fileID: 1686937953}
   - {fileID: 1780769231}
+  - {fileID: 488964047}

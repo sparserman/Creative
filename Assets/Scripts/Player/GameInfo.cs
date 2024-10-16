@@ -15,6 +15,22 @@ public class BarricadeInfo
     }
 }
 
+[System.Serializable]
+public struct SpawnData
+{
+    public string world;
+    public int day;
+    public int hour;
+    public int minute;
+    public string type;
+    public int num;
+    public int spawner;
+}
+
+public enum SpawnDBType
+{
+    Tutorial = 0
+}
 
 public class GameInfo : MonoBehaviour
 {
@@ -74,10 +90,17 @@ public class GameInfo : MonoBehaviour
 
 
     // 스폰 정보
-    TextAsset spawnTxt;
-    string[,] spawnData;
-    int lineSize, rowSize;
-    int spawnWave;         // 스폰 웨이브
+    //TextAsset spawnTxt;
+    //string[,] spawnData;
+    //int lineSize, rowSize;
+    //int spawnWave;         // 스폰 웨이브
+
+    // 스폰 정보
+    public SpawnDB spawnDB;
+    public List<SpawnData> spawnList = new List<SpawnData>();
+    public SpawnDBType typeDB;
+    public int branch;          // 스폰 분기
+    public int spawnWave;       // 스폰 웨이브
 
     // 현재 월드 정보
     public Command command;
@@ -90,7 +113,9 @@ public class GameInfo : MonoBehaviour
     void Start()
     {
         gm = GameManager.GetInstance();
-        SettingSpawnData();
+
+        //SettingSpawnData();
+        SpawnListSetting();
     }
 
     void Update()
@@ -99,24 +124,69 @@ public class GameInfo : MonoBehaviour
         ResourceSupplyCalc();
     }
 
-    // 0. world, 1. day, 2. hour, 3. minute, 4. type, 5. num, 6. spawner
+
+    // 스폰 리스트에 입력
+    void SpawnListSetting()
+    {
+        spawnDB = Instantiate(Resources.Load("Datas/" + "SpawnDB") as SpawnDB);
+
+        List<SpawnDBEntity> listDB = null;
+        // DB 정보 세팅
+        switch (typeDB)
+        {
+            case SpawnDBType.Tutorial:
+                listDB = spawnDB.Tutorial;
+                break;
+        }
+
+        if (listDB != null)
+        {
+            // 리스트안을 전부 비우고
+            spawnList.Clear();
+
+            // DB 정보 입력
+            for (int i = 0; i < listDB.Count; i++)
+            {
+                SpawnData data = new SpawnData();
+                
+                data.world = listDB[i].world;
+                data.day = listDB[i].day;
+                data.hour = listDB[i].hour;
+                data.minute = listDB[i].minute;
+                data.type = listDB[i].type;
+                data.num = listDB[i].num;
+                data.spawner = listDB[i].spawner;
+
+                spawnList.Add(data);
+            }
+        }
+    }
+
     void SpawnTimer()
     {
-        if(command != null)
-        {
-            if (spawnerList.Count > spawnWave)
-            {
-                // 현재 월드와 시간 확인
-                if (spawnData[spawnWave, 0] == command.world
-                    && spawnData[spawnWave, 1] == gm.day.ToString()
-                    && spawnData[spawnWave, 2] == gm.hour.ToString()
-                    && spawnData[spawnWave, 3] == gm.minute.ToString())
-                {
-                    // 생성
-                    spawnerList[int.Parse(spawnData[spawnWave, 6])].Spawn(spawnData[spawnWave, 4], int.Parse(spawnData[spawnWave, 5]));
-                    spawnWave++;
+        bool flag = false;
 
+        if (spawnList.Count > spawnWave)
+        {
+            // 현재 시간 체크
+            if (spawnList[spawnWave].day == gm.day && spawnList[spawnWave].hour == gm.hour && spawnList[spawnWave].minute == gm.minute)
+            {
+                // 현재 월드 체크
+                if (command != null)
+                {
+                    if (spawnList[spawnWave].world == command.world)
+                    {
+                        flag = true;
+                    }
                 }
+            }
+
+            // 전부 일치하면 소환
+            if (flag)
+            {
+                // 지정한 스포너에서 생성
+                spawnerList[spawnList[spawnWave].spawner].Spawn(spawnList[spawnWave].type, spawnList[spawnWave].num);
+                spawnWave++;
             }
         }
     }
@@ -149,27 +219,28 @@ public class GameInfo : MonoBehaviour
         foodSupply = ftemp;
     }
 
+
     // 스폰정보세팅
-    void SettingSpawnData()
-    {
-        spawnTxt = Instantiate(Resources.Load("Datas/" + "SpawnData") as TextAsset);
+    //void SettingSpawnData()
+    //{
+    //    spawnTxt = Instantiate(Resources.Load("Datas/" + "SpawnData") as TextAsset);
 
-        // 엔터와 탭으로 배열의 크기 조정
-        string currentText = spawnTxt.text.Substring(0, spawnTxt.text.Length - 1);  // 마지막 엔터 지우고 넣기
-        string[] line = currentText.Split('\n');
-        lineSize = line.Length;
-        rowSize = line[0].Split('\t').Length;
-        spawnData = new string[lineSize, rowSize];
+    //    // 엔터와 탭으로 배열의 크기 조정
+    //    string currentText = spawnTxt.text.Substring(0, spawnTxt.text.Length - 1);  // 마지막 엔터 지우고 넣기
+    //    string[] line = currentText.Split('\n');
+    //    lineSize = line.Length;
+    //    rowSize = line[0].Split('\t').Length;
+    //    spawnData = new string[lineSize, rowSize];
 
-        // 배열에 넣기
-        for(int i = 0; i < lineSize; i++)
-        {
-            // 한 줄에서 탭으로 나누기
-            string[] row = line[i].Split('\t');
-            for(int j = 0; j < row.Length; j++)
-            {
-                spawnData[i, j] = row[j];
-            }
-        }
-    }
+    //    // 배열에 넣기
+    //    for(int i = 0; i < lineSize; i++)
+    //    {
+    //        // 한 줄에서 탭으로 나누기
+    //        string[] row = line[i].Split('\t');
+    //        for(int j = 0; j < row.Length; j++)
+    //        {
+    //            spawnData[i, j] = row[j];
+    //        }
+    //    }
+    //}
 }

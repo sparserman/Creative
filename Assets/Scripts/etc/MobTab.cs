@@ -131,7 +131,7 @@ public class MobTab : MonoBehaviour
                 else if (panelHit.collider.gameObject == fieldPanel)
                 {
 
-                    if (ResourceCheck() && TimerCheck())
+                    if (ResourceCheck() && TimerCheck() && !gm.player.die)
                     {
                         // 자원 계산
                         gm.gi.gold -= mobInfo.gold;
@@ -249,8 +249,18 @@ public class MobTab : MonoBehaviour
 
     void FieldColorChange()
     {
-        if (SpawnCheck())
+        if(gm.player.die)
         {
+            // 빨강
+            if (go != null)
+            {
+                fieldPanel.GetComponent<SpriteRenderer>().color = new Color32(255, 100, 100, 40);
+            }
+            GetComponent<Image>().color = new Color32(200, 70, 70, 170);
+        }
+        else if (SpawnCheck())
+        {
+            // 주황
             if (go != null)
             {
                 fieldPanel.GetComponent<SpriteRenderer>().color = new Color32(250, 255, 100, 40);
@@ -259,6 +269,7 @@ public class MobTab : MonoBehaviour
         }
         else if (ResourceCheck() && TimerCheck())
         {
+            // 초록
             if (go != null)
             {
                 // 필드 색깔 변경
@@ -269,6 +280,7 @@ public class MobTab : MonoBehaviour
         }
         else
         {
+            // 빨강
             if (go != null)
             {
                 fieldPanel.GetComponent<SpriteRenderer>().color = new Color32(255, 100, 100, 40);

@@ -20,6 +20,14 @@ public class Tutorial : MonoBehaviour
             }
             // 첫 대사 시작
             yield return new WaitUntil(() => dialogSystemList[index].UpdateDialog());
+
+            // 대사가 끝나고 1초 후
+            yield return new WaitForSeconds(1f);
+            // 패널끄기
+            dialogSystemList[index].dialogPanel.SetActive(false);
+            // 시간 흐르게하기
+            GameManager.GetInstance().timerOn = true;
+
             index++;
 
             while(true)
