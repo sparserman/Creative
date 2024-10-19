@@ -88,10 +88,7 @@ public class MobTab : MonoBehaviour
                 {
                     anim.SetTrigger("isClick");
                     go = Instantiate(Resources.Load("Prefabs/Mob/" + nameText) as GameObject);
-                    go.GetComponent<Enemy>().spawnWaiting = true;
-                    go.GetComponent<Enemy>().stat = mobInfo.stat;
-                    go.GetComponent<Enemy>().enemyType = mobInfo.type;
-                    go.GetComponent<Enemy>().skillOn = mobInfo.skillOn;
+                    go.GetComponent<Enemy>().EnemySpawn(mobInfo);      // 내부 정보 세팅
 
                     // 필드 패널 보이기
                     fieldPanel.SetActive(true);
@@ -345,7 +342,7 @@ public class MobTab : MonoBehaviour
     {
         for (int i = 0; i < gm.mobList.Count; i++)
         {
-            if (gm.mobList[i].GetComponent<Enemy>().stat == mobInfo.stat)
+            if (gm.mobList[i].GetComponent<Enemy>().mobInfo.stat == mobInfo.stat)
             {
                 return true;
             }
@@ -358,7 +355,7 @@ public class MobTab : MonoBehaviour
     {
         for (int i = 0; i < gm.mobList.Count; i++)
         {
-            if (gm.mobList[i].GetComponent<Enemy>().stat == mobInfo.stat)
+            if (gm.mobList[i].GetComponent<Enemy>().mobInfo.stat == mobInfo.stat)
             {
                 return gm.mobList[i];
             }

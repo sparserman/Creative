@@ -1,0 +1,424 @@
+{
+    "firstLobby": true,
+    "day": 0,
+    "hour": 0,
+    "minute": 0,
+    "gold": 100,
+    "magic": 100,
+    "food": 100,
+    "goldSupply": 0,
+    "magicSupply": 0,
+    "foodSupply": 0,
+    "MP": 0,
+    "CP": 0,
+    "population": 4,
+    "coverNum": 2,
+    "spawnTime": 2.0,
+    "soldier1Hp": 0.0,
+    "soldier1Mp": 0.0,
+    "soldier1Ad": 0.0,
+    "soldier1AttackSpeed": 0.0,
+    "fireWizardHp": 0.0,
+    "fireWizardMp": 0.0,
+    "fireWizardAd": 0.0,
+    "fireWizardAttackSpeed": 0.0,
+    "fireTime": 3.0,
+    "respawnTime": 0.0,
+    "managerList": [
+        {
+            "icon": {
+                "instanceID": 30312
+            },
+            "illust": {
+                "instanceID": 30314
+            },
+            "managerName": "리오라",
+            "level": 1.0,
+            "state": "보통",
+            "eterniumPower": 60.0,
+            "defensivePower": 40.0,
+            "having": false
+        },
+        {
+            "icon": {
+                "instanceID": 30316
+            },
+            "illust": {
+                "instanceID": 30318
+            },
+            "managerName": "벨라리스",
+            "level": 1.0,
+            "state": "보통",
+            "eterniumPower": 50.0,
+            "defensivePower": 50.0,
+            "having": false
+        },
+        {
+            "icon": {
+                "instanceID": 30320
+            },
+            "illust": {
+                "instanceID": 30322
+            },
+            "managerName": "카이도",
+            "level": 1.0,
+            "state": "보통",
+            "eterniumPower": 30.0,
+            "defensivePower": 70.0,
+            "having": false
+        }
+    ],
+    "pointList": [
+        {
+            "enable": true,
+            "worldDestroy": false,
+            "worldName": "녹티스",
+            "worldImage": {
+                "instanceID": 30324
+            },
+            "worldDescription": "비교적 안전하지만, 항상 어두운 도시.",
+            "worldDetails": "여전히 어둡다.",
+            "management": 20.0,
+            "population": 50.0,
+            "resourceAmount": 19,
+            "resource": 1,
+            "goldEfficiency": 5.0,
+            "magicEfficiency": 2.0,
+            "foodEfficiency": 5.0,
+            "manager": {
+                "icon": {
+                    "instanceID": 0
+                },
+                "illust": {
+                    "instanceID": 0
+                },
+                "managerName": "",
+                "level": 0.0,
+                "state": "",
+                "eterniumPower": 0.0,
+                "defensivePower": 0.0,
+                "having": false
+            },
+            "barricadeList": [
+                {
+                    "build": true,
+                    "position": {
+                        "x": -4.309999942779541,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": true,
+                    "position": {
+                        "x": -5.320000171661377,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": -11.449999809265137,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": -19.049999237060548,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": -20.06999969482422,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": -26.6299991607666,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": true,
+                    "position": {
+                        "x": 4.210000038146973,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": 5.210000038146973,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": 11.350000381469727,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": 18.90999984741211,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                },
+                {
+                    "build": false,
+                    "position": {
+                        "x": 20.139999389648439,
+                        "y": -2.6500000953674318,
+                        "z": 1.5672354698181153
+                    }
+                }
+            ]
+        }
+    ],
+    "specialMobList": [
+        {
+            "faction": "",
+            "having": true,
+            "placement": true,
+            "nameText": "FireWizard",
+            "mobName": "불 마법사",
+            "sprite": {
+                "instanceID": 30334
+            },
+            "illust": {
+                "instanceID": 30336
+            },
+            "stat": {
+                "team": 0,
+                "state": 0,
+                "level": 1,
+                "maxHp": 20.0,
+                "hp": 20.0,
+                "maxMp": 20.0,
+                "mp": 0.0,
+                "shield": 0.0,
+                "ad": 6.0,
+                "attackSpeed": 1.5,
+                "attackRange": 6.0,
+                "shotSpeed": 0.10000000149011612,
+                "moveSpeed": 0.009999999776482582,
+                "runSpeed": 2.5,
+                "runValue": 0.0,
+                "jumpPower": 250.0,
+                "downJump": false
+            },
+            "gold": 10,
+            "magic": 25,
+            "food": 0,
+            "curWaitingTime": -0.0027972999960184099,
+            "waitingTime": 30.0,
+            "skillOn": false
+        },
+        {
+            "faction": "",
+            "having": true,
+            "placement": true,
+            "nameText": "Soldier2",
+            "mobName": "돌격병",
+            "sprite": {
+                "instanceID": 30338
+            },
+            "illust": {
+                "instanceID": 30340
+            },
+            "stat": {
+                "team": 0,
+                "state": 0,
+                "level": 1,
+                "maxHp": 40.0,
+                "hp": 40.0,
+                "maxMp": 20.0,
+                "mp": 0.0,
+                "shield": 0.0,
+                "ad": 2.0,
+                "attackSpeed": 1.0,
+                "attackRange": 4.5,
+                "shotSpeed": 0.10000000149011612,
+                "moveSpeed": 0.010999999940395356,
+                "runSpeed": 2.5,
+                "runValue": 0.0,
+                "jumpPower": 250.0,
+                "downJump": false
+            },
+            "gold": 15,
+            "magic": 0,
+            "food": 5,
+            "curWaitingTime": -0.0027972999960184099,
+            "waitingTime": 15.0,
+            "skillOn": false
+        },
+        {
+            "faction": "",
+            "having": true,
+            "placement": true,
+            "nameText": "Soldier3",
+            "mobName": "저격수",
+            "sprite": {
+                "instanceID": 30342
+            },
+            "illust": {
+                "instanceID": 30344
+            },
+            "stat": {
+                "team": 0,
+                "state": 0,
+                "level": 1,
+                "maxHp": 18.0,
+                "hp": 18.0,
+                "maxMp": 15.0,
+                "mp": 0.0,
+                "shield": 0.0,
+                "ad": 9.0,
+                "attackSpeed": 2.0,
+                "attackRange": 7.5,
+                "shotSpeed": 0.25,
+                "moveSpeed": 0.009999999776482582,
+                "runSpeed": 2.5,
+                "runValue": 0.0,
+                "jumpPower": 250.0,
+                "downJump": false
+            },
+            "gold": 25,
+            "magic": 0,
+            "food": 8,
+            "curWaitingTime": -0.0027972999960184099,
+            "waitingTime": 20.0,
+            "skillOn": false
+        },
+        {
+            "faction": "",
+            "having": true,
+            "placement": false,
+            "nameText": "Raider1",
+            "mobName": "민병대원",
+            "sprite": {
+                "instanceID": 30346
+            },
+            "illust": {
+                "instanceID": 30348
+            },
+            "stat": {
+                "team": 0,
+                "state": 0,
+                "level": 1,
+                "maxHp": 16.0,
+                "hp": 16.0,
+                "maxMp": 10.0,
+                "mp": 0.0,
+                "shield": 0.0,
+                "ad": 2.0,
+                "attackSpeed": 1.100000023841858,
+                "attackRange": 5.5,
+                "shotSpeed": 0.10000000149011612,
+                "moveSpeed": 0.009999999776482582,
+                "runSpeed": 2.5,
+                "runValue": 0.0,
+                "jumpPower": 250.0,
+                "downJump": false
+            },
+            "gold": 5,
+            "magic": 0,
+            "food": 10,
+            "curWaitingTime": 0.0,
+            "waitingTime": 25.0,
+            "skillOn": false
+        },
+        {
+            "faction": "",
+            "having": true,
+            "placement": false,
+            "nameText": "Raider2",
+            "mobName": "예비군",
+            "sprite": {
+                "instanceID": 30350
+            },
+            "illust": {
+                "instanceID": 30352
+            },
+            "stat": {
+                "team": 0,
+                "state": 0,
+                "level": 1,
+                "maxHp": 18.0,
+                "hp": 18.0,
+                "maxMp": 10.0,
+                "mp": 0.0,
+                "shield": 0.0,
+                "ad": 3.0,
+                "attackSpeed": 1.0,
+                "attackRange": 5.0,
+                "shotSpeed": 0.10000000149011612,
+                "moveSpeed": 0.009999999776482582,
+                "runSpeed": 2.5,
+                "runValue": 0.0,
+                "jumpPower": 250.0,
+                "downJump": false
+            },
+            "gold": 3,
+            "magic": 0,
+            "food": 5,
+            "curWaitingTime": 0.0,
+            "waitingTime": 25.0,
+            "skillOn": false
+        },
+        {
+            "faction": "",
+            "having": true,
+            "placement": false,
+            "nameText": "Raider3",
+            "mobName": "민병대장",
+            "sprite": {
+                "instanceID": 30354
+            },
+            "illust": {
+                "instanceID": 30356
+            },
+            "stat": {
+                "team": 0,
+                "state": 0,
+                "level": 1,
+                "maxHp": 35.0,
+                "hp": 35.0,
+                "maxMp": 10.0,
+                "mp": 0.0,
+                "shield": 0.0,
+                "ad": 4.0,
+                "attackSpeed": 0.6000000238418579,
+                "attackRange": 0.5,
+                "shotSpeed": 0.10000000149011612,
+                "moveSpeed": 0.010999999940395356,
+                "runSpeed": 2.5,
+                "runValue": 0.0,
+                "jumpPower": 250.0,
+                "downJump": false
+            },
+            "gold": 12,
+            "magic": 0,
+            "food": 8,
+            "curWaitingTime": 0.0,
+            "waitingTime": 25.0,
+            "skillOn": false
+        }
+    ]
+}

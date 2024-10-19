@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using TMPro;
@@ -18,10 +19,7 @@ public class GameManager : MonoBehaviour
     public SoundManager sm;
     public List<GameObject> mobList = new List<GameObject>();
 
-    public int day = 0;
-    public int hour = 0;
-    public int minute = 0;
-    float seconds = 0;
+    float second = 0;
 
     public LoadingSceneManager lm;
 
@@ -45,10 +43,28 @@ public class GameManager : MonoBehaviour
     // 게임 정보
     public GameInfo gi;
 
+    // 현재 월드 정보
+    public Command command;
+    public List<EnemySpawner> spawnerList;
+    public int rightMobNum;    // 오른쪽 몹 숫자
+    public int leftMobNum;     // 왼쪽 몹 숫자
+    public int rightBarricadeNum;   // 오른쪽 바리케이드 숫자
+    public int leftBarricadeNum;    // 왼쪽 바리케이드 숫자
+
+    // 스폰 정보
+    public SpawnDB spawnDB;
+    public List<SpawnData> spawnList = new List<SpawnData>();
+    public SpawnDBType typeDB;
+    public int branch;          // 스폰 분기
+    public int spawnWave;       // 스폰 웨이브
+
     void Awake()
     {
         Init();
+    }
 
+    private void Start()
+    {
         if (GetComponent<SoundManager>() == null)
         {
             sm = gameObject.AddComponent<SoundManager>();
@@ -58,14 +74,7 @@ public class GameManager : MonoBehaviour
             sm = GetComponent<SoundManager>();
         }
 
-        if (GetComponent<GameInfo>() == null)
-        {
-            gi = gameObject.AddComponent<GameInfo>();
-        }
-        else
-        {
-            gi = GetComponent<GameInfo>();
-        }
+        SpawnListSetting();
     }
 
     void Update()
@@ -74,6 +83,11 @@ public class GameManager : MonoBehaviour
 
         // 시간
         SetDate();
+
+        // 스폰 타이머
+        SpawnTimer();
+        // 자원 수급량 계산
+        ResourceSupplyCalc();
     }
 
     void InputSystem()
@@ -127,22 +141,22 @@ public class GameManager : MonoBehaviour
     {
         if (timerOn)
         {
-            seconds += Time.deltaTime;
-            if (seconds >= 1)
+            second += Time.deltaTime;
+            if (second >= 1)
             {
-                minute++;
-                seconds = 0;
-                if (minute >= 60)
+                gi.minute++;
+                second = 0;
+                if (gi.minute >= 60)
                 {
                     // 
                     OneMinutePlay();
 
-                    hour++;
-                    minute = 0;
-                    if (hour >= 24)
+                    gi.hour++;
+                    gi.minute = 0;
+                    if (gi.hour >= 24)
                     {
-                        day++;
-                        hour = 0;
+                        gi.day++;
+                        gi.hour = 0;
                     }
                 }
             }
@@ -170,6 +184,108 @@ public class GameManager : MonoBehaviour
                 goList[i].GetComponent<WorldInfo>().ManagerUpdate();
             }
         }
+    }
+
+
+    // 스폰 리스트에 입력
+    void SpawnListSetting()
+    {
+        spawnDB = Instantiate(Resources.Load("Datas/" + "SpawnDB") as SpawnDB);
+
+        List<SpawnDBEntity> listDB = null;
+        // DB 정보 세팅
+        switch (typeDB)
+        {
+            case SpawnDBType.Tutorial:
+                listDB = spawnDB.Tutorial;
+                break;
+        }
+
+        if (listDB != null)
+        {
+            // 리스트안을 전부 비우고
+            spawnList.Clear();
+
+            // DB 정보 입력
+            for (int i = 0; i < listDB.Count; i++)
+            {
+                SpawnData data = new SpawnData();
+
+                data.world = listDB[i].world;
+                data.day = listDB[i].day;
+                data.hour = listDB[i].hour;
+                data.minute = listDB[i].minute;
+                data.type = listDB[i].type;
+                data.num = listDB[i].num;
+                data.spawner = listDB[i].spawner;
+
+                spawnList.Add(data);
+            }
+        }
+    }
+
+    void SpawnTimer()
+    {
+        bool flag = false;
+
+        if (spawnList.Count > spawnWave)
+        {
+            // 현재 시간 체크
+            if (spawnList[spawnWave].day == gi.day && spawnList[spawnWave].hour == gi.hour && spawnList[spawnWave].minute == gi.minute)
+            {
+                // 현재 월드 체크
+                if (command != null)
+                {
+                    if (spawnList[spawnWave].world == command.worldName)
+                    {
+                        flag = true;
+                    }
+                }
+            }
+
+            // 전부 일치하면 소환
+            if (flag)
+            {
+                // 지정한 스포너에서 생성
+                spawnerList[spawnList[spawnWave].spawner].Spawn(spawnList[spawnWave].type, spawnList[spawnWave].num);
+                spawnWave++;
+            }
+        }
+    }
+
+    // 수급량 계산
+    void ResourceSupplyCalc()
+    {
+        int gtemp = 0;
+        int mtemp = 0;
+        int ftemp = 0;
+
+        for (int i = 0; i < gi.pointList.Count; i++)
+        {
+            switch (gi.pointList[i].resource)
+            {
+                case Resource.Gold:
+                    gtemp += gi.pointList[i].resourceAmount;
+                    break;
+                case Resource.Magic:
+                    mtemp += gi.pointList[i].resourceAmount;
+                    break;
+                case Resource.Food:
+                    ftemp += gi.pointList[i].resourceAmount;
+                    break;
+            }
+        }
+
+        gi.goldSupply = gtemp;
+        gi.magicSupply = mtemp;
+        gi.foodSupply = ftemp;
+    }
+
+    public void GameSave()
+    {
+        string jsonData = JsonUtility.ToJson(GameManager.GetInstance().gi);
+        string path = Application.dataPath + "/gameInfo.json";
+        File.WriteAllText(path, jsonData);
     }
 }
 

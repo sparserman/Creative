@@ -2,21 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum E_ManagerCode
-{
-    Liora,
-    Belaris,
-    Kaido,
-    JURURU
-}
 
-public class ManagerInfo : MonoBehaviour
+[System.Serializable]
+public class ManagerInfo
 {
-    GameManager gm;
-
     // 관리자 정보
-    public E_ManagerCode mCode;
-
     public Sprite icon;
     public Sprite illust;
     public string managerName;
@@ -27,15 +17,4 @@ public class ManagerInfo : MonoBehaviour
 
     // 보유중인지
     public bool having = false;
-
-    void Start()
-    {
-        gm = GameManager.GetInstance();
-
-        if (gm.gi.firstLobby)
-        {
-            gm.gi.managerList.Add(this);
-        }
-    }
-
 }

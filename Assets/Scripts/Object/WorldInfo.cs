@@ -39,8 +39,6 @@ public class WorldInfo : MonoBehaviour
 
     public TMP_Dropdown resourceDropdown;   // 자원 설정 드롭다운
 
-    public WorldCode worldCode = 0;
-
 
     void Start()
     {
@@ -53,7 +51,13 @@ public class WorldInfo : MonoBehaviour
     public void VisitButton()
     {
         // int로 변경해서
-        gm.lm.StartFadeIn((int)worldCode);
+        switch(worldName.text)
+        {
+            case "녹티스":
+                gm.lm.StartFadeIn((int)STAGE.WORLD_A);
+                break;
+        }
+        
 
         gm.sm.PlayEffectSound(gm.sm.click);
 
@@ -123,7 +127,7 @@ public class WorldInfo : MonoBehaviour
     {
         for (int i = 0; i < gm.gi.pointList.Count; i++)
         {
-            if (gm.gi.pointList[i].worldCode == worldCode)
+            if (gm.gi.pointList[i].worldName == worldName.text)
             {
                 gm.gi.pointList[i].manager = manager;
             }
@@ -161,30 +165,30 @@ public class WorldInfo : MonoBehaviour
     {
         if (gm != null)
         {
-            Point p = null;
+            PointInfo pi = null;
             for (int i = 0; i < gm.gi.pointList.Count; i++)
             {
-                if (gm.gi.pointList[i].worldCode == worldCode)
+                if (gm.gi.pointList[i].worldName == worldName.text)
                 {
-                    p = gm.gi.pointList[i];
+                    pi = gm.gi.pointList[i];
                 }
             }
 
             switch (p_index)
             {
                 case (int)Resource.Gold:
-                    p.resource = Resource.Gold;
+                    pi.resource = Resource.Gold;
                     break;
                 case (int)Resource.Magic:
-                    p.resource = Resource.Magic;
+                    pi.resource = Resource.Magic;
                     break;
                 case (int)Resource.Food:
-                    p.resource = Resource.Food;
+                    pi.resource = Resource.Food;
                     break;
             }
 
-            p.UpdateResourceValue();
-            resource.text = p.resourceAmount.ToString();
+            pi.UpdateResourceValue();
+            resource.text = pi.resourceAmount.ToString();
         }
     }
 

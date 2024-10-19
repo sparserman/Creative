@@ -530,9 +530,6 @@ MonoBehaviour:
   goList: []
   sm: {fileID: 0}
   mobList: []
-  day: 0
-  hour: 0
-  minute: 0
   lm: {fileID: 0}
   timerOn: 0
   player: {fileID: 0}
@@ -545,7 +542,280 @@ MonoBehaviour:
   moveSpeed: 0
   runSpeed: 0
   jumpPower: 0
-  gi: {fileID: 0}
+  gi:
+    firstLobby: 1
+    day: 0
+    hour: 0
+    minute: 0
+    gold: 100
+    magic: 100
+    food: 100
+    goldSupply: 0
+    magicSupply: 0
+    foodSupply: 0
+    MP: 0
+    CP: 0
+    population: 4
+    coverNum: 2
+    spawnTime: 2
+    soldier1Hp: 0
+    soldier1Mp: 0
+    soldier1Ad: 0
+    soldier1AttackSpeed: 0
+    fireWizardHp: 0
+    fireWizardMp: 0
+    fireWizardAd: 0
+    fireWizardAttackSpeed: 0
+    fireTime: 3
+    respawnTime: 0
+    managerList:
+    - icon: {fileID: 21300000, guid: ea439b0655f4fd347ae056529f9c1263, type: 3}
+      illust: {fileID: 21300000, guid: 8e10c8c509336f94dbc0754b349000a0, type: 3}
+      managerName: "\uB9AC\uC624\uB77C"
+      level: 1
+      state: "\uBCF4\uD1B5"
+      eterniumPower: 60
+      defensivePower: 40
+      having: 0
+    - icon: {fileID: 21300000, guid: c67e67a784e68e94d94cc787ccd3c818, type: 3}
+      illust: {fileID: 21300000, guid: 12e0423e46ac31241a6bd0a00a8dee39, type: 3}
+      managerName: "\uBCA8\uB77C\uB9AC\uC2A4"
+      level: 1
+      state: "\uBCF4\uD1B5"
+      eterniumPower: 50
+      defensivePower: 50
+      having: 0
+    - icon: {fileID: 21300000, guid: ba70764159f213a468f03ae21f30b49e, type: 3}
+      illust: {fileID: 21300000, guid: 329610b7028c74b4f8b0f2d322f5ac8a, type: 3}
+      managerName: "\uCE74\uC774\uB3C4"
+      level: 1
+      state: "\uBCF4\uD1B5"
+      eterniumPower: 30
+      defensivePower: 70
+      having: 0
+    pointList:
+    - enable: 1
+      worldDestroy: 0
+      worldName: "\uB179\uD2F0\uC2A4"
+      worldImage: {fileID: 21300000, guid: b474d223ab6bc144f92746d06689ce08, type: 3}
+      worldDescription: "\uBE44\uAD50\uC801 \uC548\uC804\uD558\uC9C0\uB9CC, \uD56D\uC0C1
+        \uC5B4\uB450\uC6B4 \uB3C4\uC2DC."
+      worldDetails: "\uC5EC\uC804\uD788 \uC5B4\uB461\uB2E4."
+      management: 20
+      population: 50
+      resourceAmount: 0
+      resource: 0
+      goldEfficiency: 5
+      magicEfficiency: 2
+      foodEfficiency: 5
+      manager:
+        icon: {fileID: 0}
+        illust: {fileID: 0}
+        managerName: 
+        level: 0
+        state: 
+        eterniumPower: 0
+        defensivePower: 0
+        having: 0
+      barricadeList: []
+    specialMobList:
+    - faction: 
+      having: 0
+      placement: 0
+      nameText: FireWizard
+      mobName: "\uBD88 \uB9C8\uBC95\uC0AC"
+      sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
+      illust: {fileID: 21300000, guid: 2d341639bd8e8254a857d34900f90466, type: 3}
+      stat:
+        team: 0
+        state: 0
+        level: 1
+        maxHp: 20
+        hp: 20
+        maxMp: 20
+        mp: 0
+        shield: 0
+        ad: 6
+        attackSpeed: 1.5
+        attackRange: 6
+        shotSpeed: 0.1
+        moveSpeed: 0.01
+        runSpeed: 2.5
+        runValue: 0
+        jumpPower: 250
+        downJump: 0
+      gold: 10
+      magic: 25
+      food: 0
+      curWaitingTime: 0
+      waitingTime: 30
+      skillOn: 0
+    - faction: 
+      having: 1
+      placement: 1
+      nameText: Soldier2
+      mobName: "\uB3CC\uACA9\uBCD1"
+      sprite: {fileID: 21300000, guid: de2f265f38becc644b505d40cc57d26e, type: 3}
+      illust: {fileID: 21300000, guid: 5c71fc81a1a85754094feef5df71c8db, type: 3}
+      stat:
+        team: 0
+        state: 0
+        level: 1
+        maxHp: 40
+        hp: 40
+        maxMp: 20
+        mp: 0
+        shield: 0
+        ad: 2
+        attackSpeed: 1
+        attackRange: 4.5
+        shotSpeed: 0.1
+        moveSpeed: 0.011
+        runSpeed: 2.5
+        runValue: 0
+        jumpPower: 250
+        downJump: 0
+      gold: 15
+      magic: 0
+      food: 5
+      curWaitingTime: 0
+      waitingTime: 15
+      skillOn: 0
+    - faction: 
+      having: 1
+      placement: 1
+      nameText: Soldier3
+      mobName: "\uC800\uACA9\uC218"
+      sprite: {fileID: 21300000, guid: 95a66edbe5cd633439a333abea66b055, type: 3}
+      illust: {fileID: 21300000, guid: 8ad48f40fe5e27d409751b5aae267607, type: 3}
+      stat:
+        team: 0
+        state: 0
+        level: 1
+        maxHp: 18
+        hp: 18
+        maxMp: 15
+        mp: 0
+        shield: 0
+        ad: 9
+        attackSpeed: 2
+        attackRange: 7.5
+        shotSpeed: 0.25
+        moveSpeed: 0.01
+        runSpeed: 2.5
+        runValue: 0
+        jumpPower: 250
+        downJump: 0
+      gold: 25
+      magic: 0
+      food: 8
+      curWaitingTime: 0
+      waitingTime: 20
+      skillOn: 0
+    - faction: 
+      having: 1
+      placement: 0
+      nameText: Raider1
+      mobName: "\uBBFC\uBCD1\uB300\uC6D0"
+      sprite: {fileID: 21300000, guid: 612b298a2887a8e4d926459e5ce3f9b1, type: 3}
+      illust: {fileID: 21300000, guid: 7f22a7480a1c9d64eb2ce7332f342d01, type: 3}
+      stat:
+        team: 0
+        state: 0
+        level: 1
+        maxHp: 16
+        hp: 16
+        maxMp: 10
+        mp: 0
+        shield: 0
+        ad: 2
+        attackSpeed: 1.1
+        attackRange: 5.5
+        shotSpeed: 0.1
+        moveSpeed: 0.01
+        runSpeed: 2.5
+        runValue: 0
+        jumpPower: 250
+        downJump: 0
+      gold: 5
+      magic: 0
+      food: 10
+      curWaitingTime: 0
+      waitingTime: 25
+      skillOn: 0
+    - faction: 
+      having: 1
+      placement: 0
+      nameText: Raider2
+      mobName: "\uC608\uBE44\uAD70"
+      sprite: {fileID: 21300000, guid: cfa2998cc21fcb143a4b3c720ae14b90, type: 3}
+      illust: {fileID: 21300000, guid: 331bdb6522d9f5149b9e55f7581f1b1a, type: 3}
+      stat:
+        team: 0
+        state: 0
+        level: 1
+        maxHp: 18
+        hp: 18
+        maxMp: 10
+        mp: 0
+        shield: 0
+        ad: 3
+        attackSpeed: 1
+        attackRange: 5
+        shotSpeed: 0.1
+        moveSpeed: 0.01
+        runSpeed: 2.5
+        runValue: 0
+        jumpPower: 250
+        downJump: 0
+      gold: 3
+      magic: 0
+      food: 5
+      curWaitingTime: 0
+      waitingTime: 25
+      skillOn: 0
+    - faction: 
+      having: 1
+      placement: 0
+      nameText: Raider3
+      mobName: "\uBBFC\uBCD1\uB300\uC7A5"
+      sprite: {fileID: 21300000, guid: 15d6da45b7e0b834695d33b5ab7ac08e, type: 3}
+      illust: {fileID: 21300000, guid: bc13a120acb09ae428fe75ffbec3257f, type: 3}
+      stat:
+        team: 0
+        state: 0
+        level: 1
+        maxHp: 35
+        hp: 35
+        maxMp: 10
+        mp: 0
+        shield: 0
+        ad: 4
+        attackSpeed: 0.6
+        attackRange: 0.5
+        shotSpeed: 0.1
+        moveSpeed: 0.011
+        runSpeed: 2.5
+        runValue: 0
+        jumpPower: 250
+        downJump: 0
+      gold: 12
+      magic: 0
+      food: 8
+      curWaitingTime: 0
+      waitingTime: 25
+      skillOn: 0
+  command: {fileID: 0}
+  spawnerList: []
+  rightMobNum: 0
+  leftMobNum: 0
+  rightBarricadeNum: 0
+  leftBarricadeNum: 0
+  spawnDB: {fileID: 0}
+  spawnList: []
+  typeDB: 0
+  branch: 0
+  spawnWave: 0
 --- !u!4 &424467466
 Transform:
   m_ObjectHideFlags: 0
@@ -558,10 +828,7 @@ Transform:
   m_LocalPosition: {x: 1202, y: 569.118, z: -5.6607175}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1963643841}
-  - {fileID: 996268819}
-  - {fileID: 1294959805}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!82 &424467467
@@ -2491,6 +2758,7 @@ GameObject:
   - component: {fileID: 989188087}
   - component: {fileID: 989188086}
   - component: {fileID: 989188085}
+  - component: {fileID: 989188088}
   m_Layer: 5
   m_Name: LoadGame_Btn
   m_TagString: Untagged
@@ -2561,7 +2829,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 989188086}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 989188088}
+        m_TargetAssemblyTypeName: GameSaveLoad, Assembly-CSharp
+        m_MethodName: GameLoad
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1220054649}
+        m_TargetAssemblyTypeName: LoadingSceneManager, Assembly-CSharp
+        m_MethodName: StartFadeIn
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &989188086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2600,243 +2892,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989188083}
   m_CullTransparentMesh: 1
---- !u!1 &996268817
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 996268819}
-  - component: {fileID: 996268818}
-  m_Layer: 0
-  m_Name: SpecialMobGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &996268818
+--- !u!114 &989188088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996268817}
+  m_GameObject: {fileID: 989188083}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8889d7612d542a745839b4f958dfb6d8, type: 3}
+  m_Script: {fileID: 11500000, guid: d55f407d74fc0a8459eadde4d6b62c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  specialMobInfoList:
-  - type: 6
-    faction: 
-    having: 1
-    placement: 1
-    nameText: FireWizard
-    mobName: "\uBD88 \uB9C8\uBC95\uC0AC"
-    sprite: {fileID: 21300000, guid: ab162c498598e9940b92949bd976e688, type: 3}
-    illust: {fileID: 21300000, guid: 2d341639bd8e8254a857d34900f90466, type: 3}
-    stat:
-      team: 0
-      state: 0
-      level: 1
-      maxHp: 20
-      hp: 20
-      maxMp: 20
-      mp: 0
-      shield: 0
-      ad: 6
-      attackSpeed: 1.5
-      attackRange: 6
-      shotSpeed: 0.1
-      moveSpeed: 0.01
-      runSpeed: 2.5
-      runValue: 0
-      jumpPower: 250
-      downJump: 0
-    gold: 10
-    magic: 25
-    food: 0
-    curWaitingTime: 0
-    waitingTime: 30
-    skillOn: 0
-  - type: 1
-    faction: 
-    having: 1
-    placement: 1
-    nameText: Soldier2
-    mobName: "\uB3CC\uACA9\uBCD1"
-    sprite: {fileID: 21300000, guid: de2f265f38becc644b505d40cc57d26e, type: 3}
-    illust: {fileID: 21300000, guid: 5c71fc81a1a85754094feef5df71c8db, type: 3}
-    stat:
-      team: 0
-      state: 0
-      level: 1
-      maxHp: 40
-      hp: 40
-      maxMp: 20
-      mp: 0
-      shield: 0
-      ad: 2
-      attackSpeed: 1
-      attackRange: 4.5
-      shotSpeed: 0.1
-      moveSpeed: 0.011
-      runSpeed: 2.5
-      runValue: 0
-      jumpPower: 250
-      downJump: 0
-    gold: 15
-    magic: 0
-    food: 5
-    curWaitingTime: 0
-    waitingTime: 15
-    skillOn: 0
-  - type: 2
-    faction: 
-    having: 1
-    placement: 1
-    nameText: Soldier3
-    mobName: "\uC800\uACA9\uC218"
-    sprite: {fileID: 21300000, guid: 95a66edbe5cd633439a333abea66b055, type: 3}
-    illust: {fileID: 21300000, guid: 8ad48f40fe5e27d409751b5aae267607, type: 3}
-    stat:
-      team: 0
-      state: 0
-      level: 1
-      maxHp: 18
-      hp: 18
-      maxMp: 15
-      mp: 0
-      shield: 0
-      ad: 9
-      attackSpeed: 2
-      attackRange: 7.5
-      shotSpeed: 0.25
-      moveSpeed: 0.01
-      runSpeed: 2.5
-      runValue: 0
-      jumpPower: 250
-      downJump: 0
-    gold: 25
-    magic: 0
-    food: 8
-    curWaitingTime: 0
-    waitingTime: 20
-    skillOn: 0
-  - type: 11
-    faction: 
-    having: 1
-    placement: 0
-    nameText: Raider1
-    mobName: "\uBBFC\uBCD1\uB300\uC6D0"
-    sprite: {fileID: 21300000, guid: 612b298a2887a8e4d926459e5ce3f9b1, type: 3}
-    illust: {fileID: 21300000, guid: 7f22a7480a1c9d64eb2ce7332f342d01, type: 3}
-    stat:
-      team: 0
-      state: 0
-      level: 1
-      maxHp: 16
-      hp: 16
-      maxMp: 10
-      mp: 0
-      shield: 0
-      ad: 2
-      attackSpeed: 1.1
-      attackRange: 5.5
-      shotSpeed: 0.1
-      moveSpeed: 0.01
-      runSpeed: 2.5
-      runValue: 0
-      jumpPower: 250
-      downJump: 0
-    gold: 5
-    magic: 0
-    food: 10
-    curWaitingTime: 0
-    waitingTime: 25
-    skillOn: 0
-  - type: 12
-    faction: 
-    having: 1
-    placement: 0
-    nameText: Raider2
-    mobName: "\uC608\uBE44\uAD70"
-    sprite: {fileID: 21300000, guid: cfa2998cc21fcb143a4b3c720ae14b90, type: 3}
-    illust: {fileID: 21300000, guid: 331bdb6522d9f5149b9e55f7581f1b1a, type: 3}
-    stat:
-      team: 0
-      state: 0
-      level: 1
-      maxHp: 18
-      hp: 18
-      maxMp: 10
-      mp: 0
-      shield: 0
-      ad: 3
-      attackSpeed: 1
-      attackRange: 5
-      shotSpeed: 0.1
-      moveSpeed: 0.01
-      runSpeed: 2.5
-      runValue: 0
-      jumpPower: 250
-      downJump: 0
-    gold: 3
-    magic: 0
-    food: 5
-    curWaitingTime: 0
-    waitingTime: 25
-    skillOn: 0
-  - type: 13
-    faction: 
-    having: 1
-    placement: 0
-    nameText: Raider3
-    mobName: "\uBBFC\uBCD1\uB300\uC7A5"
-    sprite: {fileID: 21300000, guid: 15d6da45b7e0b834695d33b5ab7ac08e, type: 3}
-    illust: {fileID: 21300000, guid: bc13a120acb09ae428fe75ffbec3257f, type: 3}
-    stat:
-      team: 0
-      state: 0
-      level: 1
-      maxHp: 35
-      hp: 35
-      maxMp: 10
-      mp: 0
-      shield: 0
-      ad: 4
-      attackSpeed: 0.6
-      attackRange: 0.5
-      shotSpeed: 0.1
-      moveSpeed: 0.011
-      runSpeed: 2.5
-      runValue: 0
-      jumpPower: 250
-      downJump: 0
-    gold: 12
-    magic: 0
-    food: 8
-    curWaitingTime: 0
-    waitingTime: 25
-    skillOn: 0
---- !u!4 &996268819
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996268817}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1202.1392, y: -568.1182, z: -4.4409394}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 424467466}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1020302258
 GameObject:
   m_ObjectHideFlags: 0
@@ -3268,168 +3335,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1283782975}
   m_CullTransparentMesh: 1
---- !u!1 &1294959800
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1294959805}
-  - component: {fileID: 1294959804}
-  - component: {fileID: 1294959803}
-  - component: {fileID: 1294959802}
-  - component: {fileID: 1294959801}
-  m_Layer: 0
-  m_Name: PointGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1294959801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294959800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoInputCheck: 1
-  p: {fileID: 0}
-  enable: 0
-  worldDestroy: 0
-  worldCode: 14
-  worldName: "\uC5D0\uC2A4\uD2B8\uB808\uC57C"
-  worldImage: {fileID: 21300000, guid: 47521d6def8d6ec459e9e0bb350fefbb, type: 3}
-  worldDescription: "\uACF5\uACA9\uC744 \uC790\uC8FC \uBC1B\uC544 \uBC29\uC5B4\uC2DC\uC124\uC774
-    \uB6F0\uC5B4\uB09C \uB3C4\uC2DC."
-  worldDetails: 
-  management: 0
-  population: 40
-  resourceAmount: 0
-  resource: 0
-  goldEfficiency: 0
-  magicEfficiency: 0
-  foodEfficiency: 0
-  manager: {fileID: 0}
-  pos: {x: -1, y: 0, z: 0}
-  barricadeList: []
---- !u!114 &1294959802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294959800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoInputCheck: 1
-  p: {fileID: 0}
-  enable: 0
-  worldDestroy: 0
-  worldCode: 13
-  worldName: "\uD14C\uD06C\uB178\uBC14"
-  worldImage: {fileID: 21300000, guid: c430b27eeed04104489948bfdb18da01, type: 3}
-  worldDescription: "\uAE30\uC220 \uBC1C\uC804\uC774 \uB6F0\uC5B4\uB09C \uB3C4\uC2DC."
-  worldDetails: 
-  management: 0
-  population: 35
-  resourceAmount: 0
-  resource: 0
-  goldEfficiency: 0
-  magicEfficiency: 0
-  foodEfficiency: 0
-  manager: {fileID: 0}
-  pos: {x: -1, y: 0, z: 0}
-  barricadeList: []
---- !u!114 &1294959803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294959800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoInputCheck: 1
-  p: {fileID: 0}
-  enable: 0
-  worldDestroy: 0
-  worldCode: 12
-  worldName: "\uBCA8\uB77C"
-  worldImage: {fileID: 21300000, guid: d0ffccfa2ec444d408674b21159421f3, type: 3}
-  worldDescription: "\uC778\uAD6C\uAC00 \uB9CE\uACE0 \uC790\uC6D0\uC774 \uD48D\uBD80\uD55C
-    \uB3C4\uC2DC."
-  worldDetails: "\uBD81\uC801\uD558\uB2E4."
-  management: 0
-  population: 100
-  resourceAmount: 0
-  resource: 0
-  goldEfficiency: 0
-  magicEfficiency: 0
-  foodEfficiency: 0
-  manager: {fileID: 0}
-  pos: {x: 0, y: 0, z: 0}
-  barricadeList: []
---- !u!114 &1294959804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294959800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9688bfb63fd875e44999a7c4d989f202, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  infoInputCheck: 1
-  p: {fileID: 0}
-  enable: 0
-  worldDestroy: 0
-  worldCode: 11
-  worldName: "\uB179\uD2F0\uC2A4"
-  worldImage: {fileID: 21300000, guid: b474d223ab6bc144f92746d06689ce08, type: 3}
-  worldDescription: "\uBE44\uAD50\uC801 \uC548\uC804\uD558\uC9C0\uB9CC \uD56D\uC0C1
-    \uC5B4\uB450\uC6B4 \uB3C4\uC2DC."
-  worldDetails: "\uBCC0\uD568\uC5C6\uC774 \uC5B4\uB461\uB2E4."
-  management: 100
-  population: 50
-  resourceAmount: 0
-  resource: 0
-  goldEfficiency: 0.4
-  magicEfficiency: 0.2
-  foodEfficiency: 0.2
-  manager: {fileID: 0}
-  pos: {x: 0, y: 0, z: 0}
-  barricadeList: []
---- !u!4 &1294959805
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294959800}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1225.6467, y: -570.93005, z: -4.3943124}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 424467466}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1326557118
 GameObject:
   m_ObjectHideFlags: 0
@@ -4573,125 +4478,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1963217967}
   m_CullTransparentMesh: 1
---- !u!1 &1963643836
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1963643841}
-  - component: {fileID: 1963643840}
-  - component: {fileID: 1963643839}
-  - component: {fileID: 1963643838}
-  - component: {fileID: 1963643837}
-  m_Layer: 0
-  m_Name: ManagerGroup
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1963643837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963643836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mCode: 3
-  icon: {fileID: 0}
-  illust: {fileID: 0}
-  managerName: "\uC8FC\uB974\uB974"
-  level: 1
-  state: "\uBCF4\uD1B5"
-  eterniumPower: 30
-  defensivePower: 70
-  having: 0
---- !u!114 &1963643838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963643836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mCode: 2
-  icon: {fileID: 21300000, guid: ba70764159f213a468f03ae21f30b49e, type: 3}
-  illust: {fileID: 21300000, guid: 329610b7028c74b4f8b0f2d322f5ac8a, type: 3}
-  managerName: "\uCE74\uC774\uB3C4"
-  level: 1
-  state: "\uBCF4\uD1B5"
-  eterniumPower: 30
-  defensivePower: 70
-  having: 0
---- !u!114 &1963643839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963643836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mCode: 1
-  icon: {fileID: 21300000, guid: c67e67a784e68e94d94cc787ccd3c818, type: 3}
-  illust: {fileID: 21300000, guid: 12e0423e46ac31241a6bd0a00a8dee39, type: 3}
-  managerName: "\uBCA8\uB77C\uB9AC\uC2A4"
-  level: 1
-  state: "\uBCF4\uD1B5"
-  eterniumPower: 50
-  defensivePower: 50
-  having: 1
---- !u!114 &1963643840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963643836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b14cc1a0df9c634d8215f553fd41bca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mCode: 0
-  icon: {fileID: 21300000, guid: ea439b0655f4fd347ae056529f9c1263, type: 3}
-  illust: {fileID: 21300000, guid: 8e10c8c509336f94dbc0754b349000a0, type: 3}
-  managerName: "\uB9AC\uC624\uB77C"
-  level: 1
-  state: "\uBCF4\uD1B5"
-  eterniumPower: 60
-  defensivePower: 40
-  having: 1
---- !u!4 &1963643841
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963643836}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1202.1392, y: -568.1182, z: -4.4409394}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 424467466}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2103466123
 GameObject:
   m_ObjectHideFlags: 0

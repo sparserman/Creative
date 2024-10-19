@@ -8,8 +8,7 @@ using static Unity.IO.LowLevel.Unsafe.AsyncReadManagerMetrics;
 
 public class Command : MonoBehaviour
 {
-    public string world;
-    public WorldCode worldCode;
+    public string worldName;
 
     // 플레이어와 충돌 체크
     bool check;
@@ -32,7 +31,7 @@ public class Command : MonoBehaviour
     public GameObject soldierLoading;
 
     // 지역 정보
-    Point p;
+    PointInfo pi;
 
     void Start()
     {
@@ -42,14 +41,14 @@ public class Command : MonoBehaviour
         // 지역 입력
         for (int i = 0; i < gm.gi.pointList.Count; i++)
         {
-            if (gm.gi.pointList[i].worldCode == worldCode)
+            if (gm.gi.pointList[i].worldName == worldName)
             {
-                p = gm.gi.pointList[i];
+                pi = gm.gi.pointList[i];
             }
         }
 
         // 현재 월드 정보에 본인 넣기
-        gm.gi.command = this;
+        gm.command = this;
         canvas = GameObject.Find("Canvas");
 
         BarricadeInfoInput();
@@ -81,33 +80,33 @@ public class Command : MonoBehaviour
     // 바리케이드 첫 정보 입력 및 불러오기
     void BarricadeInfoInput()
     {
-        if(p == null)
+        if(pi == null)
         {
             return;
         }
 
-        if (p.barricadeList.Count == 0)
+        if (pi.barricadeList.Count == 0)
         {
             if (bList.Count != 0)
             {
                 for (int i = 0; i < bList.Count; i++)
                 {
-                    p.barricadeList.Add(new BarricadeInfo(!bList[i].transform.GetChild(0).gameObject.activeSelf, bList[i].transform.position));
+                    pi.barricadeList.Add(new BarricadeInfo(!bList[i].transform.GetChild(0).gameObject.activeSelf, bList[i].transform.position));
                 }
             }
         }
         else
         {
             
-            for (int i = 0; i < p.barricadeList.Count; i++)
+            for (int i = 0; i < pi.barricadeList.Count; i++)
             {
                 for(int j = 0; j < bList.Count; j++)
                 {
-                    if (p.barricadeList[i].position == bList[j].transform.position)
+                    if (pi.barricadeList[i].position == bList[j].transform.position)
                     {
-                        bList[j].SetActive(!p.barricadeList[i].build);
+                        bList[j].SetActive(!pi.barricadeList[i].build);
 
-                        if (p.barricadeList[i].build)
+                        if (pi.barricadeList[i].build)
                         {
                             // 바리케이드 생성
                             GameObject go = Instantiate(Resources.Load("Prefabs/" + "Barricade") as GameObject);
@@ -128,13 +127,13 @@ public class Command : MonoBehaviour
     // 바리케이드 정보 저장
     void BarricadeInfoSave()
     {
-        for (int i = 0; i < p.barricadeList.Count; i++)
+        for (int i = 0; i < pi.barricadeList.Count; i++)
         {
             for (int j = 0; j < bList.Count; j++)
             {
-                if (p.barricadeList[i].position == bList[j].transform.position)
+                if (pi.barricadeList[i].position == bList[j].transform.position)
                 {
-                    p.barricadeList[i].build = !bList[j].transform.GetChild(0).gameObject.activeSelf;
+                    pi.barricadeList[i].build = !bList[j].transform.GetChild(0).gameObject.activeSelf;
                 }
             }
         }
@@ -153,7 +152,7 @@ public class Command : MonoBehaviour
                 Enemy e = gm.mobList[i].GetComponent<Enemy>();
 
                 // 바리케이드일 때
-                if (e.GetComponent<Enemy>().stat.state == E_State.Fixed)
+                if (e.GetComponent<Enemy>().mobInfo.stat.state == E_State.Fixed)
                 {
                     // 바리케이드 수용수만큼 생성 가능
                     spawnNum += gm.gi.coverNum;
@@ -162,7 +161,7 @@ public class Command : MonoBehaviour
         }
 
         int tempPopulation = gm.gi.population;
-        // 현재 살아있는 인원 수 빼기 (플레이어 제외)
+        // 현재 살아있는 인원 수 빼기 (플레이어와 특수 병사 제외)
         for (int i = 0; i < gm.mobList.Count; i++)
         {
             if (gm.mobList[i].GetComponent<Enemy>())
@@ -170,9 +169,9 @@ public class Command : MonoBehaviour
                 Enemy e = gm.mobList[i].GetComponent<Enemy>();
 
                 // 아군 병사일 때
-                if (e.GetComponent<Enemy>().stat.team == Team.Blue && e.GetComponent<Enemy>().stat.state != E_State.Player)
+                if (e.GetComponent<Enemy>().mobInfo.nameText == "Soldier1")
                 {
-                    if (e.GetComponent<Enemy>().stat.state != E_State.Fixed && e.GetComponent<Enemy>().stat.state != E_State.Building)
+                    if (e.GetComponent<Enemy>().mobInfo.stat.state != E_State.Fixed && e.GetComponent<Enemy>().mobInfo.stat.state != E_State.Building)
                     {
                         spawnNum--;
                         tempPopulation--;
@@ -223,9 +222,9 @@ public class Command : MonoBehaviour
         }
 
         float px = 0;
-        if (gm.gi.rightMobNum > gm.gi.leftMobNum)
+        if (gm.rightMobNum > gm.leftMobNum)
         {
-            if (gm.gi.leftBarricadeNum >= 1)
+            if (gm.leftBarricadeNum >= 1)
             {
                 px = -0.2f;
             }
@@ -236,7 +235,7 @@ public class Command : MonoBehaviour
         }
         else
         {
-            if (gm.gi.rightBarricadeNum >= 1)
+            if (gm.rightBarricadeNum >= 1)
             {
                 px = 0.2f;
             }
@@ -248,7 +247,7 @@ public class Command : MonoBehaviour
         // 생성
         GameObject go = Instantiate(Resources.Load("Prefabs/Mob/" + "Soldier1") as GameObject);
         go.transform.position = transform.position + new Vector3(px, -0.6f, 0);
-        go.GetComponent<Enemy>().EnemySpawn(EnemyType.Soldier1);
+        go.GetComponent<Enemy>().EnemySpawn("Soldier1");
     }
 
 
@@ -271,8 +270,8 @@ public class Command : MonoBehaviour
             {
                 // 커맨드 지우기
                 gm.mobList.Clear();
-                gm.gi.spawnerList.Clear();
-                gm.gi.command = null;
+                gm.spawnerList.Clear();
+                gm.command = null;
                 // 정보 저장
                 BarricadeInfoSave();
 

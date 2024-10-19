@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 [System.Serializable]
@@ -32,12 +33,15 @@ public enum SpawnDBType
     Tutorial = 0
 }
 
-public class GameInfo : MonoBehaviour
+[System.Serializable]
+public class GameInfo
 {
-    GameManager gm;
-
     public bool firstLobby = true;  // 첫 게임 로비 진입 확인용
 
+    // 시간
+    public int day = 0;
+    public int hour = 0;
+    public int minute = 0;
 
     // 자원 관련
     public int gold = 100;      // 기본 자원 3가지    ( 기본 병사 강화[수류탄 장착], 건물 강화 및 배치 )
@@ -83,164 +87,16 @@ public class GameInfo : MonoBehaviour
     // 로비 관련
     public List<ManagerInfo> managerList = new List<ManagerInfo>();     // 매니저 리스트
 
-    public List<Point> pointList = new List<Point>();                   // 지역 리스트
+    public List<PointInfo> pointList = new List<PointInfo>();                   // 지역 리스트
 
     [SerializeField]
     public List<MobInfo> specialMobList = new List<MobInfo>();             // 특수병사 리스트
 
 
-    // 스폰 정보
-    //TextAsset spawnTxt;
-    //string[,] spawnData;
-    //int lineSize, rowSize;
-    //int spawnWave;         // 스폰 웨이브
-
-    // 스폰 정보
-    public SpawnDB spawnDB;
-    public List<SpawnData> spawnList = new List<SpawnData>();
-    public SpawnDBType typeDB;
-    public int branch;          // 스폰 분기
-    public int spawnWave;       // 스폰 웨이브
-
-    // 현재 월드 정보
-    public Command command;
-    public List<EnemySpawner> spawnerList = new List<EnemySpawner>();
-    public int rightMobNum;    // 오른쪽 몹 숫자
-    public int leftMobNum;     // 왼쪽 몹 숫자
-    public int rightBarricadeNum;   // 오른쪽 바리케이드 숫자
-    public int leftBarricadeNum;    // 왼쪽 바리케이드 숫자
-
-    void Start()
+    void InfoReset()
     {
-        gm = GameManager.GetInstance();
-
-        //SettingSpawnData();
-        SpawnListSetting();
+        string path = Path.Combine(Application.dataPath, "InitInfo.json");
+        string jsonData = File.ReadAllText(path);
+        GameManager.GetInstance().gi = JsonUtility.FromJson<GameInfo>(jsonData);
     }
-
-    void Update()
-    {
-        SpawnTimer();
-        ResourceSupplyCalc();
-    }
-
-
-    // 스폰 리스트에 입력
-    void SpawnListSetting()
-    {
-        spawnDB = Instantiate(Resources.Load("Datas/" + "SpawnDB") as SpawnDB);
-
-        List<SpawnDBEntity> listDB = null;
-        // DB 정보 세팅
-        switch (typeDB)
-        {
-            case SpawnDBType.Tutorial:
-                listDB = spawnDB.Tutorial;
-                break;
-        }
-
-        if (listDB != null)
-        {
-            // 리스트안을 전부 비우고
-            spawnList.Clear();
-
-            // DB 정보 입력
-            for (int i = 0; i < listDB.Count; i++)
-            {
-                SpawnData data = new SpawnData();
-                
-                data.world = listDB[i].world;
-                data.day = listDB[i].day;
-                data.hour = listDB[i].hour;
-                data.minute = listDB[i].minute;
-                data.type = listDB[i].type;
-                data.num = listDB[i].num;
-                data.spawner = listDB[i].spawner;
-
-                spawnList.Add(data);
-            }
-        }
-    }
-
-    void SpawnTimer()
-    {
-        bool flag = false;
-
-        if (spawnList.Count > spawnWave)
-        {
-            // 현재 시간 체크
-            if (spawnList[spawnWave].day == gm.day && spawnList[spawnWave].hour == gm.hour && spawnList[spawnWave].minute == gm.minute)
-            {
-                // 현재 월드 체크
-                if (command != null)
-                {
-                    if (spawnList[spawnWave].world == command.world)
-                    {
-                        flag = true;
-                    }
-                }
-            }
-
-            // 전부 일치하면 소환
-            if (flag)
-            {
-                // 지정한 스포너에서 생성
-                spawnerList[spawnList[spawnWave].spawner].Spawn(spawnList[spawnWave].type, spawnList[spawnWave].num);
-                spawnWave++;
-            }
-        }
-    }
-
-    // 수급량 계산
-    void ResourceSupplyCalc()
-    {
-        int gtemp = 0;
-        int mtemp = 0;
-        int ftemp = 0;
-
-        for (int i = 0; i < pointList.Count; i++)
-        {
-            switch(pointList[i].resource)
-            {
-                case Resource.Gold:
-                    gtemp += pointList[i].resourceAmount;
-                    break;
-                case Resource.Magic:
-                    mtemp += pointList[i].resourceAmount;
-                    break;
-                case Resource.Food:
-                    ftemp += pointList[i].resourceAmount;
-                    break;
-            }
-        }
-
-        goldSupply = gtemp;
-        magicSupply = mtemp;
-        foodSupply = ftemp;
-    }
-
-
-    // 스폰정보세팅
-    //void SettingSpawnData()
-    //{
-    //    spawnTxt = Instantiate(Resources.Load("Datas/" + "SpawnData") as TextAsset);
-
-    //    // 엔터와 탭으로 배열의 크기 조정
-    //    string currentText = spawnTxt.text.Substring(0, spawnTxt.text.Length - 1);  // 마지막 엔터 지우고 넣기
-    //    string[] line = currentText.Split('\n');
-    //    lineSize = line.Length;
-    //    rowSize = line[0].Split('\t').Length;
-    //    spawnData = new string[lineSize, rowSize];
-
-    //    // 배열에 넣기
-    //    for(int i = 0; i < lineSize; i++)
-    //    {
-    //        // 한 줄에서 탭으로 나누기
-    //        string[] row = line[i].Split('\t');
-    //        for(int j = 0; j < row.Length; j++)
-    //        {
-    //            spawnData[i, j] = row[j];
-    //        }
-    //    }
-    //}
 }

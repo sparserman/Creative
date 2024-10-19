@@ -46,10 +46,10 @@ public class MobProfile : MonoBehaviour
         }
         else
         {
-            GetComponent<MobProfile>().mobInfo.placement = true;
+            mobInfo.placement = true;
             // 표시 다시하기
-            GetComponent<MobProfile>().mobWindow.InitMobProfile();
-            GetComponent<MobProfile>().mobWindow.MobProfileSetting();
+            mobWindow.InitMobProfile();
+            mobWindow.MobProfileSetting();
         }
     }
 

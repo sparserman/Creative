@@ -53,7 +53,7 @@ public class ChangeForm : MonoBehaviour
         for (int i = 1; i <= sprites.Count; i++)
         {
             val -= (1.0f / sprites.Count);
-            if (enemy.stat.hp >= enemy.stat.maxHp * val)
+            if (enemy.mobInfo.stat.hp >= enemy.mobInfo.stat.maxHp * val)
             {
                 if (sprites[i - 1].sprite != null)
                 {

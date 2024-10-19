@@ -12,7 +12,7 @@ public class EnemySpawner : MonoBehaviour
     {
         gm = GameManager.GetInstance();
         DirectionCheck();
-        gm.gi.spawnerList.Add(this);
+        gm.spawnerList.Add(this);
     }
 
 
@@ -35,7 +35,7 @@ public class EnemySpawner : MonoBehaviour
         {
             // Àû »ý¼º
             GameObject go = Instantiate(Resources.Load("Prefabs/Mob/" + p_name) as GameObject);
-            go.GetComponent<Enemy>().stat.team = Team.Red;
+            go.GetComponent<Enemy>().mobInfo.stat.team = Team.Red;
             if(dir)
             {
                 go.transform.position = transform.position + new Vector3(i * 0.3f, 0, 0);

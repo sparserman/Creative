@@ -6,9 +6,6 @@ using UnityEngine.UI;
 [System.Serializable]
 public class MobInfo
 {
-    // 타입
-    public EnemyType type;
-
     // 파벌
     public string faction;
 
@@ -143,18 +140,24 @@ public class CommandPanel : MonoBehaviour
 
     void TimerUpdate()
     {
-        // 대기시간
-        for (int i = 0; i < gm.gi.specialMobList.Count; i++)
+        // 특수 병사가 배치되어있다면
+        if (gm.gi.specialMobList.Count > 0)
         {
-            // 보유중이면서
-            if (gm.gi.specialMobList[i].having && gm.gi.specialMobList[i].placement)
+
+            // 대기시간
+            for (int i = 0; i < gm.gi.specialMobList.Count; i++)
             {
-                // 타이머가 남은 애들
-                if (gm.gi.specialMobList[i].curWaitingTime >= 0)
+                // 보유중이면서
+                if (gm.gi.specialMobList[i].having && gm.gi.specialMobList[i].placement)
                 {
-                    gm.gi.specialMobList[i].curWaitingTime -= Time.deltaTime;
+                    // 타이머가 남은 애들
+                    if (gm.gi.specialMobList[i].curWaitingTime >= 0)
+                    {
+                        gm.gi.specialMobList[i].curWaitingTime -= Time.deltaTime;
+                    }
                 }
             }
+
         }
     }
 }

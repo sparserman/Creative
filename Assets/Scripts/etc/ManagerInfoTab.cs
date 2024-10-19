@@ -19,7 +19,7 @@ public class ManagerInfoTab : MonoBehaviour
     public TextMeshProUGUI eterniumPower;   // 채광량
     public TextMeshProUGUI defensivePower;  // 수비력
 
-    Point tempPoint;    // 이미 배치된 관리자가 있는 지역
+    PointInfo tempPoint;    // 이미 배치된 관리자가 있는 지역을 잠깐 넣을 공간
 
     void Start()
     {
@@ -72,7 +72,7 @@ public class ManagerInfoTab : MonoBehaviour
     {
         if (worldInfo.manager != null)
         {
-            if (worldInfo.manager.mCode == manager.mCode)
+            if (worldInfo.manager.managerName == manager.managerName)
             {
                 worldInfo.ManagerClear();
             }

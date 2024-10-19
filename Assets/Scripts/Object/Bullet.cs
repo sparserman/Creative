@@ -50,7 +50,7 @@ public class Bullet : MonoBehaviour
     {
         if(collision.gameObject == target)
         {
-            if (team != target.GetComponent<Enemy>().stat.team)
+            if (team != target.GetComponent<Enemy>().mobInfo.stat.team)
             {
                 target.GetComponent<Enemy>().Damaged(damage);
 
@@ -72,7 +72,7 @@ public class Bullet : MonoBehaviour
                 for(int i = 0; i < gm.mobList.Count; i++)
                 {
                     // 근처 적에게 모두 데미지
-                    if (gm.mobList[i].GetComponent<Enemy>().stat.team != team && Vector2.Distance(transform.position, gm.mobList[i].transform.position) <= transform.localScale.x * 0.5f)
+                    if (gm.mobList[i].GetComponent<Enemy>().mobInfo.stat.team != team && Vector2.Distance(transform.position, gm.mobList[i].transform.position) <= transform.localScale.x * 0.5f)
                     {
                         gm.mobList[i].GetComponent<Enemy>().fire = gm.gi.fireTime;
                         gm.mobList[i].GetComponent<Enemy>().fireDamage = damage * 0.01f;
