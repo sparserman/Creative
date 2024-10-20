@@ -46,7 +46,9 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField]
     public List<DialogData> dialogs;    // 대사 목록
 
-    public bool isFirst = true;     // 첫 시작 체크용
+    public bool isFirst = true;         // 첫 시작 체크용
+    public bool nextChapter = false;          // 다음 대사의 리턴값
+    public bool nextCheck = false;     // 다음 대사 진행 여부
 
     public int curDialogIndex = -1;         // 현재 대사 순번
     public int curSpeakerIndex = 0;         // 화자 순번
@@ -55,6 +57,7 @@ public class DialogueSystem : MonoBehaviour
     public bool isTyping = false;           // 텍스트 재생중인지
 
     public GameObject dialogPanel;                 // 대화 패널
+    public GameObject playerDialogPanel;           // 플레이어 대화 선택 패널
 
     public List<string> DBNameList;         // 등장하는 인물 이름
 
@@ -159,11 +162,16 @@ public class DialogueSystem : MonoBehaviour
         {
             // 이미지를 제외한 모든 대화 UI 끄기
             SetActiveDialogUI(speakers[i], false);
+        }
 
-            if(speakers.Count >= 2)
+        if (playerDialogPanel.transform.childCount >= 2)
+        {
+            // 사이즈 변경
+            for (int i = 0; i < playerDialogPanel.transform.childCount; i++)
             {
-                speakers[i].dialogObj.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
+                playerDialogPanel.transform.GetChild(0).transform.localScale = new Vector3(0.8f, 0.8f, 1f);
             }
+            
         }
     }
 
@@ -179,7 +187,20 @@ public class DialogueSystem : MonoBehaviour
             isFirst = false;
         }
 
-        if(Input.GetMouseButtonDown(0))
+        if (nextCheck)
+        {
+            int n = playerDialogPanel.transform.childCount;
+            // 선택지 제거
+            for (int i = 0; i < n; i++)
+            {
+                Destroy(playerDialogPanel.transform.GetChild(0).gameObject);
+            }
+            playerDialogPanel.SetActive(false);
+            return true;
+        }
+
+        // 플레이어 대화 선택창이 꺼져있을때만
+        if (Input.GetMouseButtonDown(0) && !playerDialogPanel.activeSelf)
         {
             // 텍스트 재생중에는 누르면 스킵
             if (isTyping)
@@ -202,17 +223,37 @@ public class DialogueSystem : MonoBehaviour
             // 대사가 남아있으면 다음 대사로
             if(dialogs.Count > curDialogIndex + 1)
             {
-                SetNextDialog();
+                // 관리자 이름인지 체크
+                bool flag = false;
+                for (int i = 0; i < gm.gi.managerList.Count; i++)
+                {
+                    if (dialogs[curDialogIndex + 1].name == gm.gi.managerList[i].managerName)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                // 관리자 이름이 아니라면 플레이어 대사 출력
+                if (flag)
+                {
+                    SetNextDialog();
+                }
+                else
+                {
+                    SetNextPlayerDialog();
+                }
             }
             // 없으면 모든 오브젝트 비활성화
             else
             {
-                int n = speakers.Count;
+                int n = playerDialogPanel.transform.childCount;
+                // 선택지 제거
                 for (int i = 0; i < n; i++)
                 {
-                    SetActiveDialogUI(speakers[i], false);
+                    SetActiveDialogUI(playerDialogPanel.transform.GetChild(0).GetComponent<DialogCharacter>().speaker, false);
                     // 오브젝트 삭제
-                    speakers[i].dialogObj.GetComponent<Animator>().SetTrigger("Off");
+                    playerDialogPanel.transform.GetChild(0).gameObject.GetComponent<Animator>().SetTrigger("Off");
                 }
                 // 후 리스트 비우기
                 speakers.Clear();
@@ -226,6 +267,9 @@ public class DialogueSystem : MonoBehaviour
 
     void SetNextDialog()
     {
+        // 플레이어 대화 선택창 Off
+        playerDialogPanel.SetActive(false);
+
         // 이전 화자 UI Off
         SetActiveDialogUI(speakers[curSpeakerIndex], false);
 
@@ -255,6 +299,32 @@ public class DialogueSystem : MonoBehaviour
             m_OnTypingTextCrt = null;
         }
         m_OnTypingTextCrt = StartCoroutine(OnTypingTextCrt());
+    }
+
+    void SetNextPlayerDialog()
+    {
+        // 이전 화자 UI Off
+        SetActiveDialogUI(speakers[curSpeakerIndex], false);
+
+        // 화자 변경
+        curDialogIndex++;
+
+        // 플레이어 대화 선택창 On
+        playerDialogPanel.SetActive(true);
+
+        // UI 설정
+        string[] tempNames = dialogs[curDialogIndex].name.Split('\n');
+        string[] tempDialogs = dialogs[curDialogIndex].dialog.Split('\n');
+        // 대화창 생성
+        for (int i = 0; i < tempDialogs.Length; i++)
+        {
+            GameObject go = Instantiate(Resources.Load("Prefabs/" + "PlayerDialog") as GameObject);
+            go.transform.SetParent(playerDialogPanel.transform, false);
+            PlayerDialog pd = go.GetComponent<PlayerDialog>();
+            pd.dialogueSystem = this;
+            pd.dialogText.text = tempDialogs[i];
+            pd.type = tempNames[i];
+        }
     }
 
     void SetActiveDialogUI(Speaker p_speaker, bool p_flag)

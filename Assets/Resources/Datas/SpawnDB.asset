@@ -13,24 +13,21 @@ MonoBehaviour:
   m_Name: SpawnDB
   m_EditorClassIdentifier: 
   Tutorial:
-  - branch: 0
-    world: A
+  - world: A
     day: 0
     hour: 0
     minute: 10
     type: Gangster1
     num: 1
     spawner: 0
-  - branch: 0
-    world: A
+  - world: A
     day: 0
     hour: 0
     minute: 10
     type: Gangster1
     num: 1
     spawner: 1
-  - branch: 0
-    world: A
+  - world: A
     day: 0
     hour: 0
     minute: 20

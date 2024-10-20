@@ -18,15 +18,11 @@ public class Tutorial : MonoBehaviour
             {
                 dialogSystemList[index].CharacterSetting(dialogSystemList[index].DBNameList[i]);
             }
-            // 첫 대사 시작
+            // 첫 대사 시작 및 모든 대사 끝날 때까지 대기
             yield return new WaitUntil(() => dialogSystemList[index].UpdateDialog());
 
-            // 대사가 끝나고 1초 후
-            yield return new WaitForSeconds(1f);
-            // 패널끄기
-            dialogSystemList[index].dialogPanel.SetActive(false);
-            // 시간 흐르게하기
-            GameManager.GetInstance().timerOn = true;
+            // 튜토리얼 진행할 지 확인
+            nextChapter = dialogSystemList[index].nextChapter;
 
             index++;
 
@@ -34,6 +30,12 @@ public class Tutorial : MonoBehaviour
             {
                 if(index < dialogSystemList.Count)
                 {
+                    // 마지막 대사가 끝나고 1초 후
+                    yield return new WaitForSeconds(1f);
+                    // 패널끄기
+                    dialogSystemList[index].dialogPanel.SetActive(false);
+                    // 시간 흐르게하기
+                    GameManager.GetInstance().timerOn = true;
                     break;
                 }
 
@@ -45,6 +47,10 @@ public class Tutorial : MonoBehaviour
 
                 yield return null;
             }
+
+            // 초기화
+            dialogSystemList[index].nextCheck = false;
+            dialogSystemList[index].nextChapter = false;
         }
     }
 
