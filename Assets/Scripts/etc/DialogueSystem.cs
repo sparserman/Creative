@@ -20,6 +20,7 @@ public struct Speaker
     public TextMeshProUGUI nameText;        // 이름칸
     public TextMeshProUGUI dialogText;      // 대사칸
     public GameObject endObj;             // 대사 완료 후 나오는 오브젝트
+    public Animator anim;
 }
 
 [System.Serializable]
@@ -36,6 +37,8 @@ public class DialogueSystem : MonoBehaviour
 
     public int branch;
 
+    GameObject dialogController;
+
     [SerializeField]
     public DialogDB dialogDB;
     public DialogDBType typeDB;
@@ -47,8 +50,8 @@ public class DialogueSystem : MonoBehaviour
     public List<DialogData> dialogs;    // 대사 목록
 
     public bool isFirst = true;         // 첫 시작 체크용
-    public bool nextChapter = false;          // 다음 대사의 리턴값
-    public bool nextCheck = false;     // 다음 대사 진행 여부
+    public bool nextChapter = false;          // 다음 브렌치의 진행 여부
+    public bool nextCheck = false;     // 플레이어 선택지 이후 다음 대사 진행 여부
 
     public int curDialogIndex = -1;         // 현재 대사 순번
     public int curSpeakerIndex = 0;         // 화자 순번
@@ -247,16 +250,7 @@ public class DialogueSystem : MonoBehaviour
             // 없으면 모든 오브젝트 비활성화
             else
             {
-                int n = playerDialogPanel.transform.childCount;
-                // 선택지 제거
-                for (int i = 0; i < n; i++)
-                {
-                    SetActiveDialogUI(playerDialogPanel.transform.GetChild(0).GetComponent<DialogCharacter>().speaker, false);
-                    // 오브젝트 삭제
-                    playerDialogPanel.transform.GetChild(0).gameObject.GetComponent<Animator>().SetTrigger("Off");
-                }
-                // 후 리스트 비우기
-                speakers.Clear();
+                DialogUIOff();
 
                 return true;
             }
@@ -265,13 +259,29 @@ public class DialogueSystem : MonoBehaviour
         return false;
     }
 
+    void DialogUIOff()
+    {
+        // 모든 화자 UI Off
+        for (int i = 0; i < speakers.Count; i++)
+        {
+            SetActiveDialogUI(speakers[i], false);
+            speakers[i].anim.SetTrigger("Off");
+        }
+
+        // 후 리스트 비우기
+        speakers.Clear();
+    }
+
     void SetNextDialog()
     {
         // 플레이어 대화 선택창 Off
         playerDialogPanel.SetActive(false);
 
         // 이전 화자 UI Off
-        SetActiveDialogUI(speakers[curSpeakerIndex], false);
+        if (speakers.Count > 0)
+        {
+            SetActiveDialogUI(speakers[curSpeakerIndex], false);
+        }
 
         // 화자 변경
         curDialogIndex++;
@@ -325,6 +335,13 @@ public class DialogueSystem : MonoBehaviour
             pd.dialogText.text = tempDialogs[i];
             pd.type = tempNames[i];
         }
+
+        DialogUIOff();
+    }
+
+    public bool PlayerSelected(bool p_flag)
+    {
+        return p_flag;
     }
 
     void SetActiveDialogUI(Speaker p_speaker, bool p_flag)
@@ -373,5 +390,15 @@ public class DialogueSystem : MonoBehaviour
 
         // 엔드 표시
         speakers[curSpeakerIndex].endObj.gameObject.SetActive(true);
+    }
+
+    public void SetDialogController(GameObject p_go)
+    {
+        dialogController = p_go;
+    }
+
+    public void SetDialogControllerIndex(int p_branch)
+    {
+        dialogController.GetComponent<Tutorial>().selectBranch += p_branch;
     }
 }

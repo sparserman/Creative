@@ -620,7 +620,7 @@ MonoBehaviour:
       barricadeList: []
     specialMobList:
     - faction: 
-      having: 0
+      having: 1
       placement: 0
       nameText: FireWizard
       mobName: "\uBD88 \uB9C8\uBC95\uC0AC"
@@ -811,7 +811,7 @@ MonoBehaviour:
   leftMobNum: 0
   rightBarricadeNum: 0
   leftBarricadeNum: 0
-  spawnDB: {fileID: 0}
+  spawnDB: {fileID: 11400000, guid: 9dacdba54c4a3cc41945fb3fb04577db, type: 2}
   spawnList: []
   typeDB: 0
   branch: 0

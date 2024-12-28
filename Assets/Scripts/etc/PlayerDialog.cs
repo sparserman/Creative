@@ -15,13 +15,15 @@ public class PlayerDialog : MonoBehaviour
         switch (type)
         {
             case "TutorialStart":
-                dialogueSystem.nextChapter = false;
+                dialogueSystem.PlayerSelected(true);
+                dialogueSystem.SetDialogControllerIndex(1001);
                 break;
             case "TutorialSkip":
-                dialogueSystem.nextChapter = true;
+                dialogueSystem.PlayerSelected(false);
+                dialogueSystem.SetDialogControllerIndex(1002);
                 break;
             default:
-                dialogueSystem.nextChapter = false;
+                dialogueSystem.PlayerSelected(true);
                 break;
         }
 

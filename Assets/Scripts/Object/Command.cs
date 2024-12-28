@@ -248,6 +248,8 @@ public class Command : MonoBehaviour
         GameObject go = Instantiate(Resources.Load("Prefabs/Mob/" + "Soldier1") as GameObject);
         go.transform.position = transform.position + new Vector3(px, -0.6f, 0);
         go.GetComponent<Enemy>().EnemySpawn("Soldier1");
+        go.GetComponent<Enemy>().EnemySpawn("Soldier1");
+        
     }
 
 

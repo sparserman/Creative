@@ -255,6 +255,15 @@ public class MobTab : MonoBehaviour
             }
             GetComponent<Image>().color = new Color32(200, 70, 70, 170);
         }
+        else if (!TimerCheck() || !ResourceCheck())
+        {
+            // ª°∞≠
+            if (go != null)
+            {
+                fieldPanel.GetComponent<SpriteRenderer>().color = new Color32(255, 100, 100, 40);
+            }
+            GetComponent<Image>().color = new Color32(200, 70, 70, 170);
+        }
         else if (SpawnCheck())
         {
             // ¡÷»≤

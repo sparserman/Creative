@@ -10353,7 +10353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1498257290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12383,6 +12383,7 @@ GameObject:
   - component: {fileID: 1780769230}
   - component: {fileID: 1780769233}
   - component: {fileID: 1780769232}
+  - component: {fileID: 1780769234}
   m_Layer: 0
   m_Name: TutorialSystem
   m_TagString: Untagged
@@ -12405,7 +12406,9 @@ MonoBehaviour:
   dialogSystemList:
   - {fileID: 1780769233}
   - {fileID: 1780769232}
+  - {fileID: 1780769234}
   index: 0
+  selectBranch: 0
   nextChapter: 0
 --- !u!4 &1780769231
 Transform:
@@ -12434,7 +12437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697d269fb1878a440a0e1ac06b4c9ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  branch: 2
+  branch: 1001
   dialogDB: {fileID: 11400000, guid: 78faf1f1f2a9b694280b14ba1edb983f, type: 2}
   typeDB: 0
   speakers: []
@@ -12444,7 +12447,7 @@ MonoBehaviour:
   nextCheck: 0
   curDialogIndex: -1
   curSpeakerIndex: 0
-  typingSpeed: 0.1
+  typingSpeed: 0.05
   isTyping: 0
   dialogPanel: {fileID: 204153165}
   playerDialogPanel: {fileID: 1498257289}
@@ -12461,7 +12464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697d269fb1878a440a0e1ac06b4c9ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  branch: 1
+  branch: 1000
   dialogDB: {fileID: 11400000, guid: 78faf1f1f2a9b694280b14ba1edb983f, type: 2}
   typeDB: 0
   speakers: []
@@ -12471,7 +12474,34 @@ MonoBehaviour:
   nextCheck: 0
   curDialogIndex: -1
   curSpeakerIndex: 0
-  typingSpeed: 0.1
+  typingSpeed: 0.05
+  isTyping: 0
+  dialogPanel: {fileID: 204153165}
+  playerDialogPanel: {fileID: 1498257289}
+  DBNameList: []
+--- !u!114 &1780769234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780769228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 697d269fb1878a440a0e1ac06b4c9ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  branch: 1002
+  dialogDB: {fileID: 11400000, guid: 78faf1f1f2a9b694280b14ba1edb983f, type: 2}
+  typeDB: 0
+  speakers: []
+  dialogs: []
+  isFirst: 1
+  nextChapter: 0
+  nextCheck: 0
+  curDialogIndex: -1
+  curSpeakerIndex: 0
+  typingSpeed: 0.05
   isTyping: 0
   dialogPanel: {fileID: 204153165}
   playerDialogPanel: {fileID: 1498257289}

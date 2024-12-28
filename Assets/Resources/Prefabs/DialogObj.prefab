@@ -421,6 +421,7 @@ MonoBehaviour:
     nameText: {fileID: 7366147235835290802}
     dialogText: {fileID: 4259929252092061348}
     endObj: {fileID: 8449250834458373507}
+    anim: {fileID: 8838936794005333006}
 --- !u!95 &8838936794005333006
 Animator:
   serializedVersion: 5

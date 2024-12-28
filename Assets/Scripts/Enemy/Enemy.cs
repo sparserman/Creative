@@ -1094,6 +1094,7 @@ public class Enemy : MonoBehaviour
     public void EnemySpawn(string p_name)
     {
         mobInfo.nameText = p_name;
+        mobInfo.stat.state = E_State.Defense;
     }
 
     // 특수 병사 소환용
@@ -1325,7 +1326,7 @@ public class Enemy : MonoBehaviour
                     break;
             }
 
-            if (shotPos[0] != null && shotPos[1] != null)
+            if (shotPos[0] != null && shotPos[1] != null && go != null)
             {
                 if (!spriteRenderer.flipX)
                 {
